@@ -45,7 +45,7 @@ async function buildTables() {
     CREATE TABLE products (
       id SERIAL PRIMARY KEY,
       name VARCHAR(255)	UNIQUE NOT NULL,
-      price INTEGER	NOT NULL,
+      price DECIMAL(7,2) NOT NULL,
       description TEXT	NOT NULL,
       inventory INTEGER,
       "categoryId" INTEGER REFERENCES categories(id),
@@ -92,63 +92,12 @@ async function populateInitialData() {
       },
     });
 
-    await prisma.products.create({
+    await prisma.users.create({
       data: {
-        name: "Ibuypower Gaming PC",
-        price: "90000$",
-        description:
-          "Ibuypower Gaming PC RTX 3080 EDITION, RYZEN 5, 18GB RAM and RGB Fans 1TB storage",
-        inventory: 23,
-        image_url:
-          "https://c1.neweggimages.com/ProductImage/83-227-920-V01.jpg",
-        categoryId: 1,
-      },
-    });
-
-    await prisma.products.create({
-      data: {
-        name: "Starter Gaming Pc",
-        price: "400$",
-        description: "Starter PC with ryzen 3, GT710, 4GB ram, 100gb storage",
-        inventory: 5,
-        image_url:
-          "https://i.pinimg.com/236x/c9/13/e1/c913e12261b13873d99d030a72e78a2d--computer-projects-computer-engineering.jpg",
-        categoryId: 1,
-      },
-    });
-
-    await prisma.products.create({
-      data: {
-        name: "Mechanical Keyboard",
-        price: "80$",
-        description: "Keyboard with red switches. It's a clicky keybaord",
-        inventory: 5,
-        image_url:
-          "https://m.media-amazon.com/images/I/71jAUlz7KPL._AC_SY450_.jpg",
-        categoryId: 3,
-      },
-    });
-
-    await prisma.products.create({
-      data: {
-        name: "Gaming Mouse",
-        price: "40$",
-        description: "Obtain better aim with this mouse",
-        inventory: 9,
-        image_url: "https://m.media-amazon.com/images/I/41NWfrMr-8L.jpg",
-        categoryId: 2,
-      },
-    });
-
-    await prisma.products.create({
-      data: {
-        name: "Streaming Webcam",
-        price: "150$",
-        description: "4k 60 fps streaming webcam",
-        inventory: 40,
-        image_url:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaDc-SATHfce_moGUnpk5307NBUdAxfkuyanuuDyy0zTCEjIoeerVdgSv9oUmMzeB2TpI&usqp=CAU",
-        categoryId: 4,
+        username: "test",
+        password: "12345678",
+        email: "testemail@email.com",
+        isAdmin: false,
       },
     });
 
@@ -177,6 +126,82 @@ async function populateInitialData() {
       data: {
         name: "Webcam",
         description: "Streaming webacams",
+      },
+    });
+
+    await prisma.products.create({
+      data: {
+        name: "Ibuypower Gaming PC",
+        price: 900.0,
+        description:
+          "Ibuypower Gaming PC RTX 3080 EDITION, RYZEN 5, 18GB RAM and RGB Fans 1TB storage",
+        inventory: 23,
+        image_url:
+          "https://c1.neweggimages.com/ProductImage/83-227-920-V01.jpg",
+        categoryId: 1,
+      },
+    });
+
+    await prisma.products.create({
+      data: {
+        name: "Starter Gaming Pc",
+        price: 400.0,
+        description: "Starter PC with ryzen 3, GT710, 4GB ram, 100gb storage",
+        inventory: 5,
+        image_url:
+          "https://i.pinimg.com/236x/c9/13/e1/c913e12261b13873d99d030a72e78a2d--computer-projects-computer-engineering.jpg",
+        categoryId: 1,
+      },
+    });
+
+    await prisma.products.create({
+      data: {
+        name: "Mechanical Keyboard",
+        price: 80.0,
+        description: "Keyboard with red switches. It's a clicky keybaord",
+        inventory: 5,
+        image_url:
+          "https://m.media-amazon.com/images/I/71jAUlz7KPL._AC_SY450_.jpg",
+        categoryId: 3,
+      },
+    });
+
+    await prisma.products.create({
+      data: {
+        name: "Gaming Mouse",
+        price: 40.0,
+        description: "Obtain better aim with this mouse",
+        inventory: 9,
+        image_url: "https://m.media-amazon.com/images/I/41NWfrMr-8L.jpg",
+        categoryId: 2,
+      },
+    });
+
+    await prisma.products.create({
+      data: {
+        name: "Streaming Webcam",
+        price: 150.0,
+        description: "4k 60 fps streaming webcam",
+        inventory: 40,
+        image_url:
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaDc-SATHfce_moGUnpk5307NBUdAxfkuyanuuDyy0zTCEjIoeerVdgSv9oUmMzeB2TpI&usqp=CAU",
+        categoryId: 4,
+      },
+    });
+
+    await prisma.orders.create({
+      data: {
+        total: 1500,
+        complete: true,
+        shopperId: 2,
+      },
+    });
+
+    await prisma.orders.create({
+      data: {
+        total: 800,
+        complete: false,
+        shopperId: 1,
       },
     });
   } catch (error) {
