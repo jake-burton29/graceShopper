@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id       Int      @id @default(autoincrement())
+  username String   @unique @db.VarChar(255)
+  password String   @db.VarChar(255)
+  email    String   @unique @db.VarChar(255)
+  isAdmin  Boolean? @default(false)
+  orders   orders[]
+}
+
+model categories {
+  id          Int        @id @default(autoincrement())
+  name        String     @unique @db.VarChar(255)
+  description String
+  products    products[]
+}
+
+model orders {
+  id             Int              @id @default(autoincrement())
+  total          Int?
+  complete       Boolean?         @default(false)
+  shopperId      Int?
+  users          users?           @relation(fields: [shopperId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  product_orders product_orders[]
+}
+
+model product_orders {
+  id        Int       @id @default(autoincrement())
+  quantity  Int?
+  productId Int?
+  orderId   Int?
+  orders    orders?   @relation(fields: [orderId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  products  products? @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model products {
+  id             Int              @id @default(autoincrement())
+  name           String           @unique @db.VarChar(255)
+  price          Int
+  description    String
+  inventory      Int?
+  categoryId     Int?
+  image_url      String?
+  categories     categories?      @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  product_orders product_orders[]
+}
