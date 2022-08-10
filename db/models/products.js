@@ -1,8 +1,5 @@
-const client = require("../client");
-
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+const prisma = require("prisma");
+const { products } = require("./prisma");
 
 module.exports = {
   // add your database adapter fns here
@@ -14,25 +11,28 @@ module.exports = {
   deleteProduct,
 };
 
+console.log("working");
+
 // getAllProducts()
 async function getAllProducts() {
   const result = await prisma.products.findMany();
+  console.log("test", result);
   return result;
 }
 
 //getProductById()
 async function getProductById(id) {
-  const result = await prisma.products.findMany({
-    where: { id: id },
+  const result = await prisma.products.findUnique({
+    where: { id },
   });
+
   return result;
 }
-console.log(result);
 
 //getProductsByCategory()
 async function getProductsByCategory(categoryId) {
   const result = await prisma.products.findMany({
-    where: { categoryId: categoryId },
+    where: { categoryId },
   });
   return result;
 }
@@ -40,10 +40,10 @@ async function getProductsByCategory(categoryId) {
 //createProduct() - admin
 async function createProduct({ name, price, description, inventory }) {
   const updatedProduct = await prisma.products.upsert({
-    create: { name: name },
-    create: { price: price },
-    create: { description: description },
-    create: { inventory: inventory },
+    create: { name },
+    create: { price },
+    create: { description },
+    create: { inventory },
   });
   return result;
 }
@@ -65,3 +65,5 @@ async function deleteProduct(id) {
   });
   return deleteProduct;
 }
+
+getAllProducts();
