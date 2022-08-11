@@ -18,8 +18,8 @@ apiRouter.get("/health", (req, res, next) => {
 });
 
 // place your routers here
+apiRouter.use("/products", productsRouter);
 apiRouter.use("/users", usersRouter);
-// apiRouter.use("/products", productsRouter);
 // apiRouter.use("/orders", ordersRouter);
 // apiRouter.use("/product_orders", product_ordersRouter);
 // apiRouter.use("/categories", categoriesRouter);
