@@ -1,6 +1,5 @@
 const client = require("../client");
 const prisma = require("../prisma");
-const { products } = require("../prisma");
 
 module.exports = {
   // add your database adapter fns here

@@ -1,11 +1,8 @@
-const { response } = require("express");
-const router = require("express").Router();
-const client = require("../client");
-const prisma = require("../prisma");
-const { products } = require("../prisma");
+const productsRouter = require("express").Router();
+const prisma = require("../db/prisma");
 
 // getAllProducts()
-router.get("/products", async (req, res, next) => {
+productsRouter.get("/", async (req, res, next) => {
   try {
     const getAllProducts = await prisma.products.findMany();
     res.send(getAllProducts);
@@ -15,10 +12,11 @@ router.get("/products", async (req, res, next) => {
 });
 
 //getProductById()
-router.get("/products/:productId", async (req, res, next) => {
+productsRouter.get("/:id", async (req, res, next) => {
   try {
+    const productsId = +req.params.id;
     const getProductById = await prisma.products.findUnique({
-      where: { id },
+      where: { id: productsId },
     });
     res.send(getProductById);
   } catch (error) {
@@ -27,10 +25,11 @@ router.get("/products/:productId", async (req, res, next) => {
 });
 
 //getProductsByCategory()
-router.get("/products/:categoryId", async (req, res, next) => {
+productsRouter.get("/category/:categoryId", async (req, res, next) => {
   try {
+    const categoryId = +req.params.categoryId;
     const getProductsByCategory = await prisma.products.findMany({
-      where: { categoryId },
+      where: { categoryId: categoryId },
     });
     res.send(getProductsByCategory);
   } catch (error) {
@@ -39,19 +38,23 @@ router.get("/products/:categoryId", async (req, res, next) => {
 });
 
 //createProduct() - admin
-router.post("/products", async (req, res, next) => {
-  // could be the wrong route
+productsRouter.post("/", async (req, res, next) => {
   try {
+    const { name, price, description, inventory, categoryId, image_url } =
+      req.body;
     const createProduct = await prisma.products.create({
-      data: { name, price, description, inventory, categoryId, img_url },
+      data: { name, price, description, inventory, categoryId, image_url },
     });
+    res.send(createProduct);
   } catch (error) {
     next(error);
   }
 });
 
+// to test still below
+
 //editProduct() - admin
-router.patch("/products/:id", async (req, res, next) => {
+productsRouter.patch("/:id", async (req, res, next) => {
   // could be the wrong route
   try {
     const editProduct = await prisma.products.update({
@@ -64,7 +67,7 @@ router.patch("/products/:id", async (req, res, next) => {
 });
 
 //deleteProduct() - admin
-router.delete("/products/:id", async (req, res, next) => {
+productsRouter.delete("/:id", async (req, res, next) => {
   try {
     const deleteProduct = await prisma.products.delete({
       where: { id },
@@ -73,3 +76,5 @@ router.delete("/products/:id", async (req, res, next) => {
     next(error);
   }
 });
+
+module.exports = productsRouter;
