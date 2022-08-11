@@ -3,8 +3,9 @@ const prisma = require("../db/prisma");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { users } = require("../db/prisma");
-const { JWT_SECRET, COOKIE_SECRET } = process.env;
+const { JWT_SECRET } = process.env;
 const SALT_ROUNDS = 10;
+
 // getAllUsers()  requireAdmin
 usersRouter.get("/", async (req, res, next) => {
   try {
@@ -77,7 +78,7 @@ usersRouter.post("/login", async (req, res, next) => {
 
 usersRouter.patch("/:username", async (req, res, next) => {
   try {
-    const username = req.params;
+    const username = req.params.username;
     const { newUsername, password, email, isAdmin } = req.body;
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
     const editedUser = await prisma.users.update({
@@ -96,11 +97,11 @@ usersRouter.patch("/:username", async (req, res, next) => {
 });
 
 //deleteUser      adminRequired
-usersRouter.delete("/:id", async (req, res, next) => {
+usersRouter.delete("/:username", async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const username = req.params.username;
     const deletedUser = await prisma.users.delete({
-      where: { id },
+      where: { username },
     });
     res.send(deletedUser);
   } catch (error) {
