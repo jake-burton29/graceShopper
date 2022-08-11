@@ -7,6 +7,8 @@ const {
   product_orders,
 } = require("./prisma");
 const prisma = require("./prisma");
+const bcrypt = require("bcrypt");
+const SALT_ROUNDS = 10;
 
 async function buildTables() {
   try {
@@ -83,10 +85,13 @@ async function populateInitialData() {
     // cat 3 = keybaords
     // cat 4 = webacam
 
+    const adminPassword = await bcrypt.hash("12341234", SALT_ROUNDS);
+    const testPassword = await bcrypt.hash("12345678", SALT_ROUNDS);
+
     await prisma.users.create({
       data: {
         username: "admin",
-        password: "12341234",
+        password: adminPassword,
         email: "email@email.com",
         isAdmin: true,
       },
@@ -95,7 +100,7 @@ async function populateInitialData() {
     await prisma.users.create({
       data: {
         username: "test",
-        password: "12345678",
+        password: testPassword,
         email: "testemail@email.com",
         isAdmin: false,
       },
