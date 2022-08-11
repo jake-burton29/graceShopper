@@ -57,10 +57,14 @@ productsRouter.post("/", async (req, res, next) => {
 productsRouter.patch("/:id", async (req, res, next) => {
   // could be the wrong route
   try {
+    const productId = +req.params.id;
+    const { name, price, description, inventory, categoryId, image_url } =
+      req.body;
     const editProduct = await prisma.products.update({
-      where: { id },
+      where: { id: productId },
       data: { name, price, description, inventory, categoryId },
     });
+    res.send(editProduct);
   } catch (error) {
     next(error);
   }
@@ -69,9 +73,12 @@ productsRouter.patch("/:id", async (req, res, next) => {
 //deleteProduct() - admin
 productsRouter.delete("/:id", async (req, res, next) => {
   try {
+    const productId = +req.params.id;
+
     const deleteProduct = await prisma.products.delete({
-      where: { id },
+      where: { id: productId },
     });
+    res.send(deleteProduct);
   } catch (error) {
     next(error);
   }
