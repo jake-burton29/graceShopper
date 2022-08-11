@@ -3,11 +3,12 @@ const prisma = require("../db/prisma");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { users } = require("../db/prisma");
+const { requireUser, requireAdmin } = require("./utils");
 const { JWT_SECRET } = process.env;
 const SALT_ROUNDS = 10;
 
 // getAllUsers()  requireAdmin
-usersRouter.get("/", async (req, res, next) => {
+usersRouter.get("/", requireAdmin, async (req, res, next) => {
   try {
     const users = await prisma.users.findMany();
     res.send(users);
@@ -76,7 +77,7 @@ usersRouter.post("/login", async (req, res, next) => {
   }
 });
 
-usersRouter.patch("/:username", async (req, res, next) => {
+usersRouter.patch("/:username", requireUser, async (req, res, next) => {
   try {
     const username = req.params.username;
     const { newUsername, password, email, isAdmin } = req.body;
@@ -97,13 +98,30 @@ usersRouter.patch("/:username", async (req, res, next) => {
 });
 
 //deleteUser      adminRequired
-usersRouter.delete("/:username", async (req, res, next) => {
+usersRouter.delete("/:username", requireAdmin, async (req, res, next) => {
   try {
     const username = req.params.username;
     const deletedUser = await prisma.users.delete({
       where: { username },
     });
     res.send(deletedUser);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Log Out
+usersRouter.post("/logout", async (req, res, next) => {
+  try {
+    res.clearCookie("token", {
+      sameSite: "strict",
+      httpOnly: true,
+      signed: true,
+    });
+    res.send({
+      loggedIn: false,
+      message: "Logged Out",
+    });
   } catch (error) {
     next(error);
   }
