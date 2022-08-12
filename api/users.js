@@ -127,4 +127,13 @@ usersRouter.post("/logout", async (req, res, next) => {
   }
 });
 
+usersRouter.get("/me", requireUser, async (req, res, next) => {
+  try {
+    const token = req.signedCookies.token;
+    const user = jwt.verify(token, JWT_SECRET);
+    res.send(user);
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = usersRouter;
