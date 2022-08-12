@@ -8,7 +8,7 @@ const requireUser = (req, res, next) => {
   } catch (error) {
     res.status(401).send({
       loggedIn: false,
-      message: "You are def not authorized.",
+      message: "You'll need to register for access to this function!",
     });
     return;
   }
@@ -20,13 +20,13 @@ const requireAdmin = (req, res, next) => {
   const token = req.signedCookies.token;
   try {
     const user = jwt.verify(token, JWT_SECRET);
-    if (user.isAdmin) {
-      next();
+    if (!user.isAdmin) {
+      throw error;
     }
   } catch (error) {
     res.status(401).send({
       loggedIn: false,
-      message: "You are def not authorized.",
+      message: "Who do you think you are, an admin or something?",
     });
     return;
   }
