@@ -2,7 +2,6 @@ const usersRouter = require("express").Router();
 const prisma = require("../db/prisma");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { users } = require("../db/prisma");
 const { requireUser, requireAdmin } = require("./utils");
 const { JWT_SECRET } = process.env;
 const SALT_ROUNDS = 10;

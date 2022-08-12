@@ -2,7 +2,7 @@ const ordersRouter = require("express").Router();
 const prisma = require("../db/prisma");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
-const { requireAdmin, requireUser, requireAuthor } = require("./utils");
+const { requireAdmin, requireUser } = require("./utils");
 
 //GET /orders/users/:userId
 
@@ -14,6 +14,9 @@ ordersRouter.get("/users/:userId", requireUser, async (req, res, next) => {
     if (user.id === userId) {
       const usersOrders = await prisma.orders.findMany({
         where: { shopperId: userId },
+        include: {
+          product_orders: { include: { products: true } },
+        },
       });
       res.send(usersOrders);
     } else {
@@ -34,9 +37,16 @@ ordersRouter.get("/:orderId", requireUser, async (req, res, next) => {
     const user = jwt.verify(token, JWT_SECRET);
     const id = +req.params.orderId;
     const order = await prisma.orders.findUnique({
-      where: { id, shopperId: user.id },
+      where: { id },
+      include: {
+        product_orders: { include: { products: true } },
+      },
     });
-    res.send(order);
+    if (order.shopperId === user.id) {
+      res.send(order);
+    } else {
+      next();
+    }
   } catch (error) {
     next(error);
   }
@@ -63,7 +73,11 @@ ordersRouter.post("/", requireUser, async (req, res, next) => {
 //GET /orders //view all orders
 ordersRouter.get("/", requireAdmin, async (req, res, next) => {
   try {
-    const orders = await prisma.orders.findMany();
+    const orders = await prisma.orders.findMany({
+      include: {
+        product_orders: { include: { products: true } },
+      },
+    });
     res.send(orders);
   } catch (error) {
     next(error);
@@ -81,17 +95,24 @@ ordersRouter.patch("/:orderId", async (req, res, next) => {
       data: {
         total,
       },
+      include: {
+        product_orders: { include: { products: true } },
+      },
     });
     res.send(order);
   } catch (error) {
     next(error);
   }
 });
+
 //DELETE /orders/:orderId
 
 ordersRouter.delete("/:orderId", requireAdmin, async (req, res, next) => {
   try {
     const orderId = +req.params.orderId;
+    await prisma.product_orders.deleteMany({
+      where: { orderId },
+    });
     const deletedOrder = await prisma.orders.delete({
       where: { id: orderId },
     });
