@@ -51,11 +51,8 @@ productsRouter.post("/", async (req, res, next) => {
   }
 });
 
-// to test still below
-
 //editProduct() - admin
 productsRouter.patch("/:id", async (req, res, next) => {
-  // could be the wrong route
   try {
     const productId = +req.params.id;
     const { name, price, description, inventory, categoryId, image_url } =
