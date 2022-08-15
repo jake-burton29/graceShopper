@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import getProducts from "../axios-services/products";
+import useProducts from "../hooks/useProducts";
 
-export default function ProductsCard() {
-  const [products, setProducts] = useState([]);
-  useEffect(() => {
-    const getProducts = async () => {
-      const result = await getProducts();
-      setProducts(result);
-    };
-    getProducts();
-  }, []);
-
-  return <div>{/* <form>{products.map(())}</form> */}</div>;
+export default function Home() {
+  const { products } = useProducts();
+  return (
+    <div>
+      {products.map((product) => {
+        return (
+          <div key={product.id}>
+            <ProductsCard prodor={product} />
+          </div>
+        );
+      })}
+    </div>
+  );
 }

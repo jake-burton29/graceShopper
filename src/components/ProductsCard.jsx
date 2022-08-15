@@ -1,23 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { getProducts } from "../axios-services/products";
+import React, { useState } from "react";
+import useProducts from "../hooks/useProducts";
 
-export default function ProductsCard() {
-  const [products, setProducts] = useState([]);
-  useEffect(() => {
-    const getProducts = async () => {
-      const result = await getProducts();
-      setProducts(result);
-    };
-    getProducts();
-  }, []);
-
+export default function ProductsCard({ product }) {
   return (
     <div>
-      {/* <form>{products.map({
-        return (
-            <ProductsCard />
-        );
-      })}</form> */}
+      <h2>{product.name}</h2>
     </div>
   );
 }
