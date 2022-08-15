@@ -1,11 +1,4 @@
-const { client } = require("./");
-const {
-  users,
-  categories,
-  products,
-  orders,
-  product_orders,
-} = require("./prisma");
+const client = require("./client");
 const prisma = require("./prisma");
 const bcrypt = require("bcrypt");
 const SALT_ROUNDS = 10;
@@ -207,6 +200,21 @@ async function populateInitialData() {
         total: 800,
         complete: false,
         shopperId: 1,
+      },
+    });
+
+    await prisma.product_orders.create({
+      data: {
+        productId: 1,
+        orderId: 1,
+        quantity: 1,
+      },
+    });
+    await prisma.product_orders.create({
+      data: {
+        productId: 2,
+        orderId: 2,
+        quantity: 2,
       },
     });
   } catch (error) {

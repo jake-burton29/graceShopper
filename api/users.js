@@ -2,7 +2,6 @@ const usersRouter = require("express").Router();
 const prisma = require("../db/prisma");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { users } = require("../db/prisma");
 const { requireUser, requireAdmin } = require("./utils");
 const { JWT_SECRET } = process.env;
 const SALT_ROUNDS = 10;
@@ -10,7 +9,7 @@ const SALT_ROUNDS = 10;
 // getAllUsers()  requireAdmin
 usersRouter.get("/", requireAdmin, async (req, res, next) => {
   try {
-    const users = await prisma.users.findMany();
+    const users = await prisma.users.findMany({ include: { orders: true } });
     res.send(users);
   } catch (error) {
     next(error);
@@ -23,6 +22,7 @@ usersRouter.get("/:username", async (req, res, next) => {
     const username = req.params.username;
     const user = await prisma.users.findUnique({
       where: { username },
+      include: { orders: true },
     });
     res.send(user);
   } catch (error) {
@@ -59,6 +59,7 @@ usersRouter.post("/login", async (req, res, next) => {
     const { username, password } = req.body;
     const user = await prisma.users.findUnique({
       where: { username },
+      include: { orders: true },
     });
     const validPassword = await bcrypt.compare(password, user.password);
 
@@ -90,6 +91,7 @@ usersRouter.patch("/:username", requireUser, async (req, res, next) => {
         isAdmin,
       },
       where: { username },
+      include: { orders: true },
     });
     res.send(editedUser);
   } catch (error) {
