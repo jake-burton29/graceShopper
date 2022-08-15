@@ -1,5 +1,5 @@
 const { server, handle } = require("../index");
-const { client } = require("../db/client");
+const client = require("../db/client");
 const supertest = require("supertest");
 const request = supertest(server);
 
