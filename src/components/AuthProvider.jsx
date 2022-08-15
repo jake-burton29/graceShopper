@@ -3,7 +3,7 @@ import { getUser } from "../axios-services/users";
 import { AuthContext } from "../CreateContext";
 
 export default function AuthProvider({ children }) {
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const getMe = async () => {
