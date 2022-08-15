@@ -1,5 +1,6 @@
 const categoriesRouter = require("express").Router();
 const prisma = require("../db/prisma");
+const { requireAdmin } = require("./utils");
 
 // getCategories
 categoriesRouter.get("/", async (req, res, next) => {
@@ -24,7 +25,7 @@ categoriesRouter.get("/:id", async (req, res, next) => {
 });
 
 // POST /categories - admin
-categoriesRouter.post("/", async (req, res, next) => {
+categoriesRouter.post("/", requireAdmin, async (req, res, next) => {
   try {
     const { name, description } = req.body;
     const createCategory = await prisma.categories.create({
@@ -37,7 +38,7 @@ categoriesRouter.post("/", async (req, res, next) => {
 });
 
 // PATCH /categories/:categoryId - admin
-categoriesRouter.patch("/:id", async (req, res, next) => {
+categoriesRouter.patch("/:id", requireAdmin, async (req, res, next) => {
   try {
     const categoryId = +req.params.id;
     const { name, description, id } = req.body; // id could be wrong will fix DONT FORGFET
@@ -52,7 +53,7 @@ categoriesRouter.patch("/:id", async (req, res, next) => {
 });
 
 //  DELETE /categories/:categoryId - admin
-categoriesRouter.delete("/:id", async (req, res, next) => {
+categoriesRouter.delete("/:id", requireAdmin, async (req, res, next) => {
   try {
     const categoryId = +req.params.id;
 
