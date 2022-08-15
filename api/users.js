@@ -131,6 +131,9 @@ usersRouter.post("/logout", async (req, res, next) => {
 
 usersRouter.get("/me", requireUser, async (req, res, next) => {
   try {
+    if (!req.signedCookies.token) {
+      res.send(null);
+    }
     const token = req.signedCookies.token;
     const user = jwt.verify(token, JWT_SECRET);
     res.send(user);
