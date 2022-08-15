@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import useProducts from "../hooks/useProducts";
 
 export default function ProductsCard({ product }) {
   return (
     <div>
-      <h2>{product.name}</h2>
+      <h4>Product: {product.name}</h4>
+      <h4>Price:{product.price}$</h4>
+      <h4>Description:{product.description}</h4>
     </div>
   );
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import getProducts from "../axios-services/products";
 import useProducts from "../hooks/useProducts";
+import ProductsCard from "./ProductsCard";
 
 export default function Home() {
   const { products } = useProducts();
@@ -10,7 +11,7 @@ export default function Home() {
       {products.map((product) => {
         return (
           <div key={product.id}>
-            <ProductsCard prodor={product} />
+            <ProductsCard product={product} />
           </div>
         );
       })}
