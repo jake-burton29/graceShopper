@@ -12,9 +12,5 @@ export default function ProductsCard() {
     getProducts();
   }, []);
 
-  return (
-    <div>
-      <form>{products.map(())}</form>
-    </div>
-  );
+  return <div>{/* <form>{products.map(())}</form> */}</div>;
 }
