@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-const AuthContext = createContext([]);
+const AuthContext = createContext({});
 const OrdersContext = createContext([]);
 const CategoriesContext = createContext([]);
 const ProductsContext = createContext([]);

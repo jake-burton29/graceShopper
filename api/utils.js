@@ -2,9 +2,12 @@ const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
 
 const requireUser = (req, res, next) => {
-  const token = req.signedCookies.token;
   try {
-    jwt.verify(token, JWT_SECRET);
+    const token = req.signedCookies.token;
+    const isValid = jwt.verify(token, JWT_SECRET);
+    if (isValid) {
+      next();
+    }
   } catch (error) {
     res.status(401).send({
       loggedIn: false,
@@ -12,8 +15,6 @@ const requireUser = (req, res, next) => {
     });
     return;
   }
-
-  next();
 };
 
 const requireAdmin = (req, res, next) => {
