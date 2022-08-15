@@ -1,5 +1,6 @@
 const productsRouter = require("express").Router();
 const prisma = require("../db/prisma");
+const { requireAdmin } = require("./utils");
 
 // getAllProducts()
 productsRouter.get("/", async (req, res, next) => {
@@ -38,7 +39,7 @@ productsRouter.get("/category/:categoryId", async (req, res, next) => {
 });
 
 //createProduct() - admin
-productsRouter.post("/", async (req, res, next) => {
+productsRouter.post("/", requireAdmin, async (req, res, next) => {
   try {
     const { name, price, description, inventory, categoryId, image_url } =
       req.body;
@@ -52,7 +53,7 @@ productsRouter.post("/", async (req, res, next) => {
 });
 
 //editProduct() - admin
-productsRouter.patch("/:id", async (req, res, next) => {
+productsRouter.patch("/:id", requireAdmin, async (req, res, next) => {
   try {
     const productId = +req.params.id;
     const { name, price, description, inventory, categoryId, image_url } =
@@ -68,7 +69,7 @@ productsRouter.patch("/:id", async (req, res, next) => {
 });
 
 //deleteProduct() - admin
-productsRouter.delete("/:id", async (req, res, next) => {
+productsRouter.delete("/:id", requireAdmin, async (req, res, next) => {
   try {
     const productId = +req.params.id;
 
