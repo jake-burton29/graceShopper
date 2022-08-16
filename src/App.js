@@ -5,6 +5,7 @@ import { Routes, Route } from "react-router-dom";
 // where each adapter fetches specific info from our express server's /api route
 import { getAPIHealth } from "./axios-services";
 import "./style/App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import {
   Home,
   NavBar,
@@ -13,6 +14,7 @@ import {
   ShoppingCart,
   SingleProduct,
   Profile,
+  ProductsCard,
 } from "./components";
 
 const App = () => {
@@ -42,6 +44,7 @@ const App = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/cart" element={<ShoppingCart />} />
         <Route path="/products/:id" element={<SingleProduct />} />
+        <Route path="/productsCard" element={<ProductsCard />} />
       </Routes>
     </div>
   );

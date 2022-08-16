@@ -1,23 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { getProducts } from "../axios-services/products";
+import React, { useState } from "react";
+import { Card, Button } from "react-bootstrap";
 
-export default function ProductsCard() {
-  const [products, setProducts] = useState([]);
-  useEffect(() => {
-    const getProducts = async () => {
-      const result = await getProducts();
-      setProducts(result);
-    };
-    getProducts();
-  }, []);
-
+export default function ProductsCard({ product }) {
   return (
-    <div>
-      {/* <form>{products.map({
-        return (
-            <ProductsCard />
-        );
-      })}</form> */}
+    <div className="d-flex flex-nowrap">
+      <Card>
+        <Card.Title>Product: {product.name}</Card.Title>
+        <Card.Img src={product.image_url} className="w-50 p-3" />
+        <Card.Body>Price: {product.price}</Card.Body>
+        <Card.Text>Description: {product.description}</Card.Text>
+        <Button
+          onClick={() => {
+            //some func to add to cart
+          }}
+        >
+          Add to Cart!
+        </Button>
+      </Card>
     </div>
   );
 }
