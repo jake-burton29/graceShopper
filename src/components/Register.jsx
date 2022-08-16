@@ -19,15 +19,16 @@ export default function Register() {
       <form
         onSubmit={async (e) => {
           e.preventDefault();
-          if (!password === confirmPassword) {
+          if (password !== confirmPassword) {
             setErrorMessage("Your passwords do not match.");
           } else if (password.length < 8) {
             setErrorMessage("Your password must be at least 8 characters.");
           } else {
             const user = await createUser(username, password, userEmail);
-            if (user) setUser(user);
-            setErrorMessage("You have succesfully logged in.");
-            navigate("/");
+            if (user) {
+              setUser(user);
+              navigate("/");
+            }
           }
         }}
       >
