@@ -8,6 +8,7 @@ export default function ProductsCard({ product }) {
         <Card.Title>Product: {product.name}</Card.Title>
         <Card.Img src={product.image_url} className="w-50 p-3" />
         <Card.Body>Price: {product.price}</Card.Body>
+        <Card.Text>In Stock: {product.inventory}</Card.Text>
         <Card.Text>Description: {product.description}</Card.Text>
         <Button
           onClick={() => {
