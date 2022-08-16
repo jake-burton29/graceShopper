@@ -4,6 +4,7 @@ import { AuthContext } from "../CreateContext";
 
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  console.log("USER:", user);
 
   useEffect(() => {
     const getMe = async () => {

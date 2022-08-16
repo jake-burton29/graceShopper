@@ -62,6 +62,7 @@ usersRouter.post("/register", async (req, res, next) => {
       httpOnly: true,
       signed: true,
     });
+    delete newUser.password;
     res.send(newUser);
   } catch (error) {
     next(error);
@@ -158,14 +159,5 @@ usersRouter.get("/me", requireUser, async (req, res, next) => {
     next(error);
   }
 });
-
-// usersRouter.get("/me", requireUser, (req, res, next) => {
-//   try {
-//     console.log(req.user);
-//     res.send(req.user);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
 
 module.exports = usersRouter;
