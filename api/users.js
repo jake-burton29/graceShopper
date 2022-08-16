@@ -16,8 +16,21 @@ usersRouter.get("/", requireAdmin, async (req, res, next) => {
   }
 });
 
-//getUserByUsername
-usersRouter.get("/:username", async (req, res, next) => {
+//GET from /me
+usersRouter.get("/me", requireUser, async (req, res, next) => {
+  console.log("What is happening?");
+  try {
+    const token = req.signedCookies.token;
+    const user = jwt.verify(token, JWT_SECRET);
+    delete user.password;
+    res.send(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//GET from /:username
+usersRouter.get("/:username", requireUser, async (req, res, next) => {
   try {
     const username = req.params.username;
     const user = await prisma.users.findUnique({
@@ -30,6 +43,7 @@ usersRouter.get("/:username", async (req, res, next) => {
   }
 });
 
+//POST to /register
 usersRouter.post("/register", async (req, res, next) => {
   try {
     const { username, password, email, isAdmin } = req.body;
@@ -54,9 +68,11 @@ usersRouter.post("/register", async (req, res, next) => {
   }
 });
 
+//POST to /login
 usersRouter.post("/login", async (req, res, next) => {
   try {
     const { username, password } = req.body;
+
     const user = await prisma.users.findUnique({
       where: { username },
       include: { orders: true },
@@ -71,6 +87,7 @@ usersRouter.post("/login", async (req, res, next) => {
         httpOnly: true,
         signed: true,
       });
+      delete user.password;
       res.send(user);
     }
   } catch (error) {
@@ -78,6 +95,7 @@ usersRouter.post("/login", async (req, res, next) => {
   }
 });
 
+//PATCH to /:username
 usersRouter.patch("/:username", requireUser, async (req, res, next) => {
   try {
     const username = req.params.username;
@@ -129,16 +147,25 @@ usersRouter.post("/logout", async (req, res, next) => {
   }
 });
 
+//GET from /me
 usersRouter.get("/me", requireUser, async (req, res, next) => {
   try {
-    if (!req.signedCookies.token) {
-      res.send(null);
-    }
     const token = req.signedCookies.token;
     const user = jwt.verify(token, JWT_SECRET);
+    console.log(user);
     res.send(user);
   } catch (error) {
     next(error);
   }
 });
+
+// usersRouter.get("/me", requireUser, (req, res, next) => {
+//   try {
+//     console.log(req.user);
+//     res.send(req.user);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
 module.exports = usersRouter;
