@@ -36,3 +36,15 @@ export async function logout() {
     console.error(error);
   }
 }
+export async function createUser(username, password, email) {
+  try {
+    const { data: user } = await axios({
+      method: "post",
+      url: "/api/users/register",
+      data: { username, password, email },
+    });
+    return user;
+  } catch (err) {
+    console.error(err);
+  }
+}

@@ -10,9 +10,8 @@ export default function NavBar() {
     <div>
       <nav>
         <Link to="/">Home</Link>
-        <Link to="/register">Register</Link>
         <Link to="/cart">Cart</Link>
-        <Link to="/profile">Profile</Link>
+        {user ? <Link to="/profile">{user.username}</Link> : null}
         {user ? (
           <Link
             to="/login"
@@ -26,6 +25,7 @@ export default function NavBar() {
         ) : (
           <Link to="/login">Login</Link>
         )}
+        {!user ? <Link to="/register"> Register </Link> : null}
       </nav>
     </div>
   );

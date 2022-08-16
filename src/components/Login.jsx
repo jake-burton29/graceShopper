@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { getUser, loginUser } from "../axios-services/users";
 import useAuth from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { setUser } = useAuth();
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -14,7 +18,12 @@ export default function Login() {
         onSubmit={async (e) => {
           e.preventDefault();
           const user = await loginUser(username, password);
-          if (user) setUser(user);
+          if (user) {
+            setUser(user);
+            navigate("/");
+          } else {
+            setErrorMessage("Incorrect login!");
+          }
         }}
       >
         <input
@@ -32,6 +41,8 @@ export default function Login() {
           Login
         </Button>
       </form>
+      {errorMessage ? <p>{errorMessage}</p> : null}
+      <Link to="/register">Not registered? Click here</Link>
     </div>
   );
 }
