@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import { logout } from "../axios-services/users";
 
 export default function NavBar() {
   const { user, setUser } = useAuth();
@@ -9,17 +10,13 @@ export default function NavBar() {
     <div>
       <nav>
         <Link to="/">Home</Link>
-        <Link to="/register">Register</Link>
         <Link to="/cart">Cart</Link>
-        <Link to="/profile">Profile</Link>
+        {user ? <Link to="/profile">{user.username}</Link> : null}
         {user ? (
           <Link
             to="/login"
-            onClick={() => {
-              axios({
-                method: "post",
-                url: "/users/logout",
-              });
+            onClick={async () => {
+              logout();
               setUser(null);
             }}
           >
@@ -28,6 +25,7 @@ export default function NavBar() {
         ) : (
           <Link to="/login">Login</Link>
         )}
+        {!user ? <Link to="/register"> Register </Link> : null}
       </nav>
     </div>
   );

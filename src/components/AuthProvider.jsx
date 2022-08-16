@@ -7,8 +7,8 @@ export default function AuthProvider({ children }) {
 
   useEffect(() => {
     const getMe = async () => {
-      const user = await getUser();
-      setUser(user);
+      const jwtUser = await getUser();
+      setUser(jwtUser);
     };
     getMe();
   }, []);
