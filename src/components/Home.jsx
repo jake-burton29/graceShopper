@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import useProducts from "../hooks/useProducts";
 import useCategories from "../hooks/useCategories";
 import ProductsCard from "./ProductsCard";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { Button } from "react-bootstrap";
 
 export default function Home() {
