@@ -3,6 +3,7 @@ const prisma = require("../db/prisma");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { requireUser, requireAdmin } = require("./utils");
+const { product_orders } = require("../db/prisma");
 const { JWT_SECRET } = process.env;
 const SALT_ROUNDS = 10;
 
@@ -18,7 +19,6 @@ usersRouter.get("/", requireAdmin, async (req, res, next) => {
 
 //GET from /me
 usersRouter.get("/me", requireUser, async (req, res, next) => {
-  console.log("What is happening?");
   try {
     const token = req.signedCookies.token;
     const user = jwt.verify(token, JWT_SECRET);
@@ -35,7 +35,11 @@ usersRouter.get("/:username", requireUser, async (req, res, next) => {
     const username = req.params.username;
     const user = await prisma.users.findUnique({
       where: { username },
-      include: { orders: true },
+      include: {
+        orders: {
+          include: { product_orders: { include: { products: true } } },
+        },
+      },
     });
     res.send(user);
   } catch (error) {
@@ -76,7 +80,11 @@ usersRouter.post("/login", async (req, res, next) => {
 
     const user = await prisma.users.findUnique({
       where: { username },
-      include: { orders: true },
+      include: {
+        orders: {
+          include: { product_orders: { include: { products: true } } },
+        },
+      },
     });
     const validPassword = await bcrypt.compare(password, user.password);
 
@@ -110,7 +118,11 @@ usersRouter.patch("/:username", requireUser, async (req, res, next) => {
         isAdmin,
       },
       where: { username },
-      include: { orders: true },
+      include: {
+        orders: {
+          include: { product_orders: { include: { products: true } } },
+        },
+      },
     });
     res.send(editedUser);
   } catch (error) {
@@ -143,18 +155,6 @@ usersRouter.post("/logout", async (req, res, next) => {
       loggedIn: false,
       message: "Logged Out",
     });
-  } catch (error) {
-    next(error);
-  }
-});
-
-//GET from /me
-usersRouter.get("/me", requireUser, async (req, res, next) => {
-  try {
-    const token = req.signedCookies.token;
-    const user = jwt.verify(token, JWT_SECRET);
-    console.log(user);
-    res.send(user);
   } catch (error) {
     next(error);
   }
