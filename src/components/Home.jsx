@@ -16,6 +16,9 @@ export default function Home() {
   return (
     <>
       <div>
+        {
+          // Break Carousel into separate component
+        }
         <Carousel variant="dark">
           <Carousel.Item>
             <img

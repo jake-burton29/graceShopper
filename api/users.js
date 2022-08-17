@@ -29,7 +29,7 @@ usersRouter.get("/me", requireUser, async (req, res, next) => {
   }
 });
 
-//GET from /:username
+//GET from api/users/:username
 usersRouter.get("/:username", requireUser, async (req, res, next) => {
   try {
     const username = req.params.username;
@@ -50,14 +50,14 @@ usersRouter.get("/:username", requireUser, async (req, res, next) => {
 //POST to /register
 usersRouter.post("/register", async (req, res, next) => {
   try {
-    const { username, password, email, isAdmin } = req.body;
+    // removed admin with creating a user
+    const { username, password, email } = req.body;
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
     const newUser = await prisma.users.create({
       data: {
         username,
         password: hashedPassword,
         email,
-        isAdmin,
       },
     });
     const token = jwt.sign(newUser, JWT_SECRET);

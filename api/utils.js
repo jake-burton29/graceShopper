@@ -5,6 +5,7 @@ const requireUser = (req, res, next) => {
   try {
     const token = req.signedCookies.token;
     const isValid = jwt.verify(token, JWT_SECRET);
+    // is valid is actually the user, so you could set the req.user here
     if (isValid) {
       next();
     }

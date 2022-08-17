@@ -4,6 +4,9 @@ import useProducts from "../hooks/useProducts";
 
 export default function SingleProduct() {
   const { targetProduct } = useProducts();
+  // Fetch single product in useEffect instead of context
+  // { useParams } from 'react-router-dom'
+  // const { id } = useParams()
 
   return (
     <div>
