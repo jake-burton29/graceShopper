@@ -4,9 +4,12 @@ const { JWT_SECRET } = process.env;
 const requireUser = (req, res, next) => {
   try {
     const token = req.signedCookies.token;
-    const isValid = jwt.verify(token, JWT_SECRET);
+    const user = jwt.verify(token, JWT_SECRET);
+    delete user.password;
+    req.user = user;
+
     // is valid is actually the user, so you could set the req.user here
-    if (isValid) {
+    if (user) {
       next();
     }
   } catch (error) {

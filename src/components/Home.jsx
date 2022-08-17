@@ -1,17 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useProducts from "../hooks/useProducts";
 import useCategories from "../hooks/useCategories";
 import ProductsCard from "./ProductsCard";
 import { Button, Carousel } from "react-bootstrap";
+import { getProductsByCategoryId } from "../axios-services/products";
 
 export default function Home() {
   const { products } = useProducts();
   const { categories } = useCategories();
   const [displayProducts, setDisplayProducts] = useState(null);
+  const [categoryId, setCategoryId] = useState(null);
 
-  function findProductsByCategory(id) {
-    setDisplayProducts(products.filter((product) => product.categoryId === id));
-  }
+  useEffect(() => {
+    const getProductsToDisplay = async () => {
+      if (!categoryId) {
+        setDisplayProducts(products);
+      } else {
+        const productsToDisplay = await getProductsByCategoryId(categoryId);
+        setDisplayProducts(productsToDisplay);
+      }
+    };
+    getProductsToDisplay();
+  }, [categoryId]);
 
   return (
     <>
@@ -67,7 +77,7 @@ export default function Home() {
         <Button
           className="btn-success"
           onClick={() => {
-            setDisplayProducts(products);
+            setCategoryId(null);
           }}
         >
           All
@@ -79,7 +89,7 @@ export default function Home() {
               className="btn-danger"
               key={category.id}
               onClick={() => {
-                findProductsByCategory(category.id);
+                setCategoryId(category.id);
               }}
             >
               {category.name}
