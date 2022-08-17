@@ -2,9 +2,10 @@ import { useContext } from "react";
 import { ProductsContext } from "../CreateContext";
 
 const useProducts = () => {
-  const { products, setProducts } = useContext(ProductsContext);
+  const { products, setProducts, targetProduct, setTargetProduct } =
+    useContext(ProductsContext);
 
-  return { products, setProducts };
+  return { products, setProducts, targetProduct, setTargetProduct };
 };
 
 export default useProducts;
