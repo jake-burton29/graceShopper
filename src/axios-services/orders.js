@@ -10,9 +10,9 @@ export async function getOrders() {
   }
 }
 
-export async function getOrdersByUserId(id) {
+export async function getMyOrders() {
   try {
-    const { data: orders } = await axios.get(`/api/orders/users/${id}`);
+    const { data: orders } = await axios.get(`/api/orders/myorders`);
     console.log("ORDERS BY USER", orders);
   } catch (err) {
     console.error(err);

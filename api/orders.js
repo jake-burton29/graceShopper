@@ -6,24 +6,16 @@ const { requireAdmin, requireUser } = require("./utils");
 
 //GET /orders/users/:userId
 
-ordersRouter.get("/users/:userId", requireUser, async (req, res, next) => {
+ordersRouter.get("/myorders", requireUser, async (req, res, next) => {
   try {
     const user = req.user;
-    const userId = +req.params.userId;
-    if (user.id === userId) {
-      const usersOrders = await prisma.orders.findMany({
-        where: { shopperId: userId },
-        include: {
-          product_orders: { include: { products: true } },
-        },
-      });
-      res.send(usersOrders);
-    } else {
-      res.status(401).send({
-        loggedIn: false,
-        message: "You are def not authorized.",
-      });
-    }
+    const usersOrders = await prisma.orders.findMany({
+      where: { shopperId: user.id },
+      include: {
+        product_orders: { include: { products: true } },
+      },
+    });
+    res.send(usersOrders);
   } catch (error) {
     next(error);
   }

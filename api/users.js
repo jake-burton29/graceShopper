@@ -38,9 +38,7 @@ usersRouter.get("/:username", requireUser, async (req, res, next) => {
       const user = await prisma.users.findUnique({
         where: { username },
         include: {
-          orders: {
-            include: { product_orders: { include: { products: true } } },
-          },
+          orders: true,
         },
       });
       res.send(user);
@@ -84,9 +82,7 @@ usersRouter.post("/login", async (req, res, next) => {
     const user = await prisma.users.findUnique({
       where: { username },
       include: {
-        orders: {
-          include: { product_orders: { include: { products: true } } },
-        },
+        orders: true,
       },
     });
     const validPassword = await bcrypt.compare(password, user.password);
@@ -121,9 +117,7 @@ usersRouter.patch("/:username", requireUser, async (req, res, next) => {
       },
       where: { username },
       include: {
-        orders: {
-          include: { product_orders: { include: { products: true } } },
-        },
+        orders: true,
       },
     });
     res.send(editedUser);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getOrdersByUserId } from "../axios-services/orders";
+import { getMyOrders } from "../axios-services/orders";
 import { OrdersContext } from "../CreateContext";
 import useAuth from "../hooks/useAuth";
 
@@ -13,7 +13,7 @@ export default function OrdersProvider({ children }) {
       if (!user) {
         setOrders([]);
       } else {
-        const orders = await getOrdersByUserId(user.id);
+        const orders = await getMyOrders();
         setOrders(orders);
       }
     };
