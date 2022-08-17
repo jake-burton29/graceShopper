@@ -8,17 +8,11 @@ export default function Profile() {
 
   useEffect(() => {
     const getUsersOrders = async () => {
-      if (!user) {
-        console.log("no user found");
-        setMyOrders([]);
-      } else {
-        const orders = await getMyOrders();
-        setMyOrders(orders);
-      }
+      const orders = await getMyOrders();
+      setMyOrders(orders);
     };
     getUsersOrders();
-    console.log("MY ORDERS:", myOrders);
-  }, []);
+  }, [user]);
 
   return (
     <div id="profile">
@@ -32,28 +26,26 @@ export default function Profile() {
 
       <div id="myOrders">
         <h3>My Orders:</h3>
-        {myOrders?.length > 0 &&
-          myOrders.map((order) => {
-            return (
-              <div key={order.id}>
-                <h4>Order #{order.id}</h4>
-                <div>
-                  {order?.product_orders &&
-                    order.product_orders.map((productOrder) => {
-                      return (
-                        <div key={productOrder.id}>
-                          <p>
-                            {productOrder.products.name} x
-                            {productOrder.quantity}
-                          </p>
-                        </div>
-                      );
-                    })}
-                </div>
-                <p>Total: ${order.total}</p>
+        {myOrders?.map((order) => {
+          return (
+            <div key={order.id}>
+              <h4>Order #{order.id}</h4>
+              <div>
+                {order?.product_orders &&
+                  order.product_orders.map((productOrder) => {
+                    return (
+                      <div key={productOrder.id}>
+                        <p>
+                          {productOrder.products.name} x{productOrder.quantity}
+                        </p>
+                      </div>
+                    );
+                  })}
               </div>
-            );
-          })}
+              <p>Total: ${order.total}</p>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
