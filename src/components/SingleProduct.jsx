@@ -14,9 +14,6 @@ export default function SingleProduct() {
     };
     getSingleProduct(id);
   }, []);
-  // Fetch single product in useEffect instead of context
-  // { useParams } from 'react-router-dom'
-  // const { id } = useParams()
 
   return (
     <div>

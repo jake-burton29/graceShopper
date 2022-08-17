@@ -22,9 +22,8 @@ const requireUser = (req, res, next) => {
 };
 
 const requireAdmin = (req, res, next) => {
-  const token = req.signedCookies.token;
   try {
-    const user = jwt.verify(token, JWT_SECRET);
+    const user = req.user;
     if (!user.isAdmin) {
       throw error;
     }
