@@ -1,6 +1,6 @@
 const productsRouter = require("express").Router();
 const prisma = require("../db/prisma");
-const { requireAdmin } = require("./utils");
+const { requireAdmin, requireUser } = require("./utils");
 
 // getAllProducts()
 productsRouter.get("/", async (req, res, next) => {
@@ -39,7 +39,7 @@ productsRouter.get("/category/:categoryId", async (req, res, next) => {
 });
 
 //createProduct() - admin
-productsRouter.post("/", requireAdmin, async (req, res, next) => {
+productsRouter.post("/", requireUser, requireAdmin, async (req, res, next) => {
   try {
     const { name, price, description, inventory, categoryId, image_url } =
       req.body;
@@ -53,33 +53,43 @@ productsRouter.post("/", requireAdmin, async (req, res, next) => {
 });
 
 //editProduct() - admin
-productsRouter.patch("/:id", requireAdmin, async (req, res, next) => {
-  try {
-    const productId = +req.params.id;
-    const { name, price, description, inventory, categoryId, image_url } =
-      req.body;
-    const editProduct = await prisma.products.update({
-      where: { id: productId },
-      data: { name, price, description, inventory, categoryId },
-    });
-    res.send(editProduct);
-  } catch (error) {
-    next(error);
+productsRouter.patch(
+  "/:id",
+  requireUser,
+  requireAdmin,
+  async (req, res, next) => {
+    try {
+      const productId = +req.params.id;
+      const { name, price, description, inventory, categoryId, image_url } =
+        req.body;
+      const editProduct = await prisma.products.update({
+        where: { id: productId },
+        data: { name, price, description, inventory, categoryId },
+      });
+      res.send(editProduct);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 //deleteProduct() - admin
-productsRouter.delete("/:id", requireAdmin, async (req, res, next) => {
-  try {
-    const productId = +req.params.id;
+productsRouter.delete(
+  "/:id",
+  requireUser,
+  requireAdmin,
+  async (req, res, next) => {
+    try {
+      const productId = +req.params.id;
 
-    const deleteProduct = await prisma.products.delete({
-      where: { id: productId },
-    });
-    res.send(deleteProduct);
-  } catch (error) {
-    next(error);
+      const deleteProduct = await prisma.products.delete({
+        where: { id: productId },
+      });
+      res.send(deleteProduct);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 module.exports = productsRouter;

@@ -20,28 +20,29 @@ usersRouter.get("/", requireAdmin, async (req, res, next) => {
 //GET from /me
 usersRouter.get("/me", requireUser, async (req, res, next) => {
   try {
-    const token = req.signedCookies.token;
-    const user = jwt.verify(token, JWT_SECRET);
-    delete user.password;
+    const user = req.user;
+
     res.send(user);
   } catch (error) {
     next(error);
   }
 });
 
-//GET from /:username
+//GET from api/users/:username
 usersRouter.get("/:username", requireUser, async (req, res, next) => {
   try {
     const username = req.params.username;
-    const user = await prisma.users.findUnique({
-      where: { username },
-      include: {
-        orders: {
-          include: { product_orders: { include: { products: true } } },
+    if (req.user.username !== username) {
+      throw error;
+    } else {
+      const user = await prisma.users.findUnique({
+        where: { username },
+        include: {
+          orders: true,
         },
-      },
-    });
-    res.send(user);
+      });
+      res.send(user);
+    }
   } catch (error) {
     next(error);
   }
@@ -50,14 +51,14 @@ usersRouter.get("/:username", requireUser, async (req, res, next) => {
 //POST to /register
 usersRouter.post("/register", async (req, res, next) => {
   try {
-    const { username, password, email, isAdmin } = req.body;
+    // removed admin with creating a user
+    const { username, password, email } = req.body;
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
     const newUser = await prisma.users.create({
       data: {
         username,
         password: hashedPassword,
         email,
-        isAdmin,
       },
     });
     const token = jwt.sign(newUser, JWT_SECRET);
@@ -81,9 +82,7 @@ usersRouter.post("/login", async (req, res, next) => {
     const user = await prisma.users.findUnique({
       where: { username },
       include: {
-        orders: {
-          include: { product_orders: { include: { products: true } } },
-        },
+        orders: true,
       },
     });
     const validPassword = await bcrypt.compare(password, user.password);
@@ -108,20 +107,17 @@ usersRouter.post("/login", async (req, res, next) => {
 usersRouter.patch("/:username", requireUser, async (req, res, next) => {
   try {
     const username = req.params.username;
-    const { newUsername, password, email, isAdmin } = req.body;
+    const { newUsername, password, email } = req.body;
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
     const editedUser = await prisma.users.update({
       data: {
         username: newUsername,
         password: hashedPassword,
         email,
-        isAdmin,
       },
       where: { username },
       include: {
-        orders: {
-          include: { product_orders: { include: { products: true } } },
-        },
+        orders: true,
       },
     });
     res.send(editedUser);

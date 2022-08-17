@@ -6,25 +6,16 @@ const { requireAdmin, requireUser } = require("./utils");
 
 //GET /orders/users/:userId
 
-ordersRouter.get("/users/:userId", requireUser, async (req, res, next) => {
+ordersRouter.get("/myorders", requireUser, async (req, res, next) => {
   try {
-    const token = req.signedCookies.token;
-    const user = jwt.verify(token, JWT_SECRET);
-    const userId = +req.params.userId;
-    if (user.id === userId) {
-      const usersOrders = await prisma.orders.findMany({
-        where: { shopperId: userId },
-        include: {
-          product_orders: { include: { products: true } },
-        },
-      });
-      res.send(usersOrders);
-    } else {
-      res.status(401).send({
-        loggedIn: false,
-        message: "You are def not authorized.",
-      });
-    }
+    const user = req.user;
+    const usersOrders = await prisma.orders.findMany({
+      where: { shopperId: user.id },
+      include: {
+        product_orders: { include: { products: true } },
+      },
+    });
+    res.send(usersOrders);
   } catch (error) {
     next(error);
   }
@@ -33,8 +24,7 @@ ordersRouter.get("/users/:userId", requireUser, async (req, res, next) => {
 //GET /orders/:orderId
 ordersRouter.get("/:orderId", requireUser, async (req, res, next) => {
   try {
-    const token = req.signedCookies.token;
-    const user = jwt.verify(token, JWT_SECRET);
+    const user = req.user;
     const id = +req.params.orderId;
     const order = await prisma.orders.findUnique({
       where: { id },
@@ -71,7 +61,7 @@ ordersRouter.post("/", async (req, res, next) => {
 //ADMIN ***********
 
 //GET /orders //view all orders
-ordersRouter.get("/", requireAdmin, async (req, res, next) => {
+ordersRouter.get("/", requireUser, requireAdmin, async (req, res, next) => {
   try {
     const orders = await prisma.orders.findMany({
       include: {
@@ -107,19 +97,24 @@ ordersRouter.patch("/:orderId", async (req, res, next) => {
 
 //DELETE /orders/:orderId
 
-ordersRouter.delete("/:orderId", requireAdmin, async (req, res, next) => {
-  try {
-    const orderId = +req.params.orderId;
-    await prisma.product_orders.deleteMany({
-      where: { orderId },
-    });
-    const deletedOrder = await prisma.orders.delete({
-      where: { id: orderId },
-    });
-    res.send(deletedOrder);
-  } catch (error) {
-    next(error);
+ordersRouter.delete(
+  "/:orderId",
+  requireUser,
+  requireAdmin,
+  async (req, res, next) => {
+    try {
+      const orderId = +req.params.orderId;
+      await prisma.product_orders.deleteMany({
+        where: { orderId },
+      });
+      const deletedOrder = await prisma.orders.delete({
+        where: { id: orderId },
+      });
+      res.send(deletedOrder);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 module.exports = ordersRouter;

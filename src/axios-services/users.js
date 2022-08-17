@@ -11,6 +11,7 @@ export async function getUser() {
 
 export async function loginUser(username, password) {
   try {
+    // await axios.post('/api/users/login/', { username, password})
     const { data: user } = await axios({
       method: "post",
       url: "/api/users/login",

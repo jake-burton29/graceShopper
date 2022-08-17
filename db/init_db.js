@@ -1,12 +1,9 @@
-const client = require("./client");
 const prisma = require("./prisma");
 const bcrypt = require("bcrypt");
 const SALT_ROUNDS = 10;
 
 async function buildTables() {
   try {
-    client.connect();
-
     // drop tables in correct order
     await prisma.$executeRaw`
     DROP TABLE IF EXISTS product_orders;`;
@@ -226,4 +223,4 @@ async function populateInitialData() {
 buildTables()
   .then(populateInitialData)
   .catch(console.error)
-  .finally(() => client.end());
+  .finally(() => console.log("seeded!"));
