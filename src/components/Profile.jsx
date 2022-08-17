@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import useAuth from "../hooks/useAuth";
-import { Button } from "react-bootstrap";
-import axios from "axios";
 
 export default function Profile() {
   const { user } = useAuth();
