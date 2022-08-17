@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { createUser } from "../axios-services/users";
 import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +16,7 @@ export default function Register() {
 
   return (
     <div>
-      <form
+      <Form
         onSubmit={async (e) => {
           e.preventDefault();
           if (password !== confirmPassword) {
@@ -32,32 +32,48 @@ export default function Register() {
           }
         }}
       >
-        <input
-          value={username}
-          placeholder="Username"
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          value={userEmail}
-          placeholder="Email"
-          onChange={(e) => setUserEmail(e.target.value)}
-        />
-        <input
-          value={password}
-          placeholder="Password"
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <input
-          value={confirmPassword}
-          placeholder="Confirm Password"
-          type="password"
-          onChange={(e) => setConfirmPassword(e.target.value)}
-        />
-        <Button variant="success" type="submit">
-          Login
+        <Form.Group className="mb-3" controlId="formBasicUsername">
+          <Form.Label>New Username</Form.Label>
+          <Form.Control
+            value={username}
+            placeholder="Enter username"
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control
+            value={userEmail}
+            placeholder="Enter email"
+            onChange={(e) => setUserEmail(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Label>New Password</Form.Label>
+          <Form.Control
+            value={password}
+            placeholder="Password"
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Label>Confirm Password</Form.Label>
+          <Form.Control
+            value={confirmPassword}
+            placeholder="Confirm Password"
+            type="password"
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Check type="checkbox" label="Subscribe to Emails?" />
+        <Form.Text className="text-muted">
+          You can change this setting later
+        </Form.Text>
+        <Button variant="dark" type="submit">
+          Create New Account
         </Button>
-      </form>
+      </Form>
       {errorMessage ? <p>{errorMessage}</p> : null}
       <Link to="/login">Already have an account? Click here</Link>
     </div>
