@@ -13,7 +13,8 @@ export default function Home() {
 
   useEffect(() => {
     const getProductsToDisplay = async () => {
-      if (!categoryId) {
+      if (categoryId === null) {
+        console.log("setting display to:", products);
         setDisplayProducts(products);
       } else {
         const productsToDisplay = await getProductsByCategoryId(categoryId);
@@ -21,7 +22,7 @@ export default function Home() {
       }
     };
     getProductsToDisplay();
-  }, [categoryId]);
+  }, [categoryId, products]);
 
   return (
     <>

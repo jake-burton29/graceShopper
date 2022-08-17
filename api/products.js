@@ -2,7 +2,7 @@ const productsRouter = require("express").Router();
 const prisma = require("../db/prisma");
 const { requireAdmin, requireUser } = require("./utils");
 
-// getAllProducts()
+// GET from /api/products
 productsRouter.get("/", async (req, res, next) => {
   try {
     const getAllProducts = await prisma.products.findMany();
@@ -12,7 +12,7 @@ productsRouter.get("/", async (req, res, next) => {
   }
 });
 
-//getProductById()
+//GET from /api/products/:id
 productsRouter.get("/:id", async (req, res, next) => {
   try {
     const productsId = +req.params.id;
@@ -25,7 +25,7 @@ productsRouter.get("/:id", async (req, res, next) => {
   }
 });
 
-//getProductsByCategory()
+//GET from /api/products/category/:categoryId
 productsRouter.get("/category/:categoryId", async (req, res, next) => {
   try {
     const categoryId = +req.params.categoryId;
@@ -38,7 +38,7 @@ productsRouter.get("/category/:categoryId", async (req, res, next) => {
   }
 });
 
-//createProduct() - admin
+//POST to /api/products - admin
 productsRouter.post("/", requireUser, requireAdmin, async (req, res, next) => {
   try {
     const { name, price, description, inventory, categoryId, image_url } =
@@ -52,7 +52,7 @@ productsRouter.post("/", requireUser, requireAdmin, async (req, res, next) => {
   }
 });
 
-//editProduct() - admin
+//PATCH /api/products/:id - admin
 productsRouter.patch(
   "/:id",
   requireUser,
@@ -73,7 +73,7 @@ productsRouter.patch(
   }
 );
 
-//deleteProduct() - admin
+//DELETE /api/products/:id - admin
 productsRouter.delete(
   "/:id",
   requireUser,

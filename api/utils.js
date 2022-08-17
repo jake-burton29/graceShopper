@@ -7,8 +7,6 @@ const requireUser = (req, res, next) => {
     const user = jwt.verify(token, JWT_SECRET);
     delete user.password;
     req.user = user;
-
-    // is valid is actually the user, so you could set the req.user here
     if (user) {
       next();
     }
