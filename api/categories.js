@@ -2,7 +2,7 @@ const categoriesRouter = require("express").Router();
 const prisma = require("../db/prisma");
 const { requireAdmin, requireUser } = require("./utils");
 
-// getCategories
+// GET from /api/categories
 categoriesRouter.get("/", async (req, res, next) => {
   try {
     const getAllCategories = await prisma.categories.findMany();
@@ -11,7 +11,7 @@ categoriesRouter.get("/", async (req, res, next) => {
     next(error);
   }
 });
-// getCategoriesId
+// GET from api/categories/:id
 categoriesRouter.get("/:id", async (req, res, next) => {
   try {
     const categoryId = +req.params.id;
@@ -24,7 +24,7 @@ categoriesRouter.get("/:id", async (req, res, next) => {
   }
 });
 
-// POST /categories - admin
+// POST to /api/categories - admin
 categoriesRouter.post(
   "/",
   requireUser,

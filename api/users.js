@@ -7,7 +7,7 @@ const { product_orders } = require("../db/prisma");
 const { JWT_SECRET } = process.env;
 const SALT_ROUNDS = 10;
 
-// getAllUsers()  requireAdmin
+// GET from /api/users - admin
 usersRouter.get("/", requireAdmin, async (req, res, next) => {
   try {
     const users = await prisma.users.findMany({ include: { orders: true } });
@@ -48,7 +48,7 @@ usersRouter.get("/:username", requireUser, async (req, res, next) => {
   }
 });
 
-//POST to /register
+//POST to /api/users/register
 usersRouter.post("/register", async (req, res, next) => {
   try {
     // removed admin with creating a user
@@ -74,7 +74,7 @@ usersRouter.post("/register", async (req, res, next) => {
   }
 });
 
-//POST to /login
+//POST to /api/users/login
 usersRouter.post("/login", async (req, res, next) => {
   try {
     const { username, password } = req.body;
@@ -103,7 +103,7 @@ usersRouter.post("/login", async (req, res, next) => {
   }
 });
 
-//PATCH to /:username
+//PATCH to /api/users/:username
 usersRouter.patch("/:username", requireUser, async (req, res, next) => {
   try {
     const username = req.params.username;
@@ -126,7 +126,7 @@ usersRouter.patch("/:username", requireUser, async (req, res, next) => {
   }
 });
 
-//deleteUser      adminRequired
+//DELETE /api/users/:username - adminRequired
 usersRouter.delete("/:username", requireAdmin, async (req, res, next) => {
   try {
     const username = req.params.username;
@@ -139,7 +139,7 @@ usersRouter.delete("/:username", requireAdmin, async (req, res, next) => {
   }
 });
 
-// Log Out
+// POST to /api/users/logout
 usersRouter.post("/logout", async (req, res, next) => {
   try {
     res.clearCookie("token", {
