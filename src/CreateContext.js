@@ -1,8 +1,8 @@
 import { createContext } from "react";
 
 const AuthContext = createContext({});
-const OrdersContext = createContext([]);
+const CartContext = createContext({});
 const CategoriesContext = createContext([]);
 const ProductsContext = createContext([]);
 
-export { AuthContext, OrdersContext, CategoriesContext, ProductsContext };
+export { AuthContext, CartContext, CategoriesContext, ProductsContext };

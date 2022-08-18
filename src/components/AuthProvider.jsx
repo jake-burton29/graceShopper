@@ -11,7 +11,7 @@ export default function AuthProvider({ children }) {
       const jwtUser = await getUser();
       setUser(jwtUser);
     };
-    getMe();
+    const userFromDb = getMe();
   }, []);
 
   return (

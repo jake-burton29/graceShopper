@@ -4,7 +4,6 @@ import { ProductsContext } from "../CreateContext";
 
 export default function ProductsProvider({ children }) {
   const [products, setProducts] = useState([]);
-  const [targetProduct, setTargetProduct] = useState({});
 
   useEffect(() => {
     const getAllProducts = async () => {
@@ -15,9 +14,7 @@ export default function ProductsProvider({ children }) {
   }, []);
 
   return (
-    <ProductsContext.Provider
-      value={{ products, setProducts, targetProduct, setTargetProduct }}
-    >
+    <ProductsContext.Provider value={{ products, setProducts }}>
       {children}
     </ProductsContext.Provider>
   );

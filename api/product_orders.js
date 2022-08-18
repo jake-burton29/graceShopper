@@ -21,7 +21,7 @@ product_orderRouter.post("/", async (req, res, next) => {
 //PATCH PRODUCT_ORDER by ID
 product_orderRouter.patch("/:productOrderId", async (req, res, next) => {
   try {
-    const productOrderId = +req.params.orderId;
+    const productOrderId = +req.params.productOrderId;
     const { quantity } = req.body;
     const updatedProductOrder = await prisma.product_orders.update({
       data: {
