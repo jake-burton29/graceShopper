@@ -11,11 +11,9 @@ export async function getUser() {
 
 export async function loginUser(username, password) {
   try {
-    // await axios.post('/api/users/login/', { username, password})
-    const { data: user } = await axios({
-      method: "post",
-      url: "/api/users/login",
-      data: { username, password },
+    const { data: user } = await axios.post("/api/users/login", {
+      username,
+      password,
     });
     return user;
   } catch (error) {
@@ -25,10 +23,7 @@ export async function loginUser(username, password) {
 
 export async function logout() {
   try {
-    const result = await axios({
-      method: "post",
-      url: "/api/users/logout",
-    });
+    const result = await axios.post("/api/users/logout");
     return result;
   } catch (error) {
     console.error(error);
@@ -36,10 +31,10 @@ export async function logout() {
 }
 export async function createUser(username, password, email) {
   try {
-    const { data: user } = await axios({
-      method: "post",
-      url: "/api/users/register",
-      data: { username, password, email },
+    const { data: user } = await axios.post("/api/users/register", {
+      username,
+      password,
+      email,
     });
     return user;
   } catch (err) {

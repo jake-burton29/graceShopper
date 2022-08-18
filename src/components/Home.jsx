@@ -21,7 +21,7 @@ export default function Home() {
       }
     };
     getProductsToDisplay();
-  }, [categoryId]);
+  }, [categoryId, products]);
 
   return (
     <>
