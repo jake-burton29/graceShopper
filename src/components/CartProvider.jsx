@@ -17,6 +17,14 @@ export default function CartProvider({ children }) {
         const newCart = createCart();
         setCart(newCart);
       }
+    } else {
+      const guestCart = localStorage.getItem("guestCart");
+      if (guestCart) {
+        setCart(guestCart);
+      } else {
+        localStorage.setItem("guestCart", {});
+        setCart({});
+      }
     }
   }, [user]);
 
