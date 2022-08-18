@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { getMyOrders } from "../axios-services/orders";
 import useAuth from "../hooks/useAuth";
 import { Button } from "react-bootstrap";
-import axios from "axios";
+import useProducts from "../hooks/useProducts";
+import { createProduct } from "../axios-services/products";
 
 export default function Profile() {
   const { user } = useAuth();
+  const { products, setProducts } = useProducts();
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
@@ -61,19 +63,16 @@ export default function Profile() {
         <form
           onSubmit={async (e) => {
             e.preventDefault();
-            const { data: product } = await axios({
-              method: "post",
-              url: "/api/products/",
-              data: {
-                name,
-                price: +price,
-                description,
-                image_url,
-                inventory: +inventory,
-                categoryId: +categoryId,
-              },
-            });
-            console.log(product);
+            const newProduct = await createProduct(
+              name,
+              price,
+              description,
+              image_url,
+              inventory,
+              categoryId
+            );
+            setProducts([...products, newProduct]);
+            console.log("PRODUCTS:", [...products, newProduct]);
           }}
         >
           <input

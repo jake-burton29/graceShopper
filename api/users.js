@@ -8,7 +8,7 @@ const { JWT_SECRET } = process.env;
 const SALT_ROUNDS = 10;
 
 // GET from /api/users - admin
-usersRouter.get("/", requireAdmin, async (req, res, next) => {
+usersRouter.get("/", requireUser, requireAdmin, async (req, res, next) => {
   try {
     const users = await prisma.users.findMany({ include: { orders: true } });
     res.send(users);
@@ -51,7 +51,6 @@ usersRouter.get("/:username", requireUser, async (req, res, next) => {
 //POST to /api/users/register
 usersRouter.post("/register", async (req, res, next) => {
   try {
-    // removed admin with creating a user
     const { username, password, email } = req.body;
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
     const newUser = await prisma.users.create({

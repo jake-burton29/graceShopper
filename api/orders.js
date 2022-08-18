@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
 const { requireAdmin, requireUser } = require("./utils");
 
-//GET /orders/users/:userId
+//GET /orders/myorders
 
 ordersRouter.get("/myorders", requireUser, async (req, res, next) => {
   try {
@@ -60,7 +60,7 @@ ordersRouter.post("/", async (req, res, next) => {
 
 //ADMIN ***********
 
-//GET /orders //view all orders
+//GET /orders - admin
 ordersRouter.get("/", requireUser, requireAdmin, async (req, res, next) => {
   try {
     const orders = await prisma.orders.findMany({
@@ -95,7 +95,7 @@ ordersRouter.patch("/:orderId", async (req, res, next) => {
   }
 });
 
-//DELETE /orders/:orderId
+//DELETE /orders/:orderId - admin
 
 ordersRouter.delete(
   "/:orderId",
