@@ -139,6 +139,19 @@ async function populateInitialData() {
 
     await prisma.products.create({
       data: {
+        name: "POWERFULL COMPUTER FOR STREAMING",
+        price: 1500.0,
+        description:
+          "powerful computer for streaming, has RTX 9800, with 3teribite ssd, 32gb ram, intel 9K ",
+        inventory: 40,
+        image_url:
+          "https://powergpu.com/wp-content/uploads/2022/08/R2S-8_1_22.png",
+        categoryId: 1,
+      },
+    });
+
+    await prisma.products.create({
+      data: {
         name: "Starter Gaming Pc",
         price: 400.0,
         description: "Starter PC with ryzen 3, GT710, 4GB ram, 100gb storage",
@@ -163,6 +176,19 @@ async function populateInitialData() {
 
     await prisma.products.create({
       data: {
+        name: "Mechanical Custom Keyboard",
+        price: 80.0,
+        description:
+          "Keyboard with blue switches. It's a speedy keyboard, will make you type faster",
+        inventory: 5,
+        image_url:
+          "https://pyxis.nymag.com/v1/imgs/faf/728/ae5fc02320e279393dd0545c5ecd5f356a.jpg",
+        categoryId: 3,
+      },
+    });
+
+    await prisma.products.create({
+      data: {
         name: "Gaming Mouse",
         price: 40.0,
         description: "Obtain better aim with this mouse",
@@ -177,7 +203,7 @@ async function populateInitialData() {
         name: "Xm1r Gaming Mouse",
         price: 60.0,
         description: "Best sensor in the world",
-        inventory: 50,
+        inventory: 75,
         image_url:
           "https://cdn.shopify.com/s/files/1/0427/7911/5669/products/Endgame-Gear-XM1r-Black_0004_500x.png?v=1630020770",
         categoryId: 2,
@@ -187,9 +213,9 @@ async function populateInitialData() {
     await prisma.products.create({
       data: {
         name: "Small Internet browsing mouse",
-        price: 60.0,
+        price: 30.0,
         description: "Good mouse for Internet browsing",
-        inventory: 50,
+        inventory: 30,
         image_url:
           "https://cdn.shopify.com/s/files/1/0427/7911/5669/products/Endgame-Gear-XM1r-Black_0004_500x.png?v=1630020770",
         categoryId: 2,
