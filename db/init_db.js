@@ -217,7 +217,7 @@ async function populateInitialData() {
         description: "Good mouse for Internet browsing",
         inventory: 30,
         image_url:
-          "https://cdn.shopify.com/s/files/1/0427/7911/5669/products/Endgame-Gear-XM1r-Black_0004_500x.png?v=1630020770",
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7fLTdTmsDaN9Tmjzjd05jNR-oilTAwGRPcg&usqp=CAU",
         categoryId: 2,
       },
     });
@@ -229,7 +229,7 @@ async function populateInitialData() {
         description: "4k 60 fps streaming webcam",
         inventory: 40,
         image_url:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaDc-SATHfce_moGUnpk5307NBUdAxfkuyanuuDyy0zTCEjIoeerVdgSv9oUmMzeB2TpI&usqp=CAU",
+          "https://pbblogassets.s3.amazonaws.com/uploads/2021/03/10120514/Aukey-FHD-Webcam-1-1.jpg",
         categoryId: 4,
       },
     });
@@ -253,7 +253,7 @@ async function populateInitialData() {
         description: "Super high resolution camera with built in microphone",
         inventory: 101,
         image_url:
-          "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c07899214.png",
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVt11C0cSBmI8x687ofEnj5SFgl9ogyw5Jfub89XhX30Dc5zITyyjl5WulWWX6BfJyIpI&usqp=CAU",
         categoryId: 4,
       },
     });
