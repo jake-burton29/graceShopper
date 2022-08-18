@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { useNavigate, Link } from "react-router-dom";
 import { createUser } from "../axios-services/users";
+import { Button, Form } from "react-bootstrap";
 import useAuth from "../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -15,8 +14,19 @@ export default function Register() {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div style={{ display: "flex", justifyContent: "center" }}>
       <Form
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          height: 580,
+          width: 500,
+          boxShadow: "0 0 3px 2px #cec7c759",
+          padding: 20,
+          paddingTop: 20,
+          borderRadius: 20,
+          marginTop: 50,
+        }}
         onSubmit={async (e) => {
           e.preventDefault();
           if (password !== confirmPassword) {
@@ -32,6 +42,9 @@ export default function Register() {
           }
         }}
       >
+        <Form.Label style={{ fontWeight: "bold", fontSize: "larger" }}>
+          Create an Account:
+        </Form.Label>
         <Form.Group className="mb-3" controlId="formBasicUsername">
           <Form.Label>New Username</Form.Label>
           <Form.Control
@@ -66,16 +79,30 @@ export default function Register() {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </Form.Group>
-        <Form.Check type="checkbox" label="Subscribe to Emails?" />
+        <Form.Check type="checkbox" label="Create lucky account?" />
         <Form.Text className="text-muted">
           You can change this setting later
         </Form.Text>
-        <Button variant="dark" type="submit">
+        <Button
+          style={{ marginTop: 20, marginBottom: 10 }}
+          variant="dark"
+          type="submit"
+        >
           Create New Account
         </Button>
+        <Link to="/login">Already have an account? Click here</Link>
+
+        {errorMessage ? (
+          <Form.Text
+            style={{
+              color: "red",
+              backgroundColor: "#FFD2D2",
+            }}
+          >
+            {errorMessage}
+          </Form.Text>
+        ) : null}
       </Form>
-      {errorMessage ? <p>{errorMessage}</p> : null}
-      <Link to="/login">Already have an account? Click here</Link>
     </div>
   );
 }
