@@ -174,12 +174,60 @@ async function populateInitialData() {
 
     await prisma.products.create({
       data: {
+        name: "Xm1r Gaming Mouse",
+        price: 60.0,
+        description: "Best sensor in the world",
+        inventory: 50,
+        image_url:
+          "https://cdn.shopify.com/s/files/1/0427/7911/5669/products/Endgame-Gear-XM1r-Black_0004_500x.png?v=1630020770",
+        categoryId: 2,
+      },
+    });
+
+    await prisma.products.create({
+      data: {
+        name: "Small Internet browsing mouse",
+        price: 60.0,
+        description: "Good mouse for Internet browsing",
+        inventory: 50,
+        image_url:
+          "https://cdn.shopify.com/s/files/1/0427/7911/5669/products/Endgame-Gear-XM1r-Black_0004_500x.png?v=1630020770",
+        categoryId: 2,
+      },
+    });
+
+    await prisma.products.create({
+      data: {
         name: "Streaming Webcam",
         price: 150.0,
         description: "4k 60 fps streaming webcam",
         inventory: 40,
         image_url:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaDc-SATHfce_moGUnpk5307NBUdAxfkuyanuuDyy0zTCEjIoeerVdgSv9oUmMzeB2TpI&usqp=CAU",
+        categoryId: 4,
+      },
+    });
+
+    await prisma.products.create({
+      data: {
+        name: "4k Super Zoom Webcam",
+        price: 190.0,
+        description: "4k 144fps streaming webcam for any streaming service",
+        inventory: 101,
+        image_url:
+          "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c07899214.png",
+        categoryId: 4,
+      },
+    });
+
+    await prisma.products.create({
+      data: {
+        name: "elgato super facecam",
+        price: 250.0,
+        description: "Super high resolution camera with built in microphone",
+        inventory: 101,
+        image_url:
+          "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c07899214.png",
         categoryId: 4,
       },
     });
