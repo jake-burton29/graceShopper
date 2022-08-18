@@ -32,7 +32,8 @@ export default function Home() {
         <Carousel variant="dark">
           <Carousel.Item>
             <img
-              className="some code here to center"
+              className="d-block mx-auto 
+              "
               src="https://c1.neweggimages.com/ProductImage/83-227-920-V01.jpg"
               alt="First slide"
               height={400}
@@ -44,7 +45,8 @@ export default function Home() {
           </Carousel.Item>
           <Carousel.Item>
             <img
-              className="some code here to center"
+              className="d-block mx-auto 
+              "
               src="https://m.media-amazon.com/images/I/41NWfrMr-8L.jpg"
               alt="Second slide"
               height={400}
@@ -59,7 +61,8 @@ export default function Home() {
           </Carousel.Item>
           <Carousel.Item>
             <img
-              className="some code here to center"
+              className="d-block mx-auto 
+              "
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaDc-SATHfce_moGUnpk5307NBUdAxfkuyanuuDyy0zTCEjIoeerVdgSv9oUmMzeB2TpI&usqp=CAU"
               alt="Third slide"
               height={400}
