@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { getMyOrders } from "../axios-services/orders";
-import { OrdersContext } from "../CreateContext";
+import { CartContext } from "../CreateContext";
 import useAuth from "../hooks/useAuth";
 
 // Will this change to the CartProvider???
-export default function OrdersProvider({ children }) {
-  const [orders, setOrders] = useState([]);
+export default function CartProvider({ children }) {
+  const [cart, setCart] = useState([]);
   const { user } = useAuth([]);
 
   // useEffect(() => {
@@ -21,8 +20,8 @@ export default function OrdersProvider({ children }) {
   // }, [user]);
 
   return (
-    <OrdersContext.Provider value={{ orders, setOrders }}>
+    <CartContext.Provider value={{ cart, setCart }}>
       {children}
-    </OrdersContext.Provider>
+    </CartContext.Provider>
   );
 }
