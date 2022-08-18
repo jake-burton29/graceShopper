@@ -4,8 +4,10 @@ const { JWT_SECRET } = process.env;
 const requireUser = (req, res, next) => {
   try {
     const token = req.signedCookies.token;
-    const isValid = jwt.verify(token, JWT_SECRET);
-    if (isValid) {
+    const user = jwt.verify(token, JWT_SECRET);
+    delete user.password;
+    req.user = user;
+    if (user) {
       next();
     }
   } catch (error) {
@@ -18,9 +20,8 @@ const requireUser = (req, res, next) => {
 };
 
 const requireAdmin = (req, res, next) => {
-  const token = req.signedCookies.token;
   try {
-    const user = jwt.verify(token, JWT_SECRET);
+    const user = req.user;
     if (!user.isAdmin) {
       throw error;
     }

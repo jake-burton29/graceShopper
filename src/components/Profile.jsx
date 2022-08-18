@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { getMyOrders } from "../axios-services/orders";
 import useAuth from "../hooks/useAuth";
 import { Button } from "react-bootstrap";
 import axios from "axios";
@@ -11,6 +12,15 @@ export default function Profile() {
   const [image_url, setImage_url] = useState("");
   const [inventory, setInventory] = useState("");
   const [categoryId, setCategoryId] = useState("");
+  const [myOrders, setMyOrders] = useState([]);
+
+  useEffect(() => {
+    const getUsersOrders = async () => {
+      const orders = await getMyOrders();
+      setMyOrders(orders);
+    };
+    getUsersOrders();
+  }, [user]);
 
   return (
     <div id="profile">
@@ -24,7 +34,7 @@ export default function Profile() {
 
       <div id="myOrders">
         <h3>My Orders:</h3>
-        {user?.orders?.map((order) => {
+        {myOrders?.map((order) => {
           return (
             <div key={order.id}>
               <h4>Order #{order.id}</h4>

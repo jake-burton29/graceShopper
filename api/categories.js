@@ -1,8 +1,8 @@
 const categoriesRouter = require("express").Router();
 const prisma = require("../db/prisma");
-const { requireAdmin } = require("./utils");
+const { requireAdmin, requireUser } = require("./utils");
 
-// getCategories
+// GET from /api/categories
 categoriesRouter.get("/", async (req, res, next) => {
   try {
     const getAllCategories = await prisma.categories.findMany();
@@ -11,7 +11,7 @@ categoriesRouter.get("/", async (req, res, next) => {
     next(error);
   }
 });
-// getCategoriesId
+// GET from api/categories/:id
 categoriesRouter.get("/:id", async (req, res, next) => {
   try {
     const categoryId = +req.params.id;
@@ -24,46 +24,61 @@ categoriesRouter.get("/:id", async (req, res, next) => {
   }
 });
 
-// POST /categories - admin
-categoriesRouter.post("/", requireAdmin, async (req, res, next) => {
-  try {
-    const { name, description } = req.body;
-    const createCategory = await prisma.categories.create({
-      data: { name, description },
-    });
-    res.send(createCategory);
-  } catch (error) {
-    next(error);
+// POST to /api/categories - admin
+categoriesRouter.post(
+  "/",
+  requireUser,
+  requireAdmin,
+  async (req, res, next) => {
+    try {
+      const { name, description } = req.body;
+      const createCategory = await prisma.categories.create({
+        data: { name, description },
+      });
+      res.send(createCategory);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 // PATCH /categories/:categoryId - admin
-categoriesRouter.patch("/:id", requireAdmin, async (req, res, next) => {
-  try {
-    const categoryId = +req.params.id;
-    const { name, description, id } = req.body; // id could be wrong will fix DONT FORGFET
-    const editCategory = await prisma.categories.update({
-      where: { id: categoryId },
-      data: { name, description, id },
-    });
-    res.send(editCategory);
-  } catch (error) {
-    next(error);
+categoriesRouter.patch(
+  "/:id",
+  requireUser,
+  requireAdmin,
+  async (req, res, next) => {
+    try {
+      const categoryId = +req.params.id;
+      const { name, description, id } = req.body; // id could be wrong will fix DONT FORGFET
+      const editCategory = await prisma.categories.update({
+        where: { id: categoryId },
+        data: { name, description, id },
+      });
+      res.send(editCategory);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 //  DELETE /categories/:categoryId - admin
-categoriesRouter.delete("/:id", requireAdmin, async (req, res, next) => {
-  try {
-    const categoryId = +req.params.id;
+categoriesRouter.delete(
+  "/:id",
+  requireUser,
+  requireAdmin,
+  async (req, res, next) => {
+    try {
+      const categoryId = +req.params.id;
 
-    const deleteCategory = await prisma.categories.delete({
-      where: { id: categoryId },
-    });
-    res.send(deleteCategory);
-  } catch (error) {
-    next(error);
+      const deleteCategory = await prisma.categories.delete({
+        where: { id: categoryId },
+      });
+      res.send(deleteCategory);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 module.exports = categoriesRouter;
