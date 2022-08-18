@@ -32,24 +32,26 @@ export default function Home() {
         <Carousel variant="dark">
           <Carousel.Item>
             <img
-              className="some code here to center"
-              src="https://c1.neweggimages.com/ProductImage/83-227-920-V01.jpg"
+              className="d-block mx-auto "
+              style={{ marginBottom: 140 }}
+              src="https://powergpu.com/wp-content/uploads/2022/08/R2S-8_1_22.png"
               alt="First slide"
               height={400}
             />
-            <Carousel.Caption>
-              <h3>Epic Starter Pc You NEED</h3>
+            <Carousel.Caption className="bgC">
+              <h3>Godly Starter Streaming PC's </h3>
               <p>For real.. for on sale for only 9,000$</p>
             </Carousel.Caption>
           </Carousel.Item>
           <Carousel.Item>
             <img
-              className="some code here to center"
-              src="https://m.media-amazon.com/images/I/41NWfrMr-8L.jpg"
+              className="d-block mx-auto "
+              style={{ marginBottom: 140 }}
+              src="https://pbblogassets.s3.amazonaws.com/uploads/2021/03/10120514/Aukey-FHD-Webcam-1-1.jpg"
               alt="Second slide"
               height={400}
             />
-            <Carousel.Caption>
+            <Carousel.Caption className="bgC">
               <h3>Why wont these images center??</h3>
               <p>
                 We just need some bottom padding, greyed out sides, a caption,
@@ -59,16 +61,17 @@ export default function Home() {
           </Carousel.Item>
           <Carousel.Item>
             <img
-              className="some code here to center"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaDc-SATHfce_moGUnpk5307NBUdAxfkuyanuuDyy0zTCEjIoeerVdgSv9oUmMzeB2TpI&usqp=CAU"
+              className="d-block mx-auto "
+              style={{ marginBottom: 140 }}
+              src="https://cf.shopee.vn/file/42fc1becec993341881a3820b25e8ec3"
               alt="Third slide"
               height={400}
             />
-            <Carousel.Caption>
-              <h3>Damn Ramses</h3>
+            <Carousel.Caption className="bgC">
+              <h3>Custom Keyboards</h3>
               <p>
-                Some these images low quality fr fr. It called dummy data not
-                supposed to BE dummy data
+                We sell some of the most popular custom keybaords, shipping
+                world wide with 10% sale with the purchase of two items or more!
               </p>
             </Carousel.Caption>
           </Carousel.Item>
@@ -97,22 +100,23 @@ export default function Home() {
           );
         })}
       </div>
-
-      {displayProducts
-        ? displayProducts.map((product) => {
-            return (
-              <div key={product.id}>
-                <ProductsCard product={product} />
-              </div>
-            );
-          })
-        : products.map((product) => {
-            return (
-              <div key={product.id}>
-                <ProductsCard product={product} />
-              </div>
-            );
-          })}
+      <div className="wrapcards">
+        {displayProducts
+          ? displayProducts.map((product) => {
+              return (
+                <div key={product.id}>
+                  <ProductsCard product={product} />
+                </div>
+              );
+            })
+          : products.map((product) => {
+              return (
+                <div key={product.id}>
+                  <ProductsCard product={product} />
+                </div>
+              );
+            })}
+      </div>
     </>
   );
 }
