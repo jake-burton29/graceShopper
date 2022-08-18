@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { Card, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import useProducts from "../hooks/useProducts";
+import useCart from "../hooks/useCart"
 
 export default function ProductsCard({ product }) {
   const navigate = useNavigate();
-
+  const {cart, setCart} = useCart();
   const { setTargetProduct } = useProducts();
 
   return (
@@ -27,14 +28,14 @@ export default function ProductsCard({ product }) {
               navigate(`/products/${product.id}`);
             }}
           />
-          <Card.Text>
-            <p>Price: ${product.price}.00</p>
-            <p>In Stock: {product.inventory} remaining</p>
-            <p>Description: {product.description}</p>
-          </Card.Text>
+          <Card.Text>Price: ${product.price}.00</Card.Text>
+          <Card.Text>In Stock: {product.inventory} remaining.</Card.Text>
+          <Card.Text>Description: {product.description}</Card.Text>
+
           <Button
-            onClick={() => {
+            onClick={async () => {
               //some func to add to cart
+              if ()
             }}
           >
             Add to Cart!
