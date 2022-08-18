@@ -4,6 +4,8 @@ import useAuth from "../hooks/useAuth";
 import { logout } from "../axios-services/users";
 import { Navbar, Nav, Container } from "react-bootstrap";
 
+// use Link or NavLink from react-router-dom
+
 export default function NavBar() {
   const { user, setUser } = useAuth();
 
@@ -13,9 +15,9 @@ export default function NavBar() {
         <Container>
           <Navbar.Brand href="/">Home</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="/cart">Cart</Nav.Link>
+            <Nav.Link href="/cart">🛒Cart</Nav.Link>
             {user ? (
-              <Nav.Link href="/profile"> {user.username}Profile</Nav.Link>
+              <Nav.Link href="/profile">👤{user.username}</Nav.Link>
             ) : null}
             {user ? (
               <Nav.Link

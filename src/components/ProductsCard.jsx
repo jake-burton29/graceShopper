@@ -10,17 +10,23 @@ export default function ProductsCard({ product }) {
 
   return (
     <div>
-      <Card
-        className="flex-row"
-        style={{ width: "20rem" }}
-        onClick={() => {
-          setTargetProduct(product);
-          navigate(`/products/${product.id}`);
-        }}
-      >
+      <Card className="flex-row" style={{ width: "20rem" }}>
         <Card.Body>
-          <Card.Title>Product: {product.name}</Card.Title>
-          <Card.Img src={product.image_url} />
+          <Card.Title
+            onClick={() => {
+              setTargetProduct(product);
+              navigate(`/products/${product.id}`);
+            }}
+          >
+            Product: {product.name}
+          </Card.Title>
+          <Card.Img
+            src={product.image_url}
+            onClick={() => {
+              setTargetProduct(product);
+              navigate(`/products/${product.id}`);
+            }}
+          />
           <Card.Text>
             <p>Price: ${product.price}.00</p>
             <p>In Stock: {product.inventory} remaining</p>

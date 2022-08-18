@@ -1,12 +1,9 @@
-const client = require("./client");
 const prisma = require("./prisma");
 const bcrypt = require("bcrypt");
 const SALT_ROUNDS = 10;
 
 async function buildTables() {
   try {
-    client.connect();
-
     // drop tables in correct order
     await prisma.$executeRaw`
     DROP TABLE IF EXISTS product_orders;`;
@@ -142,6 +139,19 @@ async function populateInitialData() {
 
     await prisma.products.create({
       data: {
+        name: "POWERFULL COMPUTER FOR STREAMING",
+        price: 1500.0,
+        description:
+          "powerful computer for streaming, has RTX 9800, with 3teribite ssd, 32gb ram, intel 9K ",
+        inventory: 40,
+        image_url:
+          "https://powergpu.com/wp-content/uploads/2022/08/R2S-8_1_22.png",
+        categoryId: 1,
+      },
+    });
+
+    await prisma.products.create({
+      data: {
         name: "Starter Gaming Pc",
         price: 400.0,
         description: "Starter PC with ryzen 3, GT710, 4GB ram, 100gb storage",
@@ -166,6 +176,19 @@ async function populateInitialData() {
 
     await prisma.products.create({
       data: {
+        name: "Mechanical Custom Keyboard",
+        price: 80.0,
+        description:
+          "Keyboard with blue switches. It's a speedy keyboard, will make you type faster",
+        inventory: 5,
+        image_url:
+          "https://pyxis.nymag.com/v1/imgs/faf/728/ae5fc02320e279393dd0545c5ecd5f356a.jpg",
+        categoryId: 3,
+      },
+    });
+
+    await prisma.products.create({
+      data: {
         name: "Gaming Mouse",
         price: 40.0,
         description: "Obtain better aim with this mouse",
@@ -177,12 +200,60 @@ async function populateInitialData() {
 
     await prisma.products.create({
       data: {
+        name: "Xm1r Gaming Mouse",
+        price: 60.0,
+        description: "Best sensor in the world",
+        inventory: 75,
+        image_url:
+          "https://cdn.shopify.com/s/files/1/0427/7911/5669/products/Endgame-Gear-XM1r-Black_0004_500x.png?v=1630020770",
+        categoryId: 2,
+      },
+    });
+
+    await prisma.products.create({
+      data: {
+        name: "Small Internet browsing mouse",
+        price: 30.0,
+        description: "Good mouse for Internet browsing",
+        inventory: 30,
+        image_url:
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7fLTdTmsDaN9Tmjzjd05jNR-oilTAwGRPcg&usqp=CAU",
+        categoryId: 2,
+      },
+    });
+
+    await prisma.products.create({
+      data: {
         name: "Streaming Webcam",
         price: 150.0,
         description: "4k 60 fps streaming webcam",
         inventory: 40,
         image_url:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaDc-SATHfce_moGUnpk5307NBUdAxfkuyanuuDyy0zTCEjIoeerVdgSv9oUmMzeB2TpI&usqp=CAU",
+          "https://pbblogassets.s3.amazonaws.com/uploads/2021/03/10120514/Aukey-FHD-Webcam-1-1.jpg",
+        categoryId: 4,
+      },
+    });
+
+    await prisma.products.create({
+      data: {
+        name: "4k Super Zoom Webcam",
+        price: 190.0,
+        description: "4k 144fps streaming webcam for any streaming service",
+        inventory: 101,
+        image_url:
+          "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c07899214.png",
+        categoryId: 4,
+      },
+    });
+
+    await prisma.products.create({
+      data: {
+        name: "elgato super facecam",
+        price: 250.0,
+        description: "Super high resolution camera with built in microphone",
+        inventory: 101,
+        image_url:
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVt11C0cSBmI8x687ofEnj5SFgl9ogyw5Jfub89XhX30Dc5zITyyjl5WulWWX6BfJyIpI&usqp=CAU",
         categoryId: 4,
       },
     });
@@ -226,4 +297,4 @@ async function populateInitialData() {
 buildTables()
   .then(populateInitialData)
   .catch(console.error)
-  .finally(() => client.end());
+  .finally(() => console.log("seeded!"));

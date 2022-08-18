@@ -3,10 +3,11 @@ const prisma = require("../db/prisma");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { requireUser, requireAdmin } = require("./utils");
+const { product_orders } = require("../db/prisma");
 const { JWT_SECRET } = process.env;
 const SALT_ROUNDS = 10;
 
-// getAllUsers()  requireAdmin
+// GET from /api/users - admin
 usersRouter.get("/", requireAdmin, async (req, res, next) => {
   try {
     const users = await prisma.users.findMany({ include: { orders: true } });
@@ -18,42 +19,46 @@ usersRouter.get("/", requireAdmin, async (req, res, next) => {
 
 //GET from /me
 usersRouter.get("/me", requireUser, async (req, res, next) => {
-  console.log("What is happening?");
   try {
-    const token = req.signedCookies.token;
-    const user = jwt.verify(token, JWT_SECRET);
-    delete user.password;
+    const user = req.user;
+
     res.send(user);
   } catch (error) {
     next(error);
   }
 });
 
-//GET from /:username
+//GET from api/users/:username
 usersRouter.get("/:username", requireUser, async (req, res, next) => {
   try {
     const username = req.params.username;
-    const user = await prisma.users.findUnique({
-      where: { username },
-      include: { orders: true },
-    });
-    res.send(user);
+    if (req.user.username !== username) {
+      throw error;
+    } else {
+      const user = await prisma.users.findUnique({
+        where: { username },
+        include: {
+          orders: true,
+        },
+      });
+      res.send(user);
+    }
   } catch (error) {
     next(error);
   }
 });
 
-//POST to /register
+//POST to /api/users/register
 usersRouter.post("/register", async (req, res, next) => {
   try {
-    const { username, password, email, isAdmin } = req.body;
+    // removed admin with creating a user
+    const { username, password, email } = req.body;
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
     const newUser = await prisma.users.create({
       data: {
         username,
         password: hashedPassword,
         email,
-        isAdmin,
       },
     });
     const token = jwt.sign(newUser, JWT_SECRET);
@@ -69,14 +74,16 @@ usersRouter.post("/register", async (req, res, next) => {
   }
 });
 
-//POST to /login
+//POST to /api/users/login
 usersRouter.post("/login", async (req, res, next) => {
   try {
     const { username, password } = req.body;
 
     const user = await prisma.users.findUnique({
       where: { username },
-      include: { orders: true },
+      include: {
+        orders: true,
+      },
     });
     const validPassword = await bcrypt.compare(password, user.password);
 
@@ -96,21 +103,22 @@ usersRouter.post("/login", async (req, res, next) => {
   }
 });
 
-//PATCH to /:username
+//PATCH to /api/users/:username
 usersRouter.patch("/:username", requireUser, async (req, res, next) => {
   try {
     const username = req.params.username;
-    const { newUsername, password, email, isAdmin } = req.body;
+    const { newUsername, password, email } = req.body;
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
     const editedUser = await prisma.users.update({
       data: {
         username: newUsername,
         password: hashedPassword,
         email,
-        isAdmin,
       },
       where: { username },
-      include: { orders: true },
+      include: {
+        orders: true,
+      },
     });
     res.send(editedUser);
   } catch (error) {
@@ -118,7 +126,7 @@ usersRouter.patch("/:username", requireUser, async (req, res, next) => {
   }
 });
 
-//deleteUser      adminRequired
+//DELETE /api/users/:username - adminRequired
 usersRouter.delete("/:username", requireAdmin, async (req, res, next) => {
   try {
     const username = req.params.username;
@@ -131,7 +139,7 @@ usersRouter.delete("/:username", requireAdmin, async (req, res, next) => {
   }
 });
 
-// Log Out
+// POST to /api/users/logout
 usersRouter.post("/logout", async (req, res, next) => {
   try {
     res.clearCookie("token", {
@@ -143,18 +151,6 @@ usersRouter.post("/logout", async (req, res, next) => {
       loggedIn: false,
       message: "Logged Out",
     });
-  } catch (error) {
-    next(error);
-  }
-});
-
-//GET from /me
-usersRouter.get("/me", requireUser, async (req, res, next) => {
-  try {
-    const token = req.signedCookies.token;
-    const user = jwt.verify(token, JWT_SECRET);
-    console.log(user);
-    res.send(user);
   } catch (error) {
     next(error);
   }

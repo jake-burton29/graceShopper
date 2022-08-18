@@ -1,18 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Button } from "react-bootstrap";
-import useProducts from "../hooks/useProducts";
+import { useParams } from "react-router-dom";
+import { getProductById } from "../axios-services/products";
 
 export default function SingleProduct() {
-  const { targetProduct } = useProducts();
+  const [singleProduct, setSingleProduct] = useState({});
+  const { id } = useParams();
+
+  useEffect(() => {
+    const getSingleProduct = async (id) => {
+      const product = await getProductById(id);
+      setSingleProduct(product);
+    };
+    getSingleProduct(id);
+  }, []);
 
   return (
     <div>
       <Card>
-        <Card.Title>Product: {targetProduct.name}</Card.Title>
-        <Card.Img src={targetProduct.image_url} className="w-50 p-3" />
-        <Card.Body>Price: {targetProduct.price}</Card.Body>
-        <Card.Text>In Stock: {targetProduct.inventory}</Card.Text>
-        <Card.Text>Description: {targetProduct.description}</Card.Text>
+        <Card.Title>Product: {singleProduct.name}</Card.Title>
+        <Card.Img src={singleProduct.image_url} className="w-50 p-3" />
+        <Card.Body>Price: {singleProduct.price}</Card.Body>
+        <Card.Text>In Stock: {singleProduct.inventory}</Card.Text>
+        <Card.Text>Description: {singleProduct.description}</Card.Text>
         <Button
           onClick={() => {
             //some func to add to cart
