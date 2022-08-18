@@ -45,10 +45,10 @@ ordersRouter.get("/:orderId", requireUser, async (req, res, next) => {
 //POST  /orders
 ordersRouter.post("/", async (req, res, next) => {
   try {
-    const { total, shopperId } = req.body;
+    const { shopperId } = req.body;
     const order = await prisma.orders.create({
       data: {
-        total,
+        total: 0,
         shopperId,
       },
     });
