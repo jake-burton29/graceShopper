@@ -4,7 +4,7 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import CategoriesProvider from "./components/CategoriesProvider";
 import ProductsProvider from "./components/ProductsProvider";
-import OrdersProvider from "./components/OrdersProvider";
+import CartProvider from "./components/CartProvider";
 import AuthProvider from "./components/AuthProvider";
 // css stylesheets can be created for each component
 // place them in the src/style directory, and import them like this:
@@ -15,11 +15,11 @@ root.render(
   <AuthProvider>
     <CategoriesProvider>
       <ProductsProvider>
-        <OrdersProvider>
+        <CartProvider>
           <BrowserRouter>
             <App />
           </BrowserRouter>
-        </OrdersProvider>
+        </CartProvider>
       </ProductsProvider>
     </CategoriesProvider>
   </AuthProvider>

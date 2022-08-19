@@ -13,26 +13,24 @@ export default function NavBar() {
     <div>
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="/">Home</Navbar.Brand>
+          <Link to="/">Home</Link>
           <Nav className="me-auto">
-            <Nav.Link href="/cart">🛒Cart</Nav.Link>
+            <Link to="/cart">🛒Cart</Link>
+            {user ? <Link to="/profile">👤{user.username}</Link> : null}
             {user ? (
-              <Nav.Link href="/profile">👤{user.username}</Nav.Link>
-            ) : null}
-            {user ? (
-              <Nav.Link
-                href="/login"
+              <Link
+                to="/login"
                 onClick={async () => {
                   logout();
                   setUser(null);
                 }}
               >
                 Logout
-              </Nav.Link>
+              </Link>
             ) : (
-              <Nav.Link href="/login">Login</Nav.Link>
+              <Link to="/login">Login</Link>
             )}
-            <Nav.Link href="/register">Register</Nav.Link>
+            <Link to="/register">Register</Link>
           </Nav>
         </Container>
       </Navbar>
