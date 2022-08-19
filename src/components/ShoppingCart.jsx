@@ -7,7 +7,7 @@ import { render } from "react-dom";
 export default function ShoppingCart() {
   const { cart, setCart } = useCart();
   const { user } = useAuth();
-  async function addToCart(productId) {
+  async function incrementQuantity(productId) {
     let productOrderIndex = -1;
     if (user) {
       productOrderIndex = cart.product_orders?.findIndex(
@@ -28,6 +28,27 @@ export default function ShoppingCart() {
     }
   }
 
+  async function decrementQuantity(productId) {
+    let productOrderIndex = -1;
+    if (user) {
+      productOrderIndex = cart.product_orders?.findIndex(
+        (product_order) => product_order.productId === productId
+      );
+      await editProductOrder(
+        cart.product_orders[productOrderIndex].quantity - 1,
+        cart.product_orders[productOrderIndex].id
+      );
+      const cartCopy = { ...cart };
+      cartCopy.product_orders[productOrderIndex].quantity -= 1;
+      setCart(cartCopy);
+    } else {
+      const cartCopy = { ...cart };
+      cartCopy[productId] -= 1;
+      setCart(cartCopy);
+      localStorage.setItem("guestCart", JSON.stringify(cart));
+    }
+  }
+
   return (
     <div>
       {cart.product_orders?.map((product_order) => {
@@ -38,10 +59,21 @@ export default function ShoppingCart() {
             <h3>Quantity: {product_order.quantity}</h3>
             <Button
               onClick={async () => {
-                addToCart(product_order.products.id);
+                if (product_order.quantity < product_order.products.inventory) {
+                  incrementQuantity(product_order.products.id);
+                }
               }}
             >
               +
+            </Button>
+            <Button
+              onClick={async () => {
+                if (product_order.quantity > 1) {
+                  decrementQuantity(product_order.products.id);
+                }
+              }}
+            >
+              -
             </Button>
           </div>
         );
