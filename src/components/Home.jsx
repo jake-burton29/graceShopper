@@ -34,7 +34,7 @@ export default function Home() {
             <img
               className="d-block mx-auto "
               style={{ marginBottom: 140 }}
-              src="https://powergpu.com/wp-content/uploads/2022/08/R2S-8_1_22.png"
+              src="https://res.cloudinary.com/dgnfm1iyp/image/upload/v1660935299/R2S-8_1_22_badiyy.png"
               alt="First slide"
               height={400}
             />
@@ -47,7 +47,7 @@ export default function Home() {
             <img
               className="d-block mx-auto "
               style={{ marginBottom: 140 }}
-              src="https://pbblogassets.s3.amazonaws.com/uploads/2021/03/10120514/Aukey-FHD-Webcam-1-1.jpg"
+              src="https://res.cloudinary.com/dgnfm1iyp/image/upload/v1660934931/6471870cv2d_wmoynh.jpg"
               alt="Second slide"
               height={400}
             />
@@ -63,7 +63,7 @@ export default function Home() {
             <img
               className="d-block mx-auto "
               style={{ marginBottom: 140 }}
-              src="https://cf.shopee.vn/file/42fc1becec993341881a3820b25e8ec3"
+              src="https://res.cloudinary.com/dgnfm1iyp/image/upload/v1660934718/PhoenixMain45-Edit-Edit_dlree6.jpg"
               alt="Third slide"
               height={400}
             />

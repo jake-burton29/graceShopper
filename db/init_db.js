@@ -126,63 +126,145 @@ async function populateInitialData() {
 
     await prisma.products.create({
       data: {
-        name: "Ibuypower Gaming PC",
+        name: "Cobratype Sonora Gaming Desktop PC",
         price: 900.0,
         description:
-          "Ibuypower Gaming PC RTX 3080 EDITION, RYZEN 5, 18GB RAM and RGB Fans 1TB storage",
+          "Ryzen 5800X, RTX 3070 Ti, 32GB DDR4, 1TB NVMe, AIO Liquid Cooler",
         inventory: 23,
         image_url:
-          "https://c1.neweggimages.com/ProductImage/83-227-920-V01.jpg",
+          "https://res.cloudinary.com/dgnfm1iyp/image/upload/v1660934946/83-360-194-17_a4zile.jpg",
         categoryId: 1,
       },
     });
 
     await prisma.products.create({
       data: {
-        name: "POWERFULL COMPUTER FOR STREAMING",
+        name: "iBuyPower SlateMR 246i",
         price: 1500.0,
         description:
-          "powerful computer for streaming, has RTX 9800, with 3teribite ssd, 32gb ram, intel 9K ",
-        inventory: 40,
+          "Intel Core i5-11400F 2.6GHz, AMD Radeon RX 6500XT 4GB, 8GB DDR4, 500GB NVMe, RGB Fans, WiFi Ready, Windows 11 Home",
+        inventory: 18,
         image_url:
-          "https://powergpu.com/wp-content/uploads/2022/08/R2S-8_1_22.png",
+          "https://res.cloudinary.com/dgnfm1iyp/image/upload/v1660934740/2O5A0656-HDR-Edit_cbn14y.jpg",
         categoryId: 1,
       },
     });
 
     await prisma.products.create({
       data: {
-        name: "Starter Gaming Pc",
+        name: "ABS Challenger Desktop Gaming PC",
         price: 400.0,
-        description: "Starter PC with ryzen 3, GT710, 4GB ram, 100gb storage",
-        inventory: 5,
+        description:
+          "AMD Ryzen 5 5600 - GeForce RTX 3050 - 8 GB DDR4 3000MHz - 512GB M.2 NVMe SSD",
+        inventory: 8,
         image_url:
-          "https://i.pinimg.com/236x/c9/13/e1/c913e12261b13873d99d030a72e78a2d--computer-projects-computer-engineering.jpg",
+          "https://res.cloudinary.com/dgnfm1iyp/image/upload/v1660935299/R2S-8_1_22_badiyy.png",
         categoryId: 1,
       },
     });
 
     await prisma.products.create({
       data: {
-        name: "Mechanical Keyboard",
-        price: 80.0,
-        description: "Keyboard with red switches. It's a clicky keybaord",
-        inventory: 5,
+        name: "ABS Master Desktop Gaming PC",
+        price: 400.0,
+        description:
+          "Intel i7 10700F - GeForce RTX 2060 - 16GB RGB DDR4 3000MHz - 512GB M.2 NVMe SSD - ASUS TUF Gaming GT301",
+        inventory: 12,
         image_url:
-          "https://m.media-amazon.com/images/I/71jAUlz7KPL._AC_SY450_.jpg",
+          "https://res.cloudinary.com/dgnfm1iyp/image/upload/v1660934931/6471870cv2d_wmoynh.jpg",
+        categoryId: 1,
+      },
+    });
+
+    await prisma.products.create({
+      data: {
+        name: "Yeyian Katana PC",
+        price: 1200.0,
+        description:
+          "Ryzen 5 5000 Series 5600X (3.70GHz) 16GB DDR4 1 TB NVMe SSD NVIDIA GeForce RTX 3070 Windows 10 Home 64-bit",
+        inventory: 24,
+        image_url:
+          "https://res.cloudinary.com/dgnfm1iyp/image/upload/v1660934888/83-360-300-01_sswzqz.jpg",
+        categoryId: 1,
+      },
+    });
+
+    await prisma.products.create({
+      data: {
+        name: "ABS Legend Gaming PC",
+        price: 4500.0,
+        description:
+          "Intel i9 11900KF - GeForce RTX 3080 Ti - Corsair Vengeance RGB Pro 32GB (2x16GB) DDR4 3200MHz - 2TB Intel M.2 NVMe SSD - Corsair iCue 5000X White Gaming Case",
+        inventory: 3,
+        image_url:
+          "https://res.cloudinary.com/dgnfm1iyp/image/upload/v1660934718/PhoenixMain45-Edit-Edit_dlree6.jpg",
+        categoryId: 1,
+      },
+    });
+
+    await prisma.products.create({
+      data: {
+        name: "IPASON Gaming Desktop",
+        price: 900.0,
+        description:
+          "AMD A8 7680 (4 Core up to 3.8GHz) - Radeon R7 - 240GB SSD - 8GB 1600MHz - Windows 10 home - Office Computer - Gaming PC",
+        inventory: 16,
+        image_url:
+          "https://res.cloudinary.com/dgnfm1iyp/image/upload/v1660934715/Apollo-Black-RGB-Main45-1_rxfckm.jpg",
+        categoryId: 1,
+      },
+    });
+
+    await prisma.products.create({
+      data: {
+        name: "MSI Gaming Desktop MEG Trident",
+        price: 1600.0,
+        description:
+          "i7 12th Gen 12700K (3.60GHz) 16GB DDR5 2 TB PCIe SSD NVIDIA GeForce RTX 3080 Ti Windows 11 Home 64-bit",
+        inventory: 7,
+        image_url:
+          "https://res.cloudinary.com/dgnfm1iyp/image/upload/v1660934713/2O5A1015-HDR-Edit_ycbnfz.jpg",
+        categoryId: 1,
+      },
+    });
+
+    // Keyboards
+
+    await prisma.products.create({
+      data: {
+        name: "Dragon Tech Keyboard",
+        price: 80.0,
+        description:
+          "Wired Gamer Mechanical Keyboard with Aluminum Housing - MX Brown Switches (Slight Clicky) for Gaming and Office - Customizable RGB Backlighting - Full Size - white/blue",
+        inventory: 17,
+        image_url:
+          "https://res.cloudinary.com/dgnfm1iyp/image/upload/v1660936983/61hdRFcTkzL._AC_SL1080__njapi5.jpg",
         categoryId: 3,
       },
     });
 
     await prisma.products.create({
       data: {
-        name: "Mechanical Custom Keyboard",
-        price: 80.0,
+        name: "Cherry MX Board",
+        price: 120.0,
         description:
-          "Keyboard with blue switches. It's a speedy keyboard, will make you type faster",
-        inventory: 5,
+          "Mechanical Gaming Keyboard - 61 Keys Multi Color RGB Illuminated LED Backlit Wired Programmable for PC/Mac Gamer (Gateron Optical Yellow, Black)",
+        inventory: 28,
         image_url:
-          "https://pyxis.nymag.com/v1/imgs/faf/728/ae5fc02320e279393dd0545c5ecd5f356a.jpg",
+          "https://res.cloudinary.com/dgnfm1iyp/image/upload/v1660937030/keyboard-alienware-aw510k-campaign-hero-504x350-ng_o4fuom.jpg",
+        categoryId: 3,
+      },
+    });
+
+    await prisma.products.create({
+      data: {
+        name: "Fiodio 61 Key Gaming Keyoard",
+        price: 70.0,
+        description:
+          "RGB Wireless and Wired Mechanical Gaming Keyboard with Blue Switches, Audible Click Sound Rainbow Portable Compact Mini Office Keyboard for Windows PC Gaming, (F-SG61)",
+        inventory: 25,
+        image_url:
+          "https://res.cloudinary.com/dgnfm1iyp/image/upload/v1660936902/01f4a5e7-b4d0-4d81-bc51-925a1b10c229.1997e6ff2161987e2fe2d194f9b24f7c_ogns44.jpg",
         categoryId: 3,
       },
     });
