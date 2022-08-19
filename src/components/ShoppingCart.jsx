@@ -2,7 +2,10 @@ import React from "react";
 import useAuth from "../hooks/useAuth";
 import useCart from "../hooks/useCart";
 import { Button } from "react-bootstrap";
-import { editProductOrder } from "../axios-services/product_orders";
+import {
+  editProductOrder,
+  deleteProductOrder,
+} from "../axios-services/product_orders";
 export default function ShoppingCart() {
   const { cart, setCart } = useCart();
   const { user } = useAuth();
@@ -48,17 +51,55 @@ export default function ShoppingCart() {
     }
   }
 
+  async function removeFromCart(productOrderId, productId) {
+    if (user) {
+      const cartCopy = { ...cart };
+      console.log(`cart before deleting ${productOrderId}:`, cartCopy);
+      const deletedProductOrder = await deleteProductOrder(productOrderId);
+      console.log("deleted:", deletedProductOrder);
+      cartCopy.product_orders = cartCopy.product_orders.filter(
+        (product_order) => product_order.id !== productOrderId
+      );
+      console.log(`removed ${productOrderId} from cart`);
+      console.log(`cart without ${productOrderId} :`, cartCopy);
+      setCart(cartCopy);
+    } else {
+      console.log("no user found");
+      // const cartCopy = { ...cart };
+      // delete cartCopy[productId];
+      // setCart(cartCopy);
+    }
+  }
+
+  async function emptyCart() {
+    const cartCopy = { ...cart };
+    for (let i = 0; i < cartCopy.product_orders.length; i++) {
+      deleteProductOrder(cartCopy.product_orders[i].id);
+      cartCopy.product_orders.splice(i);
+    }
+    setCart(cartCopy);
+  }
+
   return (
     <div>
-      {user ? (
+      <Button
+        className="btn-danger"
+        onClick={async () => {
+          emptyCart();
+        }}
+      >
+        Empty Cart
+      </Button>
+      {user && cart.product_orders?.length > 0 ? (
         <div>
           {cart.product_orders?.map((product_order) => {
             return (
               <div key={product_order.id}>
-                <h3>Name: {product_order.products.name}</h3>
-                <h3>Price: {product_order.products.price}</h3>
+                <h3>Name: {product_order.products?.name}</h3>
+                <h3>Price: {product_order.products?.price}</h3>
                 <h3>Quantity: {product_order.quantity}</h3>
                 <Button
+                  className="btn-success"
                   onClick={async () => {
                     if (
                       product_order.quantity < product_order.products.inventory
@@ -70,6 +111,7 @@ export default function ShoppingCart() {
                   +
                 </Button>
                 <Button
+                  className="btn-danger"
                   onClick={async () => {
                     if (product_order.quantity > 1) {
                       decrementQuantity(product_order.products.id);
@@ -78,16 +120,24 @@ export default function ShoppingCart() {
                 >
                   -
                 </Button>
+                <Button
+                  onClick={async () => {
+                    removeFromCart(product_order.id);
+                  }}
+                >
+                  Remove Item
+                </Button>
               </div>
             );
           })}
         </div>
       ) : (
-        <div>
-          {Object.entries(cart).map((entry) => {
-            console.log("Key:", entry[0], "Value:", entry[1]);
-          })}
-        </div>
+        <div>There is nothing in your cart!</div>
+        // <div>
+        //   {Object.entries(cart).map((entry) => {
+        //     console.log("Key:", entry[0], "Value:", entry[1]);
+        //   })}
+        // </div>
       )}
     </div>
   );
