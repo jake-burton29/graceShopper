@@ -1,7 +1,53 @@
 import React from "react";
-
+import useAuth from "../hooks/useAuth";
+import useCart from "../hooks/useCart";
+import { Button } from "react-bootstrap";
+import { editProductOrder } from "../axios-services/product_orders";
+import { render } from "react-dom";
 export default function ShoppingCart() {
-  return <div>ShoppingCart</div>;
+  const { cart, setCart } = useCart();
+  const { user } = useAuth();
+  async function addToCart(productId) {
+    let productOrderIndex = -1;
+    if (user) {
+      productOrderIndex = cart.product_orders?.findIndex(
+        (product_order) => product_order.productId === productId
+      );
+      await editProductOrder(
+        cart.product_orders[productOrderIndex].quantity + 1,
+        cart.product_orders[productOrderIndex].id
+      );
+      const cartCopy = { ...cart };
+      cartCopy.product_orders[productOrderIndex].quantity += 1;
+      setCart(cartCopy);
+    } else {
+      const cartCopy = { ...cart };
+      cartCopy[productId] += 1;
+      setCart(cartCopy);
+      localStorage.setItem("guestCart", JSON.stringify(cart));
+    }
+  }
+
+  return (
+    <div>
+      {cart.product_orders?.map((product_order) => {
+        return (
+          <div key={product_order.id}>
+            <h3>Name: {product_order.products.name}</h3>
+            <h3>Price: {product_order.products.price}</h3>
+            <h3>Quantity: {product_order.quantity}</h3>
+            <Button
+              onClick={async () => {
+                addToCart(product_order.products.id);
+              }}
+            >
+              +
+            </Button>
+          </div>
+        );
+      })}
+    </div>
+  );
 }
 
 // to add to a cart, add a row to the through table
