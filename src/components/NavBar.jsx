@@ -11,14 +11,19 @@ export default function NavBar() {
 
   return (
     <div>
-      <Navbar bg="dark" variant="dark">
+      <Navbar bg="dark" variant="dark" className="size">
         <Container>
-          <Link to="/">Home</Link>
+          <Link to="/" className="navLinks">
+            Home
+          </Link>
           <Nav className="me-auto">
-            <Link to="/cart">🛒Cart</Link>
+            <Link to="/cart" className="navLinks">
+              🛒Cart
+            </Link>
             {user ? <Link to="/profile">👤{user.username}</Link> : null}
             {user ? (
               <Link
+                className="navLinks"
                 to="/login"
                 onClick={async () => {
                   logout();
@@ -28,9 +33,13 @@ export default function NavBar() {
                 Logout
               </Link>
             ) : (
-              <Link to="/login">Login</Link>
+              <Link to="/login" className="navLinks">
+                Login
+              </Link>
             )}
-            <Link to="/register">Register</Link>
+            <Link to="/register" className="navLinks">
+              Register
+            </Link>
           </Nav>
         </Container>
       </Navbar>
