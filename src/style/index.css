@@ -21,3 +21,16 @@ body {
   height: 100vh;
   width: 100vw;
 }
+
+.wrapcards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 80px;
+}
+div.card-body {
+  max-height: 700px;
+}
+.card {
+  height: 750px;
+}
