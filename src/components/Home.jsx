@@ -76,7 +76,7 @@ export default function Home() {
             </Carousel.Caption>
           </Carousel.Item>
         </Carousel>
-        <h3>Categories:</h3>
+        <h3 className="category">Categories:</h3>
         <Button
           className="btn-success"
           onClick={() => {
@@ -89,7 +89,7 @@ export default function Home() {
         {categories.map((category) => {
           return (
             <Button
-              className="btn-danger"
+              className="btn-dark"
               key={category.id}
               onClick={() => {
                 setCategoryId(category.id);

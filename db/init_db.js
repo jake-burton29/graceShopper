@@ -269,13 +269,17 @@ async function populateInitialData() {
       },
     });
 
+    // Mice
+
     await prisma.products.create({
       data: {
-        name: "Gaming Mouse",
+        name: "Logitech Speed XV3 ",
         price: 40.0,
-        description: "Obtain better aim with this mouse",
+        description:
+          "3k Ultra Sensor, Precison clicks for faster response times 12k DPI, Side Buttons",
         inventory: 9,
-        image_url: "https://m.media-amazon.com/images/I/41NWfrMr-8L.jpg",
+        image_url:
+          "https://res.cloudinary.com/dgnfm1iyp/image/upload/v1660938152/6409361_sd_it9s8m.jpg",
         categoryId: 2,
       },
     });
@@ -284,58 +288,63 @@ async function populateInitialData() {
       data: {
         name: "Xm1r Gaming Mouse",
         price: 60.0,
-        description: "Best sensor in the world",
+        description:
+          "PAW3370 Sensor - 50 to 19,000 CPI - Mouse for Gaming - 5 Buttons - Kailh GM 8.0 Switches - 80 M - Wired Computer Mouse",
         inventory: 75,
         image_url:
-          "https://cdn.shopify.com/s/files/1/0427/7911/5669/products/Endgame-Gear-XM1r-Black_0004_500x.png?v=1630020770",
+          "https://res.cloudinary.com/dgnfm1iyp/image/upload/v1660938384/GAMO-941-pdp_09_avfqcj.png",
         categoryId: 2,
       },
     });
 
     await prisma.products.create({
       data: {
-        name: "Small Internet browsing mouse",
+        name: "Xwolf Browser",
         price: 30.0,
-        description: "Good mouse for Internet browsing",
+        description:
+          "Xwolf Wireless Mouse X3000 G2 (28Y30AA, Black) up to 15-Month Battery,Scroll Wheel, Side Grips for Control, Travel-Friendly, Blue LED, Powerful 1600 DPI Optical Sensor, Win XP,8, 11 Compatible",
         inventory: 30,
         image_url:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7fLTdTmsDaN9Tmjzjd05jNR-oilTAwGRPcg&usqp=CAU",
+          "https://res.cloudinary.com/dgnfm1iyp/image/upload/v1660938473/G-wolves-Hati-Small-HTS-Transparent-Blue-Wireless-Gaming-Mouse-Addice-inc-13_2048x2048_u9q8ar.jpg",
         categoryId: 2,
       },
     });
 
     await prisma.products.create({
       data: {
-        name: "Streaming Webcam",
+        name: "EMEET C960 Web Camera",
         price: 150.0,
-        description: "4k 60 fps streaming webcam",
+        description:
+          "1080P Webcam with Microphone, EMEET C960 Web Camera, 2 Mics Streaming Webcam with Privacy Cover, For Calls/Conference, Zoom/Skype/YouTube, Laptop/Desktop",
         inventory: 40,
         image_url:
-          "https://pbblogassets.s3.amazonaws.com/uploads/2021/03/10120514/Aukey-FHD-Webcam-1-1.jpg",
+          "https://res.cloudinary.com/dgnfm1iyp/image/upload/v1660938849/w328_gjn9jj.png",
         categoryId: 4,
       },
     });
 
     await prisma.products.create({
       data: {
-        name: "4k Super Zoom Webcam",
+        name: "Logitech Brio",
         price: 190.0,
-        description: "4k 144fps streaming webcam for any streaming service",
+        description:
+          " Ultra 4K HD Video Calling, Noise-Canceling mic, HD Auto Light Correction, Wide Field of View, Works with Microsoft Teams, Zoom, Google Voice, PC/Mac/Laptop/Macbook/Tablet",
         inventory: 101,
         image_url:
-          "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c07899214.png",
+          "https://res.cloudinary.com/dgnfm1iyp/image/upload/v1660938744/61OQP2_yqML._AC_SL1500__nvez5e.jpg",
         categoryId: 4,
       },
     });
 
     await prisma.products.create({
       data: {
-        name: "elgato super facecam",
+        name: "Elgato Facecam",
         price: 250.0,
-        description: "Super high resolution camera with built in microphone",
+        description:
+          "Elgato Facecam - 1080p60 True Full HD Webcam for Live Streaming, Gaming, Video Calls, Sony Sensor, Advanced Light Correction, DSLR Style Control, works with OBS, Zoom, Teams, and more, for PC/Mac",
         inventory: 101,
         image_url:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVt11C0cSBmI8x687ofEnj5SFgl9ogyw5Jfub89XhX30Dc5zITyyjl5WulWWX6BfJyIpI&usqp=CAU",
+          "https://res.cloudinary.com/dgnfm1iyp/image/upload/v1660938797/17047759_800_yzc9ve.jpg",
         categoryId: 4,
       },
     });
