@@ -25,7 +25,7 @@ export default function ProductsCard({ product }) {
           cart.product_orders[productOrderIndex].quantity + 1,
           cart.product_orders[productOrderIndex].id
         );
-        const cartCopy = cart;
+        const cartCopy = { ...cart };
         cartCopy.product_orders[productOrderIndex].quantity += 1;
         setCart(cartCopy);
       }
@@ -47,7 +47,7 @@ export default function ProductsCard({ product }) {
           setCart({ ...cart, product_orders: [newProductOrder] });
         }
       } else if (cart[product.id]) {
-        const cartCopy = cart;
+        const cartCopy = { ...cart };
         cartCopy[product.id] += 1;
         setCart(cartCopy);
         localStorage.setItem("guestCart", JSON.stringify(cart));

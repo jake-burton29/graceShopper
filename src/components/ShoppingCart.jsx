@@ -51,33 +51,45 @@ export default function ShoppingCart() {
 
   return (
     <div>
-      {cart.product_orders?.map((product_order) => {
-        return (
-          <div key={product_order.id}>
-            <h3>Name: {product_order.products.name}</h3>
-            <h3>Price: {product_order.products.price}</h3>
-            <h3>Quantity: {product_order.quantity}</h3>
-            <Button
-              onClick={async () => {
-                if (product_order.quantity < product_order.products.inventory) {
-                  incrementQuantity(product_order.products.id);
-                }
-              }}
-            >
-              +
-            </Button>
-            <Button
-              onClick={async () => {
-                if (product_order.quantity > 1) {
-                  decrementQuantity(product_order.products.id);
-                }
-              }}
-            >
-              -
-            </Button>
-          </div>
-        );
-      })}
+      {user ? (
+        <div>
+          {cart.product_orders?.map((product_order) => {
+            return (
+              <div key={product_order.id}>
+                <h3>Name: {product_order.products.name}</h3>
+                <h3>Price: {product_order.products.price}</h3>
+                <h3>Quantity: {product_order.quantity}</h3>
+                <Button
+                  onClick={async () => {
+                    if (
+                      product_order.quantity < product_order.products.inventory
+                    ) {
+                      incrementQuantity(product_order.products.id);
+                    }
+                  }}
+                >
+                  +
+                </Button>
+                <Button
+                  onClick={async () => {
+                    if (product_order.quantity > 1) {
+                      decrementQuantity(product_order.products.id);
+                    }
+                  }}
+                >
+                  -
+                </Button>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div>
+          {Object.entries(cart).map((entry) => {
+            console.log("Key:", entry[0], "Value:", entry[1]);
+          })}
+        </div>
+      )}
     </div>
   );
 }
