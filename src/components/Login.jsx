@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { loginUser } from "../axios-services/users";
 import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
@@ -13,8 +13,19 @@ export default function Login() {
   const navigate = useNavigate();
 
   return (
-    <div>
-      <form
+    <div style={{ display: "flex", justifyContent: "center" }}>
+      <Form
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          height: 445,
+          width: 500,
+          boxShadow: "0 0 3px 2px #cec7c759",
+          padding: 20,
+          paddingTop: 20,
+          borderRadius: 20,
+          marginTop: 50,
+        }}
         onSubmit={async (e) => {
           e.preventDefault();
           const user = await loginUser(username, password);
@@ -26,23 +37,56 @@ export default function Login() {
           }
         }}
       >
-        <input
-          value={username}
-          placeholder="Username"
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          value={password}
-          placeholder="Password"
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Button variant="success" type="submit">
-          Login
+        <Form.Label style={{ fontWeight: "bold", fontSize: "larger" }}>
+          Log In:
+        </Form.Label>
+        <Form.Group className="mb-3" controlId="formBasicUsername">
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            value={username}
+            placeholder="Enter username"
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Label>Password</Form.Label>
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Control
+            value={password}
+            placeholder="Password"
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Check type="checkbox" label="Feeling lucky?" />
+        <Form.Text className="text-muted">or not..</Form.Text>
+        <Button
+          style={{ marginTop: 20, marginBottom: 5 }}
+          variant="dark"
+          type="submit"
+        >
+          Login!
         </Button>
-      </form>
-      {errorMessage ? <p>{errorMessage}</p> : null}
-      <Link to="/register">Not registered? Click here</Link>
+        <Button
+          style={{ marginBottom: 10 }}
+          variant="secondary"
+          type="submit"
+          size="sm"
+          disabled
+        >
+          Forgot Password?
+        </Button>
+        <Link to="/register">Not registered? Click here</Link>
+        {errorMessage ? (
+          <Form.Text
+            style={{
+              color: "red",
+              backgroundColor: "#FFD2D2",
+            }}
+          >
+            {errorMessage}
+          </Form.Text>
+        ) : null}
+      </Form>
     </div>
   );
 }
