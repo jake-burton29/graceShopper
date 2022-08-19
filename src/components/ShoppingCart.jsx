@@ -1,14 +1,18 @@
 import React from "react";
 import useAuth from "../hooks/useAuth";
 import useCart from "../hooks/useCart";
+import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import {
   editProductOrder,
   deleteProductOrder,
 } from "../axios-services/product_orders";
+
 export default function ShoppingCart() {
+  const navigate = useNavigate();
   const { cart, setCart } = useCart();
   const { user } = useAuth();
+
   async function incrementQuantity(productId) {
     let productOrderIndex = -1;
     if (user) {
@@ -54,17 +58,14 @@ export default function ShoppingCart() {
   async function removeFromCart(productOrderId, productId) {
     if (user) {
       const cartCopy = { ...cart };
-      console.log(`cart before deleting ${productOrderId}:`, cartCopy);
       const deletedProductOrder = await deleteProductOrder(productOrderId);
-      console.log("deleted:", deletedProductOrder);
       cartCopy.product_orders = cartCopy.product_orders.filter(
         (product_order) => product_order.id !== productOrderId
       );
-      console.log(`removed ${productOrderId} from cart`);
-      console.log(`cart without ${productOrderId} :`, cartCopy);
       setCart(cartCopy);
     } else {
       console.log("no user found");
+      // guest cart stuff?
       // const cartCopy = { ...cart };
       // delete cartCopy[productId];
       // setCart(cartCopy);
@@ -130,9 +131,18 @@ export default function ShoppingCart() {
               </div>
             );
           })}
+          <Button
+            className="btn-warning"
+            onClick={async () => {
+              navigate("/checkout");
+            }}
+          >
+            Check Out!
+          </Button>
         </div>
       ) : (
         <div>There is nothing in your cart!</div>
+        // guest cart stuff?
         // <div>
         //   {Object.entries(cart).map((entry) => {
         //     console.log("Key:", entry[0], "Value:", entry[1]);
