@@ -41,7 +41,7 @@ export default function ProductsCard({ product }) {
         if (cart.product_orders) {
           setCart({
             ...cart,
-            product_orders: [...product_orders, newProductOrder],
+            product_orders: [...cart.product_orders, newProductOrder],
           });
         } else {
           setCart({ ...cart, product_orders: [newProductOrder] });
