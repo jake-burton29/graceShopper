@@ -4,6 +4,10 @@ import { useParams } from "react-router-dom";
 import { getProductById } from "../axios-services/products";
 import useCart from "../hooks/useCart";
 import useAuth from "../hooks/useAuth";
+import {
+  editProductOrder,
+  createProductOrder,
+} from "../axios-services/product_orders";
 export default function SingleProduct() {
   const [product, setProduct] = useState({});
   const { id } = useParams();
@@ -23,7 +27,7 @@ export default function SingleProduct() {
           cart.product_orders[productOrderIndex].quantity + 1,
           cart.product_orders[productOrderIndex].id
         );
-        const cartCopy = cart;
+        const cartCopy = { ...cart };
         cartCopy.product_orders[productOrderIndex].quantity += 1;
         setCart(cartCopy);
       }
@@ -45,7 +49,7 @@ export default function SingleProduct() {
           setCart({ ...cart, product_orders: [newProductOrder] });
         }
       } else if (cart[product.id]) {
-        const cartCopy = cart;
+        const cartCopy = { ...cart };
         cartCopy[product.id] += 1;
         setCart(cartCopy);
         localStorage.setItem("guestCart", JSON.stringify(cart));

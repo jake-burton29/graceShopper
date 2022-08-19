@@ -3,7 +3,6 @@ import useAuth from "../hooks/useAuth";
 import useCart from "../hooks/useCart";
 import { Button } from "react-bootstrap";
 import { editProductOrder } from "../axios-services/product_orders";
-import { render } from "react-dom";
 export default function ShoppingCart() {
   const { cart, setCart } = useCart();
   const { user } = useAuth();
