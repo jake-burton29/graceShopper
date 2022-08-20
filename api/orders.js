@@ -77,7 +77,6 @@ ordersRouter.patch("/status/:orderId", requireUser, async (req, res, next) => {
     if (!complete) {
       next();
     }
-    console.log("PARAMS:", req.params.orderId);
     const id = +req.params.orderId;
     const order = await prisma.orders.findUnique({
       where: { id },
@@ -97,6 +96,40 @@ ordersRouter.patch("/status/:orderId", requireUser, async (req, res, next) => {
       data: {
         total,
         complete,
+      },
+      include: {
+        product_orders: { include: { products: true } },
+      },
+    });
+    res.send(updatedOrder);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//PATCH to /api/orders/status/:orderId (for setting order to complete, updating total)
+ordersRouter.patch("/guest/:orderId", async (req, res, next) => {
+  try {
+    const { complete } = req.body;
+    if (!complete) {
+      next();
+    }
+    const id = +req.params.orderId;
+    const order = await prisma.orders.findUnique({
+      where: { id },
+      include: {
+        product_orders: { include: { products: true } },
+      },
+    });
+    let total = 0;
+    order.product_orders?.forEach((product_order) => {
+      total += product_order.products.price * product_order.quantity;
+    });
+    const updatedOrder = await prisma.orders.update({
+      where: { id },
+      data: {
+        total,
+        complete: true,
       },
       include: {
         product_orders: { include: { products: true } },

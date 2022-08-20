@@ -27,24 +27,26 @@ export default function Profile() {
       <div id="myOrders">
         <h3>My Orders:</h3>
         {myOrders?.map((order) => {
-          return (
-            <div key={order.id}>
-              <h4>Order #{order.id}</h4>
-              <div>
-                {order?.product_orders &&
-                  order.product_orders.map((productOrder) => {
-                    return (
-                      <div key={productOrder.id}>
-                        <p>
-                          {productOrder.products.name} x{productOrder.quantity}
-                        </p>
-                      </div>
-                    );
-                  })}
+          if (order.complete)
+            return (
+              <div key={order.id}>
+                <h4>Order #{order.id}</h4>
+                <div>
+                  {order?.product_orders &&
+                    order.product_orders.map((productOrder) => {
+                      return (
+                        <div key={productOrder.id}>
+                          <p>
+                            {productOrder.products.name} x
+                            {productOrder.quantity}
+                          </p>
+                        </div>
+                      );
+                    })}
+                </div>
+                <p>Total: ${order.total}</p>
               </div>
-              <p>Total: ${order.total}</p>
-            </div>
-          );
+            );
         })}
       </div>
     </div>

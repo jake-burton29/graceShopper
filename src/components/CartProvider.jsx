@@ -31,7 +31,10 @@ export default function CartProvider({ children }) {
         setCart(guestCart);
         console.log("got cart from local storage!");
       } else {
-        localStorage.setItem("guestCart", JSON.stringify({}));
+        localStorage.setItem(
+          "guestCart",
+          JSON.stringify({ product_orders: [] })
+        );
         setCart({ product_orders: [] });
         console.log("created new cart in local storage!");
       }

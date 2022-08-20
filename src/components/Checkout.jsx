@@ -2,13 +2,18 @@ import React, { useState, useEffect } from "react";
 import useAuth from "../hooks/useAuth";
 import useCart from "../hooks/useCart";
 import { Button } from "react-bootstrap";
-import { completeOrder } from "../axios-services/orders";
+import {
+  completeOrder,
+  createOrder,
+  completeGuestOrder,
+} from "../axios-services/orders";
 import { useNavigate } from "react-router-dom";
+import { createProductOrder } from "../axios-services/product_orders";
 
 export default function Checkout() {
   const navigate = useNavigate();
   const { user, setUser } = useAuth();
-  const { cart } = useCart();
+  const { cart, setCart } = useCart();
   const [total, setTotal] = useState(0);
   const taxRate = 0.1;
   const [salesTax, setSalesTax] = useState(0);
@@ -35,14 +40,28 @@ export default function Checkout() {
 
   async function submitOrder() {
     if (user) {
-      const completedOrder = completeOrder(cart.id);
-      setUser({ ...user, orders: [...orders, completedOrder] });
-      // const newOrder = await createOrder(user.id);
-      // setCart(newOrder);
+      const completedOrder = await completeOrder(cart.id);
+      if (user.orders) {
+        setUser({ ...user, orders: [...user.orders, completedOrder] });
+      } else {
+        setUser({ ...user, orders: [completedOrder] });
+      }
       navigate("/");
-      console.log("user order submitted");
+      console.log("user order submitted: #", completedOrder.id);
     } else {
-      console.log("guest order submitted");
+      const newOrder = await createOrder();
+      cart.product_orders.forEach((product_order) => {
+        createProductOrder(
+          product_order.productId,
+          newOrder.id,
+          product_order.quantity
+        );
+      });
+      completeGuestOrder(newOrder.id);
+      localStorage.setItem("guestCart", JSON.stringify({ product_orders: [] }));
+      setCart({ product_orders: [] });
+      navigate("/");
+      console.log("guest order submitted: #", newOrder.id);
     }
   }
 
