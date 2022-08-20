@@ -60,3 +60,7 @@ body {
 .card-bod {
   margin: 30px;
 }
+
+.singleCard {
+  align-items: center;
+}
