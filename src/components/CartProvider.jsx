@@ -3,8 +3,8 @@ import { CartContext } from "../CreateContext";
 import useAuth from "../hooks/useAuth";
 import { getOrderById } from "../axios-services/orders";
 export default function CartProvider({ children }) {
-  const [cart, setCart] = useState([]);
-  const { user } = useAuth([]);
+  const [cart, setCart] = useState({});
+  const { user } = useAuth();
   console.log("CART:", cart);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function CartProvider({ children }) {
         console.log("got cart from local storage!");
       } else {
         localStorage.setItem("guestCart", JSON.stringify({}));
-        setCart({});
+        setCart({ product_orders: [] });
         console.log("created new cart in local storage!");
       }
     }

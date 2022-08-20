@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import useAuth from "../hooks/useAuth";
 import useCart from "../hooks/useCart";
 import { useNavigate } from "react-router-dom";
@@ -12,73 +12,77 @@ export default function ShoppingCart() {
   const navigate = useNavigate();
   const { cart, setCart } = useCart();
   const { user } = useAuth();
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    let sum = 0;
+    cart.product_orders?.forEach((product_order) => {
+      sum += product_order.products.price * product_order.quantity;
+    });
+    setTotal(sum);
+  }, [cart]);
 
   async function incrementQuantity(productId) {
     let productOrderIndex = -1;
+    productOrderIndex = cart.product_orders?.findIndex(
+      (product_order) => product_order.productId === productId
+    );
+    const cartCopy = { ...cart };
+    cartCopy.product_orders[productOrderIndex].quantity += 1;
+    setCart(cartCopy);
     if (user) {
-      productOrderIndex = cart.product_orders?.findIndex(
-        (product_order) => product_order.productId === productId
-      );
       await editProductOrder(
         cart.product_orders[productOrderIndex].quantity + 1,
         cart.product_orders[productOrderIndex].id
       );
-      const cartCopy = { ...cart };
-      cartCopy.product_orders[productOrderIndex].quantity += 1;
-      setCart(cartCopy);
     } else {
-      const cartCopy = { ...cart };
-      cartCopy[productId] += 1;
-      setCart(cartCopy);
-      localStorage.setItem("guestCart", JSON.stringify(cart));
+      localStorage.setItem("guestCart", JSON.stringify(cartCopy));
     }
   }
 
   async function decrementQuantity(productId) {
     let productOrderIndex = -1;
+    productOrderIndex = cart.product_orders?.findIndex(
+      (product_order) => product_order.productId === productId
+    );
+    const cartCopy = { ...cart };
+    cartCopy.product_orders[productOrderIndex].quantity -= 1;
+    setCart(cartCopy);
     if (user) {
-      productOrderIndex = cart.product_orders?.findIndex(
-        (product_order) => product_order.productId === productId
-      );
       await editProductOrder(
         cart.product_orders[productOrderIndex].quantity - 1,
         cart.product_orders[productOrderIndex].id
       );
-      const cartCopy = { ...cart };
-      cartCopy.product_orders[productOrderIndex].quantity -= 1;
-      setCart(cartCopy);
     } else {
-      const cartCopy = { ...cart };
-      cartCopy[productId] -= 1;
-      setCart(cartCopy);
-      localStorage.setItem("guestCart", JSON.stringify(cart));
+      localStorage.setItem("guestCart", JSON.stringify(cartCopy));
     }
   }
 
-  async function removeFromCart(productOrderId, productId) {
+  async function removeFromCart(productOrderId) {
+    const cartCopy = { ...cart };
+    cartCopy.product_orders = cartCopy.product_orders.filter(
+      (product_order) => product_order.id !== productOrderId
+    );
+    setCart(cartCopy);
     if (user) {
-      const cartCopy = { ...cart };
-      const deletedProductOrder = await deleteProductOrder(productOrderId);
-      cartCopy.product_orders = cartCopy.product_orders.filter(
-        (product_order) => product_order.id !== productOrderId
-      );
-      setCart(cartCopy);
+      await deleteProductOrder(productOrderId);
     } else {
-      console.log("no user found");
-      // guest cart stuff?
-      // const cartCopy = { ...cart };
-      // delete cartCopy[productId];
-      // setCart(cartCopy);
+      localStorage.setItem("guestCart", JSON.stringify(cartCopy));
     }
   }
 
   async function emptyCart() {
     const cartCopy = { ...cart };
     for (let i = 0; i < cartCopy.product_orders.length; i++) {
-      deleteProductOrder(cartCopy.product_orders[i].id);
+      if (user) {
+        deleteProductOrder(cartCopy.product_orders[i].id);
+      }
       cartCopy.product_orders.splice(i);
     }
     setCart(cartCopy);
+    if (!user) {
+      localStorage.setItem("guestCart", JSON.stringify(cartCopy));
+    }
   }
 
   return (
@@ -91,13 +95,13 @@ export default function ShoppingCart() {
       >
         Empty Cart
       </Button>
-      {user && cart.product_orders?.length > 0 ? (
+      {cart.product_orders?.length > 0 ? (
         <div>
           {cart.product_orders?.map((product_order) => {
             return (
-              <div key={product_order.id}>
+              <div key={product_order.productId}>
                 <h3>Name: {product_order.products?.name}</h3>
-                <h3>Price: {product_order.products?.price}</h3>
+                <h3>Price: ${product_order.products?.price}</h3>
                 <h3>Quantity: {product_order.quantity}</h3>
                 <Button
                   className="btn-success"
@@ -131,6 +135,7 @@ export default function ShoppingCart() {
               </div>
             );
           })}
+          <h3>Your Total: ${total}</h3>
           <Button
             className="btn-warning"
             onClick={async () => {
@@ -142,12 +147,6 @@ export default function ShoppingCart() {
         </div>
       ) : (
         <div>There is nothing in your cart!</div>
-        // guest cart stuff?
-        // <div>
-        //   {Object.entries(cart).map((entry) => {
-        //     console.log("Key:", entry[0], "Value:", entry[1]);
-        //   })}
-        // </div>
       )}
     </div>
   );
