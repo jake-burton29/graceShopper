@@ -1,7 +1,155 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import useAuth from "../hooks/useAuth";
+import useCart from "../hooks/useCart";
+import { useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
+import {
+  editProductOrder,
+  deleteProductOrder,
+} from "../axios-services/product_orders";
 
 export default function ShoppingCart() {
-  return <div>ShoppingCart</div>;
+  const navigate = useNavigate();
+  const { cart, setCart } = useCart();
+  const { user } = useAuth();
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    let sum = 0;
+    cart.product_orders?.forEach((product_order) => {
+      sum += product_order.products.price * product_order.quantity;
+    });
+    setTotal(sum);
+  }, [cart]);
+
+  async function incrementQuantity(productId) {
+    let productOrderIndex = -1;
+    productOrderIndex = cart.product_orders?.findIndex(
+      (product_order) => product_order.productId === productId
+    );
+    const cartCopy = { ...cart };
+    cartCopy.product_orders[productOrderIndex].quantity += 1;
+    setCart(cartCopy);
+    if (user) {
+      await editProductOrder(
+        cart.product_orders[productOrderIndex].quantity + 1,
+        cart.product_orders[productOrderIndex].id
+      );
+    } else {
+      localStorage.setItem("guestCart", JSON.stringify(cartCopy));
+    }
+  }
+
+  async function decrementQuantity(productId) {
+    let productOrderIndex = -1;
+    productOrderIndex = cart.product_orders?.findIndex(
+      (product_order) => product_order.productId === productId
+    );
+    const cartCopy = { ...cart };
+    cartCopy.product_orders[productOrderIndex].quantity -= 1;
+    setCart(cartCopy);
+    if (user) {
+      await editProductOrder(
+        cart.product_orders[productOrderIndex].quantity - 1,
+        cart.product_orders[productOrderIndex].id
+      );
+    } else {
+      localStorage.setItem("guestCart", JSON.stringify(cartCopy));
+    }
+  }
+
+  async function removeFromCart(productOrderId) {
+    const cartCopy = { ...cart };
+    cartCopy.product_orders = cartCopy.product_orders.filter(
+      (product_order) => product_order.id !== productOrderId
+    );
+    setCart(cartCopy);
+    if (user) {
+      await deleteProductOrder(productOrderId);
+    } else {
+      localStorage.setItem("guestCart", JSON.stringify(cartCopy));
+    }
+  }
+
+  async function emptyCart() {
+    const cartCopy = { ...cart };
+    for (let i = 0; i < cartCopy.product_orders.length; i++) {
+      if (user) {
+        deleteProductOrder(cartCopy.product_orders[i].id);
+      }
+      cartCopy.product_orders.splice(i);
+    }
+    setCart(cartCopy);
+    if (!user) {
+      localStorage.setItem("guestCart", JSON.stringify(cartCopy));
+    }
+  }
+
+  return (
+    <div>
+      <Button
+        className="btn-danger"
+        onClick={async () => {
+          emptyCart();
+        }}
+      >
+        Empty Cart
+      </Button>
+      {cart.product_orders?.length > 0 ? (
+        <div>
+          {cart.product_orders?.map((product_order) => {
+            return (
+              <div key={product_order.productId}>
+                <h3>Name: {product_order.products?.name}</h3>
+                <h3>Price: ${product_order.products?.price}</h3>
+                <h3>Quantity: {product_order.quantity}</h3>
+                <Button
+                  className="btn-success"
+                  onClick={async () => {
+                    if (
+                      product_order.quantity < product_order.products.inventory
+                    ) {
+                      incrementQuantity(product_order.products.id);
+                    }
+                  }}
+                >
+                  +
+                </Button>
+                <Button
+                  className="btn-danger"
+                  onClick={async () => {
+                    if (product_order.quantity > 1) {
+                      decrementQuantity(product_order.products.id);
+                    }
+                  }}
+                >
+                  -
+                </Button>
+                <Button
+                  onClick={async () => {
+                    removeFromCart(product_order.id);
+                  }}
+                >
+                  Remove Item
+                </Button>
+              </div>
+            );
+          })}
+          <h3>Your Total: ${total}</h3>
+          <Button
+            className="btn-warning"
+            onClick={async () => {
+              navigate("/checkout");
+            }}
+          >
+            Check Out!
+          </Button>
+        </div>
+      ) : (
+        <div>There is nothing in your cart!</div>
+      )}
+    </div>
+  );
 }
 
 // to add to a cart, add a row to the through table

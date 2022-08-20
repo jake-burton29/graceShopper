@@ -14,7 +14,7 @@ import {
   ShoppingCart,
   SingleProduct,
   Profile,
-  ProductsCard,
+  Checkout,
 } from "./components";
 
 const App = () => {
@@ -43,6 +43,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/cart" element={<ShoppingCart />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/products/:id" element={<SingleProduct />} />
       </Routes>
     </div>

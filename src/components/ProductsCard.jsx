@@ -14,25 +14,25 @@ export default function ProductsCard({ product }) {
   const { user } = useAuth();
   async function addToCart() {
     let productOrderIndex = -1;
-    if (user) {
-      productOrderIndex = cart.product_orders?.findIndex(
-        (product_order) => product_order.productId === product.id
-      );
-    }
-    if (cart.product_orders && productOrderIndex !== -1) {
+    productOrderIndex = cart.product_orders?.findIndex(
+      (product_order) => product_order.productId === product.id
+    );
+    if (productOrderIndex !== -1) {
+      console.log("Adding another to cart!");
+      const cartCopy = { ...cart };
+      cartCopy.product_orders[productOrderIndex].quantity += 1;
+      setCart(cartCopy);
       if (user) {
         await editProductOrder(
           cart.product_orders[productOrderIndex].quantity + 1,
           cart.product_orders[productOrderIndex].id
         );
-        const cartCopy = cart;
-        cartCopy.product_orders[productOrderIndex].quantity += 1;
-        setCart(cartCopy);
+      } else {
+        localStorage.setItem("guestCart", JSON.stringify(cart));
       }
-      console.log("Adding another to cart!");
     } else {
+      console.log("Creating a new product_order!");
       if (user) {
-        console.log("Creating a new product_order!");
         const newProductOrder = await createProductOrder(
           product.id,
           cart.id,
@@ -41,22 +41,27 @@ export default function ProductsCard({ product }) {
         if (cart.product_orders) {
           setCart({
             ...cart,
-            product_orders: [...product_orders, newProductOrder],
+            product_orders: [...cart.product_orders, newProductOrder],
           });
         } else {
           setCart({ ...cart, product_orders: [newProductOrder] });
         }
-      } else if (cart[product.id]) {
-        const cartCopy = cart;
-        cartCopy[product.id] += 1;
-        setCart(cartCopy);
-        localStorage.setItem("guestCart", JSON.stringify(cart));
       } else {
-        setCart({ ...cart, [product.id]: 1 });
-        localStorage.setItem(
-          "guestCart",
-          JSON.stringify({ ...cart, [product.id]: 1 })
-        );
+        const newProductOrder = {
+          id: product.id,
+          productId: product.id,
+          products: product,
+          quantity: 1,
+        };
+        if (cart.product_orders) {
+          setCart({
+            ...cart,
+            product_orders: [...cart.product_orders, newProductOrder],
+          });
+        } else {
+          setCart({ ...cart, product_orders: [newProductOrder] });
+        }
+        localStorage.setItem("guestCart", JSON.stringify(cart));
       }
     }
   }

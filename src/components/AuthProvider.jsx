@@ -9,9 +9,9 @@ export default function AuthProvider({ children }) {
   useEffect(() => {
     const getMe = async () => {
       const jwtUser = await getUser();
-      setUser(jwtUser);
+      if (jwtUser) setUser(jwtUser);
     };
-    const userFromDb = getMe();
+    getMe();
   }, []);
 
   return (

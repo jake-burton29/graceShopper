@@ -11,6 +11,7 @@ product_orderRouter.post("/", async (req, res, next) => {
         orderId,
         quantity,
       },
+      include: { products: true },
     });
     res.send(newProductOrder);
   } catch (error) {
@@ -28,6 +29,7 @@ product_orderRouter.patch("/:productOrderId", async (req, res, next) => {
         quantity,
       },
       where: { id: productOrderId },
+      include: { products: true },
     });
     res.send(updatedProductOrder);
   } catch (error) {
