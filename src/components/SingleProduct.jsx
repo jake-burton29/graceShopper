@@ -78,9 +78,9 @@ export default function SingleProduct() {
 
   return (
     <div>
-      <Card>
-        <Card.Title>Product: {product.name}</Card.Title>
-        <Card.Img src={product.image_url} className="w-50 p-3" />
+      <Card className="singleCard">
+        <Card.Title className="singleCard">Product: {product.name}</Card.Title>
+        <Card.Img src={product.image_url} className="w-25 p-3" />
         <Card.Body>Price: {product.price}</Card.Body>
         <Card.Text>In Stock: {product.inventory}</Card.Text>
         <Card.Text>Description: {product.description}</Card.Text>

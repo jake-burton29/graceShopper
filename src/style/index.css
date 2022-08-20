@@ -28,9 +28,39 @@ body {
   justify-content: center;
   margin-top: 80px;
 }
-div.card-body {
-  max-height: 700px;
-}
+
 .card {
-  height: 750px;
+  height: 640px;
+  margin-right: 70px;
+  margin-bottom: 20px;
+}
+
+.btn-dark {
+  background-color: rgb(1, 132, 255);
+  margin-right: 5px;
+}
+.category {
+  margin-left: 10px;
+}
+.btn-success {
+  margin-left: 10px;
+  margin-right: 5px;
+}
+
+.navLinks {
+  text-decoration: none;
+  margin-right: 20px;
+  color: white;
+  font-size: 16px;
+}
+.size {
+  margin-bottom: 20px;
+}
+
+.card-bod {
+  margin: 30px;
+}
+
+.singleCard {
+  align-items: center;
 }
