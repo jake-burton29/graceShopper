@@ -17,7 +17,7 @@ export default function ProductsCard({ product }) {
     productOrderIndex = cart.product_orders?.findIndex(
       (product_order) => product_order.productId === product.id
     );
-    if (productOrderIndex !== -1) {
+    if (productOrderIndex !== undefined && productOrderIndex !== -1) {
       console.log("Adding another to cart!");
       const cartCopy = { ...cart };
       cartCopy.product_orders[productOrderIndex].quantity += 1;
