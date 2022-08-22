@@ -36,15 +36,20 @@ body {
 }
 
 .btn-dark {
-  background-color: rgb(1, 132, 255);
   margin-right: 5px;
 }
+
 .category {
   margin-left: 10px;
 }
-.btn-success {
-  margin-left: 10px;
-  margin-right: 5px;
+
+.cardTitle:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.productImage:hover {
+  cursor: pointer;
 }
 
 .navLinks {
