@@ -67,6 +67,7 @@ usersRouter.post("/register", async (req, res, next) => {
       httpOnly: true,
       signed: true,
     });
+    newUser.orders = [];
     delete newUser.password;
     res.send(newUser);
   } catch (error) {
@@ -79,12 +80,18 @@ usersRouter.post("/login", async (req, res, next) => {
   try {
     const { username, password } = req.body;
 
-    const user = await prisma.users.findUnique({
+    let user = await prisma.users.findUnique({
       where: { username },
     });
+
     const validPassword = await bcrypt.compare(password, user.password);
 
     if (validPassword) {
+      const usersOrders = await prisma.orders.findMany({
+        where: { shopperId: user.id },
+      });
+      user.orders = usersOrders;
+
       const token = jwt.sign(user, JWT_SECRET);
 
       res.cookie("token", token, {
