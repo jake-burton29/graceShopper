@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import useAuth from "../hooks/useAuth";
 import useCart from "../hooks/useCart";
 import { useNavigate } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import {
   editProductOrder,
   deleteProductOrder,
@@ -99,39 +99,53 @@ export default function ShoppingCart() {
           </Button>
           {cart.product_orders?.map((product_order) => {
             return (
-              <div key={product_order.productId}>
-                <h3>Name: {product_order.products?.name}</h3>
-                <h3>Price: ${product_order.products?.price}</h3>
-                <h3>Quantity: {product_order.quantity}</h3>
-                <Button
-                  className="btn-success"
-                  onClick={async () => {
-                    if (
-                      product_order.quantity < product_order.products.inventory
-                    ) {
-                      incrementQuantity(product_order.products.id);
-                    }
-                  }}
-                >
-                  +
-                </Button>
-                <Button
-                  className="btn-danger"
-                  onClick={async () => {
-                    if (product_order.quantity > 1) {
-                      decrementQuantity(product_order.products.id);
-                    }
-                  }}
-                >
-                  -
-                </Button>
-                <Button
-                  onClick={async () => {
-                    removeFromCart(product_order.id);
-                  }}
-                >
-                  Remove Item
-                </Button>
+              <div className="singleCart">
+                <div key={product_order.productId}>
+                  <Card
+                    className="flex-row"
+                    style={{ width: "20rem", height: "20rem" }}
+                  >
+                    <Card.Body>
+                      <Card.Title>
+                        Item: {product_order.products?.name}
+                      </Card.Title>
+                      <Card.Text>
+                        Price: ${product_order.products?.price}
+                      </Card.Text>
+                      <Card.Text>Quantity: {product_order.quantity}</Card.Text>
+                      <Button
+                        className="btn-success"
+                        onClick={async () => {
+                          if (
+                            product_order.quantity <
+                            product_order.products.inventory
+                          ) {
+                            incrementQuantity(product_order.products.id);
+                          }
+                        }}
+                      >
+                        +
+                      </Button>
+                      <Button
+                        className="btn-danger"
+                        onClick={async () => {
+                          if (product_order.quantity > 1) {
+                            decrementQuantity(product_order.products.id);
+                          }
+                        }}
+                      >
+                        -
+                      </Button>
+                      <Button
+                        onClick={async () => {
+                          removeFromCart(product_order.id);
+                        }}
+                      >
+                        Remove Item
+                      </Button>
+                    </Card.Body>
+                  </Card>
+                </div>
               </div>
             );
           })}

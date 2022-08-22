@@ -20,7 +20,11 @@ export default function NavBar() {
             <Link to="/cart" className="navLinks">
               🛒Cart
             </Link>
-            {user ? <Link to="/profile">👤{user.username}</Link> : null}
+            {user ? (
+              <Link to="/profile" className="navLinks">
+                👤{user.username}
+              </Link>
+            ) : null}
             {user ? (
               <Link
                 className="navLinks"
