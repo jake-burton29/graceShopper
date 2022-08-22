@@ -87,16 +87,16 @@ export default function ShoppingCart() {
 
   return (
     <div>
-      <Button
-        className="btn-danger"
-        onClick={async () => {
-          emptyCart();
-        }}
-      >
-        Empty Cart
-      </Button>
       {cart.product_orders?.length > 0 ? (
         <div>
+          <Button
+            className="btn-danger"
+            onClick={async () => {
+              emptyCart();
+            }}
+          >
+            Empty Cart
+          </Button>
           {cart.product_orders?.map((product_order) => {
             return (
               <div key={product_order.productId}>
@@ -146,7 +146,17 @@ export default function ShoppingCart() {
           </Button>
         </div>
       ) : (
-        <div>There is nothing in your cart!</div>
+        <div>
+          <p>There is nothing in your cart!</p>
+          <Button
+            className="btn-warning"
+            onClick={async () => {
+              navigate("/");
+            }}
+          >
+            Browse Our Products
+          </Button>
+        </div>
       )}
     </div>
   );
