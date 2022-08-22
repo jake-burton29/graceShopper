@@ -9,7 +9,7 @@ export default function CartProvider({ children }) {
 
   useEffect(() => {
     if (user) {
-      if (user.orders && !user.orders[user.orders.length - 1].complete) {
+      if (user.orders[0] && !user.orders[user.orders.length - 1].complete) {
         const cartId = user.orders[user.orders.length - 1].id;
         const getCartById = async (id) => {
           const myCart = await getOrderById(id);
