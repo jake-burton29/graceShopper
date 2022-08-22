@@ -2,11 +2,7 @@ import React, { useState, useEffect } from "react";
 import useAuth from "../hooks/useAuth";
 import useCart from "../hooks/useCart";
 import { Button } from "react-bootstrap";
-import {
-  completeOrder,
-  createOrder,
-  completeGuestOrder,
-} from "../axios-services/orders";
+import { completeOrder, createOrder } from "../axios-services/orders";
 import { useNavigate } from "react-router-dom";
 import { createProductOrder } from "../axios-services/product_orders";
 
@@ -57,7 +53,7 @@ export default function Checkout() {
           product_order.quantity
         );
       });
-      completeGuestOrder(newOrder.id);
+      completeOrder(newOrder.id);
       localStorage.setItem("guestCart", JSON.stringify({ product_orders: [] }));
       setCart({ product_orders: [] });
       navigate("/");
