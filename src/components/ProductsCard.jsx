@@ -71,29 +71,46 @@ export default function ProductsCard({ product }) {
       <Card className="flex-row" style={{ width: "20rem" }}>
         <Card.Body>
           <Card.Title
+            className="cardTitle"
+            style={{
+              display: "flex",
+              textAlign: "center",
+              justifyContent: "center",
+              marginBottom: "20px",
+              height: "40px",
+            }}
             onClick={() => {
               navigate(`/products/${product.id}`);
             }}
           >
-            Product: {product.name}
+            {product.name}
           </Card.Title>
           <Card.Img
+            className="productImage"
+            style={{ marginBottom: "15px" }}
             src={product.image_url}
             onClick={() => {
               navigate(`/products/${product.id}`);
             }}
           />
           <Card.Text>Price: ${product.price}.00</Card.Text>
-          <Card.Text>In Stock: {product.inventory} remaining.</Card.Text>
+          <Card.Text>In Stock: {product.inventory} remaining</Card.Text>
           <Card.Text>Description: {product.description}</Card.Text>
-
-          <Button
-            onClick={async () => {
-              addToCart();
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
             }}
           >
-            Add to Cart!
-          </Button>
+            <Button
+              variant="dark"
+              onClick={async () => {
+                addToCart();
+              }}
+            >
+              Add to Cart!
+            </Button>
+          </div>
         </Card.Body>
       </Card>
     </div>
