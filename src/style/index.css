@@ -69,3 +69,9 @@ body {
 .singleCard {
   align-items: center;
 }
+.singleCart {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 80px;
+}

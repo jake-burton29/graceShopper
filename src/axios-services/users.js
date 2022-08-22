@@ -31,12 +31,13 @@ export async function logout() {
 }
 export async function createUser(username, password, email) {
   try {
-    const { data: user } = await axios.post("/api/users/register", {
+    let { data: newUser } = await axios.post("/api/users/register", {
       username,
       password,
       email,
     });
-    return user;
+    newUser = { ...newUser, orders: [] };
+    return newUser;
   } catch (err) {
     console.error(err);
   }
