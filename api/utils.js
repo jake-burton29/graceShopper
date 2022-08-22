@@ -40,14 +40,15 @@ const requireUserOrGuest = (req, res, next) => {
   try {
     const token = req.signedCookies.token;
     if (!token) {
-      req.user.id = null;
+      req.user = { id: null };
       next();
-    }
-    const user = jwt.verify(token, JWT_SECRET);
-    delete user.password;
-    req.user = user;
-    if (user) {
-      next();
+    } else {
+      const user = jwt.verify(token, JWT_SECRET);
+      delete user.password;
+      req.user = user;
+      if (user) {
+        next();
+      }
     }
   } catch (error) {
     res.status(401).send({
