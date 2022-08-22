@@ -93,6 +93,7 @@ ordersRouter.patch(
       } else {
         let total = 0;
 
+        // TOTAL IS ALWAYS SENT TO PRISMA BEFORE THIS OPERATION???
         for (const product_order of order.product_orders) {
           total += product_order.products.price * product_order.quantity * 1.1;
           console.log("subtotal", total);
