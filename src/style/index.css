@@ -48,7 +48,8 @@ body {
   text-decoration: underline;
 }
 
-.productImage:hover {
+.productImage:hover,
+#logo:hover {
   cursor: pointer;
 }
 
