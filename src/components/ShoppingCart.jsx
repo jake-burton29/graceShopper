@@ -99,53 +99,51 @@ export default function ShoppingCart() {
           </Button>
           {cart.product_orders?.map((product_order) => {
             return (
-              <div className="singleCart">
-                <div key={product_order.id}>
-                  <Card
-                    className="flex-row"
-                    style={{ width: "20rem", height: "20rem" }}
-                  >
-                    <Card.Body>
-                      <Card.Title>
-                        Item: {product_order.products?.name}
-                      </Card.Title>
-                      <Card.Text>
-                        Price: ${product_order.products?.price}
-                      </Card.Text>
-                      <Card.Text>Quantity: {product_order.quantity}</Card.Text>
-                      <Button
-                        className="btn-success"
-                        onClick={async () => {
-                          if (
-                            product_order.quantity <
-                            product_order.products.inventory
-                          ) {
-                            incrementQuantity(product_order.products.id);
-                          }
-                        }}
-                      >
-                        +
-                      </Button>
-                      <Button
-                        className="btn-danger"
-                        onClick={async () => {
-                          if (product_order.quantity > 1) {
-                            decrementQuantity(product_order.products.id);
-                          }
-                        }}
-                      >
-                        -
-                      </Button>
-                      <Button
-                        onClick={async () => {
-                          removeFromCart(product_order.id);
-                        }}
-                      >
-                        Remove Item
-                      </Button>
-                    </Card.Body>
-                  </Card>
-                </div>
+              <div key={product_order.productId} className="singleCart">
+                <Card
+                  className="flex-row"
+                  style={{ width: "20rem", height: "20rem" }}
+                >
+                  <Card.Body>
+                    <Card.Title>
+                      Item: {product_order.products?.name}
+                    </Card.Title>
+                    <Card.Text>
+                      Price: ${product_order.products?.price}
+                    </Card.Text>
+                    <Card.Text>Quantity: {product_order.quantity}</Card.Text>
+                    <Button
+                      className="btn-success"
+                      onClick={async () => {
+                        if (
+                          product_order.quantity <
+                          product_order.products.inventory
+                        ) {
+                          incrementQuantity(product_order.products.id);
+                        }
+                      }}
+                    >
+                      +
+                    </Button>
+                    <Button
+                      className="btn-danger"
+                      onClick={async () => {
+                        if (product_order.quantity > 1) {
+                          decrementQuantity(product_order.products.id);
+                        }
+                      }}
+                    >
+                      -
+                    </Button>
+                    <Button
+                      onClick={async () => {
+                        removeFromCart(product_order.id);
+                      }}
+                    >
+                      Remove Item
+                    </Button>
+                  </Card.Body>
+                </Card>
               </div>
             );
           })}
@@ -175,8 +173,3 @@ export default function ShoppingCart() {
     </div>
   );
 }
-
-// to add to a cart, add a row to the through table
-// you may need to add the item on the frontend as well
-// { 1: 2, 4: 8 }
-// guest cart persistence => map set to local storage
