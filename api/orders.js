@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
 const { requireAdmin, requireUser, requireUserOrGuest } = require("./utils");
 
-//GET /api/users/myorders
+//GET /api/orders/myorders
 ordersRouter.get("/myorders", requireUser, async (req, res, next) => {
   try {
     const user = req.user;
@@ -20,7 +20,7 @@ ordersRouter.get("/myorders", requireUser, async (req, res, next) => {
   }
 });
 
-//GET /api/users/myorderslite
+//GET /api/orders/myorderslite
 ordersRouter.get("/myorderslite", requireUser, async (req, res, next) => {
   try {
     const user = req.user;
