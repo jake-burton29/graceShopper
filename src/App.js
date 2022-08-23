@@ -13,6 +13,7 @@ import {
   Register,
   ShoppingCart,
   SingleProduct,
+  SingleOrder,
   Profile,
   Checkout,
 } from "./components";
@@ -45,6 +46,7 @@ const App = () => {
         <Route path="/cart" element={<ShoppingCart />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/products/:id" element={<SingleProduct />} />
+        <Route path="/orders/:id" element={<SingleOrder />} />
       </Routes>
     </div>
   );

@@ -2,9 +2,9 @@ const ordersRouter = require("express").Router();
 const prisma = require("../db/prisma");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
-const { requireAdmin, requireUser } = require("./utils");
+const { requireAdmin, requireUser, requireUserOrGuest } = require("./utils");
 
-//GET /api/users/myorders
+//GET /api/orders/myorders
 ordersRouter.get("/myorders", requireUser, async (req, res, next) => {
   try {
     const user = req.user;
@@ -20,7 +20,7 @@ ordersRouter.get("/myorders", requireUser, async (req, res, next) => {
   }
 });
 
-//GET /api/users/myorderslite
+//GET /api/orders/myorderslite
 ordersRouter.get("/myorderslite", requireUser, async (req, res, next) => {
   try {
     const user = req.user;
@@ -34,7 +34,7 @@ ordersRouter.get("/myorderslite", requireUser, async (req, res, next) => {
 });
 
 //GET /orders/:orderId
-ordersRouter.get("/:orderId", requireUser, async (req, res, next) => {
+ordersRouter.get("/:orderId", requireUserOrGuest, async (req, res, next) => {
   try {
     const user = req.user;
     const id = +req.params.orderId;
@@ -42,9 +42,10 @@ ordersRouter.get("/:orderId", requireUser, async (req, res, next) => {
       where: { id },
       include: {
         product_orders: { include: { products: true } },
+        users: true,
       },
     });
-    if (order.shopperId === user.id) {
+    if (order.shopperId === null || order.shopperId === user.id) {
       res.send(order);
     } else {
       next();
@@ -71,75 +72,48 @@ ordersRouter.post("/", async (req, res, next) => {
 });
 
 //PATCH to /api/orders/status/:orderId (for setting order to complete, updating total)
-ordersRouter.patch("/status/:orderId", requireUser, async (req, res, next) => {
-  try {
-    const { complete } = req.body;
-    if (!complete) {
-      next();
+ordersRouter.patch(
+  "/status/:orderId",
+  requireUserOrGuest,
+  async (req, res, next) => {
+    try {
+      const { complete } = req.body;
+      if (!complete) {
+        next();
+      }
+      const id = +req.params.orderId;
+      const order = await prisma.orders.findUnique({
+        where: { id },
+        include: {
+          product_orders: { include: { products: true } },
+        },
+      });
+      if (order.shopperId !== req.user.id || order.complete) {
+        next();
+      } else {
+        let total = 0;
+        console.log("Product Orders:", order.product_orders);
+        order.product_orders?.forEach((product_order) => {
+          total += product_order.products.price * product_order.quantity * 1.1;
+        });
+        total = Math.trunc(total);
+        const updatedOrder = await prisma.orders.update({
+          where: { id },
+          data: {
+            total,
+            complete,
+          },
+          include: {
+            product_orders: { include: { products: true } },
+          },
+        });
+        res.send(updatedOrder);
+      }
+    } catch (error) {
+      next(error);
     }
-    const id = +req.params.orderId;
-    const order = await prisma.orders.findUnique({
-      where: { id },
-      include: {
-        product_orders: { include: { products: true } },
-      },
-    });
-    if (order.shopperId !== req.user.id || order.complete) {
-      next();
-    }
-    let total = 0;
-    order.product_orders?.forEach((product_order) => {
-      total += product_order.products.price * product_order.quantity;
-    });
-    const updatedOrder = await prisma.orders.update({
-      where: { id },
-      data: {
-        total,
-        complete,
-      },
-      include: {
-        product_orders: { include: { products: true } },
-      },
-    });
-    res.send(updatedOrder);
-  } catch (error) {
-    next(error);
   }
-});
-
-//PATCH to /api/orders/status/:orderId (for setting order to complete, updating total)
-ordersRouter.patch("/guest/:orderId", async (req, res, next) => {
-  try {
-    const { complete } = req.body;
-    if (!complete) {
-      next();
-    }
-    const id = +req.params.orderId;
-    const order = await prisma.orders.findUnique({
-      where: { id },
-      include: {
-        product_orders: { include: { products: true } },
-      },
-    });
-    let total = 0;
-    order.product_orders?.forEach((product_order) => {
-      total += product_order.products.price * product_order.quantity;
-    });
-    const updatedOrder = await prisma.orders.update({
-      where: { id },
-      data: {
-        total,
-        complete: true,
-      },
-      include: {
-        product_orders: { include: { products: true } },
-      },
-    });
-    res.send(updatedOrder);
-  } catch (error) {
-    next(error);
-  }
-});
+);
 
 //ADMIN ***********
 
