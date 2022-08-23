@@ -70,7 +70,7 @@ export default function Register() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicPassword">
+        <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             value={confirmPassword}

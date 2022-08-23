@@ -50,7 +50,6 @@ function carouselComponent() {
           </Carousel.Caption>
         </Carousel.Item>
       </Carousel>
-      ;
     </div>
   );
 }
