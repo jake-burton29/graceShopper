@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import useCart from "../hooks/useCart";
@@ -12,6 +12,7 @@ export default function ProductsCard({ product }) {
   const navigate = useNavigate();
   const { cart, setCart } = useCart();
   const { user } = useAuth();
+  const [addedToCart, setAddedToCart] = useState(false);
   async function addToCart() {
     let productOrderIndex = -1;
     productOrderIndex = cart.product_orders?.findIndex(
@@ -104,14 +105,22 @@ export default function ProductsCard({ product }) {
               justifyContent: "center",
             }}
           >
-            <Button
-              variant="dark"
-              onClick={async () => {
-                addToCart();
-              }}
-            >
-              Add to Cart!
-            </Button>
+            {!addedToCart ? (
+              <Button
+                variant="dark"
+                onClick={async () => {
+                  addToCart();
+                  setAddedToCart(true);
+                  setTimeout(() => {
+                    setAddedToCart(false);
+                  }, 2000);
+                }}
+              >
+                Add to Cart!
+              </Button>
+            ) : (
+              <Button variant="success">Added to Cart!</Button>
+            )}
           </div>
         </Card.Body>
       </Card>
