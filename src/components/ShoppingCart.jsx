@@ -101,7 +101,7 @@ export default function ShoppingCart() {
             return (
               <div key={product_order.productId} className="singleCart">
                 <Card
-                  className="flex-row"
+                  className="flexRow"
                   style={{ width: "20rem", height: "20rem" }}
                 >
                   <Card.Body>
