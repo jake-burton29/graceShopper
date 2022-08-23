@@ -5,4 +5,5 @@ export { default as Register } from "./Register";
 export { default as NavBar } from "./NavBar";
 export { default as ShoppingCart } from "./ShoppingCart";
 export { default as SingleProduct } from "./SingleProduct";
+export { default as SingleOrder } from "./SingleOrder";
 export { default as Checkout } from "./Checkout";
