@@ -4,6 +4,10 @@ import { useParams } from "react-router-dom";
 import { getProductById } from "../axios-services/products";
 import useCart from "../hooks/useCart";
 import useAuth from "../hooks/useAuth";
+import {
+  editProductOrder,
+  createProductOrder,
+} from "../axios-services/product_orders";
 export default function SingleProduct() {
   const [product, setProduct] = useState({});
   const { id } = useParams();
@@ -12,25 +16,25 @@ export default function SingleProduct() {
 
   async function addToCart() {
     let productOrderIndex = -1;
-    if (user) {
-      productOrderIndex = cart.product_orders?.findIndex(
-        (product_order) => product_order.productId === product.id
-      );
-    }
-    if (cart.product_orders && productOrderIndex !== -1) {
+    productOrderIndex = cart.product_orders?.findIndex(
+      (product_order) => product_order.productId === product.id
+    );
+    if (productOrderIndex !== -1) {
+      console.log("Adding another to cart!");
+      const cartCopy = { ...cart };
+      cartCopy.product_orders[productOrderIndex].quantity += 1;
+      setCart(cartCopy);
       if (user) {
         await editProductOrder(
           cart.product_orders[productOrderIndex].quantity + 1,
           cart.product_orders[productOrderIndex].id
         );
-        const cartCopy = cart;
-        cartCopy.product_orders[productOrderIndex].quantity += 1;
-        setCart(cartCopy);
+      } else {
+        localStorage.setItem("guestCart", JSON.stringify(cart));
       }
-      console.log("Adding another to cart!");
     } else {
+      console.log("Creating a new product_order!");
       if (user) {
-        console.log("Creating a new product_order!");
         const newProductOrder = await createProductOrder(
           product.id,
           cart.id,
@@ -44,20 +48,26 @@ export default function SingleProduct() {
         } else {
           setCart({ ...cart, product_orders: [newProductOrder] });
         }
-      } else if (cart[product.id]) {
-        const cartCopy = cart;
-        cartCopy[product.id] += 1;
-        setCart(cartCopy);
-        localStorage.setItem("guestCart", JSON.stringify(cart));
       } else {
-        setCart({ ...cart, [product.id]: 1 });
-        localStorage.setItem(
-          "guestCart",
-          JSON.stringify({ ...cart, [product.id]: 1 })
-        );
+        const newProductOrder = {
+          id: product.id,
+          productId: product.id,
+          products: product,
+          quantity: 1,
+        };
+        if (cart.product_orders) {
+          setCart({
+            ...cart,
+            product_orders: [...product_orders, newProductOrder],
+          });
+        } else {
+          setCart({ ...cart, product_orders: [newProductOrder] });
+        }
+        localStorage.setItem("guestCart", JSON.stringify(cart));
       }
     }
   }
+
   useEffect(() => {
     const getSingleProduct = async (id) => {
       const product = await getProductById(id);
@@ -68,16 +78,15 @@ export default function SingleProduct() {
 
   return (
     <div>
-      <Card>
-        <Card.Title>Product: {product.name}</Card.Title>
-        <Card.Img src={product.image_url} className="w-50 p-3" />
+      <Card className="singleCard">
+        <Card.Title className="singleCard">Product: {product.name}</Card.Title>
+        <Card.Img src={product.image_url} className="w-25 p-3" />
         <Card.Body>Price: {product.price}</Card.Body>
         <Card.Text>In Stock: {product.inventory}</Card.Text>
         <Card.Text>Description: {product.description}</Card.Text>
         <Button
           onClick={() => {
             addToCart();
-            //some func to add to cart
           }}
         >
           Add to Cart!

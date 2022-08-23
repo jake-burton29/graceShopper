@@ -21,6 +21,19 @@ ordersRouter.get("/myorders", requireUser, async (req, res, next) => {
   }
 });
 
+//GET /api/users/myorderslite
+ordersRouter.get("/myorderslite", requireUser, async (req, res, next) => {
+  try {
+    const user = req.user;
+    const usersOrders = await prisma.orders.findMany({
+      where: { shopperId: user.id },
+    });
+    res.send(usersOrders);
+  } catch (error) {
+    next(error);
+  }
+});
+
 //GET /orders/:orderId
 ordersRouter.get("/:orderId", requireUser, async (req, res, next) => {
   try {
@@ -42,7 +55,7 @@ ordersRouter.get("/:orderId", requireUser, async (req, res, next) => {
   }
 });
 
-//POST  /orders
+//POST to /api/orders
 ordersRouter.post("/", async (req, res, next) => {
   try {
     const { shopperId } = req.body;
@@ -60,7 +73,80 @@ ordersRouter.post("/", async (req, res, next) => {
 
 //ADMIN ***********
 
-//GET /orders - admin
+//PATCH to /api/orders/status/:orderId (for setting order to complete, updating total)
+ordersRouter.patch("/status/:orderId", requireUser, async (req, res, next) => {
+  try {
+    const { complete } = req.body;
+    if (!complete) {
+      next();
+    }
+    const id = +req.params.orderId;
+    const order = await prisma.orders.findUnique({
+      where: { id },
+      include: {
+        product_orders: { include: { products: true } },
+      },
+    });
+    if (order.shopperId !== req.user.id || order.complete) {
+      next();
+    }
+    let total = 0;
+    order.product_orders?.forEach((product_order) => {
+      total += product_order.products.price * product_order.quantity;
+    });
+    const updatedOrder = await prisma.orders.update({
+      where: { id },
+      data: {
+        total,
+        complete,
+      },
+      include: {
+        product_orders: { include: { products: true } },
+      },
+    });
+    res.send(updatedOrder);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//PATCH to /api/orders/status/:orderId (for setting order to complete, updating total)
+ordersRouter.patch("/guest/:orderId", async (req, res, next) => {
+  try {
+    const { complete } = req.body;
+    if (!complete) {
+      next();
+    }
+    const id = +req.params.orderId;
+    const order = await prisma.orders.findUnique({
+      where: { id },
+      include: {
+        product_orders: { include: { products: true } },
+      },
+    });
+    let total = 0;
+    order.product_orders?.forEach((product_order) => {
+      total += product_order.products.price * product_order.quantity;
+    });
+    const updatedOrder = await prisma.orders.update({
+      where: { id },
+      data: {
+        total,
+        complete: true,
+      },
+      include: {
+        product_orders: { include: { products: true } },
+      },
+    });
+    res.send(updatedOrder);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//ADMIN ***********
+
+//GET /orders //view all orders
 ordersRouter.get("/", requireUser, requireAdmin, async (req, res, next) => {
   try {
     const orders = await prisma.orders.findMany({
@@ -76,26 +162,31 @@ ordersRouter.get("/", requireUser, requireAdmin, async (req, res, next) => {
 
 //PATCH /orders/:orderId
 
-ordersRouter.patch("/:orderId", async (req, res, next) => {
-  try {
-    const orderId = +req.params.orderId;
-    const { total } = req.body;
-    const order = await prisma.orders.update({
-      where: { id: orderId },
-      data: {
-        total,
-      },
-      include: {
-        product_orders: { include: { products: true } },
-      },
-    });
-    res.send(order);
-  } catch (error) {
-    next(error);
+ordersRouter.patch(
+  "/:orderId",
+  requireUser,
+  requireAdmin,
+  async (req, res, next) => {
+    try {
+      const orderId = +req.params.orderId;
+      const { total } = req.body;
+      const order = await prisma.orders.update({
+        where: { id: orderId },
+        data: {
+          total,
+        },
+        include: {
+          product_orders: { include: { products: true } },
+        },
+      });
+      res.send(order);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
-//DELETE /orders/:orderId - admin
+//DELETE /orders/:orderId
 
 ordersRouter.delete(
   "/:orderId",

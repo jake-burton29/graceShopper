@@ -66,6 +66,7 @@ usersRouter.post("/register", async (req, res, next) => {
       httpOnly: true,
       signed: true,
     });
+    newUser.orders = [];
     delete newUser.password;
     res.send(newUser);
   } catch (error) {
@@ -78,15 +79,18 @@ usersRouter.post("/login", async (req, res, next) => {
   try {
     const { username, password } = req.body;
 
-    const user = await prisma.users.findUnique({
+    let user = await prisma.users.findUnique({
       where: { username },
-      include: {
-        orders: true,
-      },
     });
+
     const validPassword = await bcrypt.compare(password, user.password);
 
     if (validPassword) {
+      const usersOrders = await prisma.orders.findMany({
+        where: { shopperId: user.id },
+      });
+      user.orders = usersOrders;
+
       const token = jwt.sign(user, JWT_SECRET);
 
       res.cookie("token", token, {
@@ -106,13 +110,11 @@ usersRouter.post("/login", async (req, res, next) => {
 usersRouter.patch("/:username", requireUser, async (req, res, next) => {
   try {
     const username = req.params.username;
-    const { newUsername, password, email } = req.body;
-    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+    const { newPassword } = req.body;
+    const hashedPassword = await bcrypt.hash(newPassword, SALT_ROUNDS);
     const editedUser = await prisma.users.update({
       data: {
-        username: newUsername,
         password: hashedPassword,
-        email,
       },
       where: { username },
       include: {
@@ -126,17 +128,22 @@ usersRouter.patch("/:username", requireUser, async (req, res, next) => {
 });
 
 //DELETE /api/users/:username - adminRequired
-usersRouter.delete("/:username", requireAdmin, async (req, res, next) => {
-  try {
-    const username = req.params.username;
-    const deletedUser = await prisma.users.delete({
-      where: { username },
-    });
-    res.send(deletedUser);
-  } catch (error) {
-    next(error);
+usersRouter.delete(
+  "/:username",
+  requireUser,
+  requireAdmin,
+  async (req, res, next) => {
+    try {
+      const username = req.params.username;
+      const deletedUser = await prisma.users.delete({
+        where: { username },
+      });
+      res.send(deletedUser);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 // POST to /api/users/logout
 usersRouter.post("/logout", async (req, res, next) => {

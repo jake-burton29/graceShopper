@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { getMyOrdersLite } from "../axios-services/orders";
 import { getUser } from "../axios-services/users";
 import { AuthContext } from "../CreateContext";
 
@@ -9,9 +10,12 @@ export default function AuthProvider({ children }) {
   useEffect(() => {
     const getMe = async () => {
       const jwtUser = await getUser();
-      setUser(jwtUser);
+      const userOrders = await getMyOrdersLite();
+      if (jwtUser && userOrders) {
+        setUser({ ...jwtUser, orders: userOrders });
+      }
     };
-    const userFromDb = getMe();
+    getMe();
   }, []);
 
   return (

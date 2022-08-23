@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { CartContext } from "../CreateContext";
 import useAuth from "../hooks/useAuth";
-import { getOrderById } from "../axios-services/orders";
+import { getOrderById, createOrder } from "../axios-services/orders";
 export default function CartProvider({ children }) {
-  const [cart, setCart] = useState([]);
-  const { user } = useAuth([]);
+  const [cart, setCart] = useState({});
+  const { user } = useAuth();
   console.log("CART:", cart);
 
   useEffect(() => {
     if (user) {
-      if (user.orders && !user.orders[user.orders.length - 1].complete) {
+      if (user.orders[0] && !user.orders[user.orders.length - 1].complete) {
         const cartId = user.orders[user.orders.length - 1].id;
         const getCartById = async (id) => {
           const myCart = await getOrderById(id);
@@ -31,8 +31,11 @@ export default function CartProvider({ children }) {
         setCart(guestCart);
         console.log("got cart from local storage!");
       } else {
-        localStorage.setItem("guestCart", JSON.stringify({}));
-        setCart({});
+        localStorage.setItem(
+          "guestCart",
+          JSON.stringify({ product_orders: [] })
+        );
+        setCart({ product_orders: [] });
         console.log("created new cart in local storage!");
       }
     }
