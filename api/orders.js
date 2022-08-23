@@ -92,14 +92,11 @@ ordersRouter.patch(
         next();
       } else {
         let total = 0;
-
-        // TOTAL IS ALWAYS SENT TO PRISMA BEFORE THIS OPERATION???
-        for (const product_order of order.product_orders) {
+        console.log("Product Orders:", order.product_orders);
+        order.product_orders?.forEach((product_order) => {
           total += product_order.products.price * product_order.quantity * 1.1;
-          console.log("subtotal", total);
-        }
-        console.log("total", total);
-
+        });
+        total = Math.trunc(total);
         const updatedOrder = await prisma.orders.update({
           where: { id },
           data: {

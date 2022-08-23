@@ -100,7 +100,7 @@ export default function ShoppingCart() {
           {cart.product_orders?.map((product_order) => {
             return (
               <div className="singleCart">
-                <div key={product_order.productId}>
+                <div key={product_order.id}>
                   <Card
                     className="flex-row"
                     style={{ width: "20rem", height: "20rem" }}

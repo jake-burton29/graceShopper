@@ -46,13 +46,20 @@ export default function Checkout() {
       console.log("user order submitted: #", completedOrder.id);
     } else {
       const newOrder = await createOrder();
-      cart.product_orders.forEach((product_order) => {
-        createProductOrder(
+      for (const product_order of cart.product_orders) {
+        await createProductOrder(
           product_order.productId,
           newOrder.id,
           product_order.quantity
         );
-      });
+      }
+      // cart.product_orders.forEach((product_order) => {
+      //   createProductOrder(
+      //     product_order.productId,
+      //     newOrder.id,
+      //     product_order.quantity
+      //   );
+      // });
       completeOrder(newOrder.id);
       localStorage.setItem("guestCart", JSON.stringify({ product_orders: [] }));
       setCart({ product_orders: [] });
