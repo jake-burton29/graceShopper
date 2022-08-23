@@ -95,7 +95,9 @@ export default function ProductsCard({ product }) {
           />
           <Card.Text>Price: ${product.price}.00</Card.Text>
           <Card.Text>In Stock: {product.inventory} remaining</Card.Text>
-          <Card.Text>Description: {product.description}</Card.Text>
+          <Card.Text>
+            Description: {product.description.substring(0, 75)}...
+          </Card.Text>
           <div
             style={{
               display: "flex",
