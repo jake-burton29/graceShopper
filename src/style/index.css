@@ -66,16 +66,18 @@ body {
   margin: 30px;
 }
 
-.singleCard {
-  align-items: center;
+.card {
+  flex-wrap: wrap;
 }
 
-.singleCart {
+.flexContainer {
   display: flex;
-  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
   justify-content: center;
 }
 
-.card {
-  flex-wrap: wrap;
+.checkoutHeader {
+  margin: 3rem;
+  margin-left: 7rem;
 }
