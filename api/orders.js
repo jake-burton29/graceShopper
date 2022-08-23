@@ -92,7 +92,6 @@ ordersRouter.patch(
         next();
       } else {
         let total = 0;
-        console.log("Product Orders:", order.product_orders);
         order.product_orders?.forEach((product_order) => {
           total += product_order.products.price * product_order.quantity * 1.1;
         });
