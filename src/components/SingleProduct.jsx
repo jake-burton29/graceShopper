@@ -84,7 +84,7 @@ export default function SingleProduct() {
       <Card className="singleCard" style={{ width: "70%", marginLeft: "auto" }}>
         <Card.Title className="singleCard">Product: {product.name}</Card.Title>
         <Card.Img src={product.image_url} className="w-25 p-3" />
-        <Card.Text className="seperator">Price: {product.price}</Card.Text>
+        <Card.Text className="seperator">Price: ${product.price}.00</Card.Text>
         <Card.Text className="seperator">
           In Stock: {product.inventory}
         </Card.Text>

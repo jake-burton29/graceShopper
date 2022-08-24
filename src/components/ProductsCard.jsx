@@ -71,7 +71,7 @@ export default function ProductsCard({ product }) {
   return (
     <div>
       <Card
-        className="flex-row border border-color-#434343 border-3"
+        className="flex-row border border-3 border-color-#434343"
         style={{ width: "20rem" }}
       >
         <Card.Body>
