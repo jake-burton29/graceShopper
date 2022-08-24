@@ -91,7 +91,7 @@ export default function Checkout() {
               <p>Orders of at least $50 will ship for free!</p>
             </>
           ) : (
-            <h5>FREE</h5>
+            <h5>Your shipping charge today is FREE because it is over 50$</h5>
           )}
           <h3>Your Total: ${total}</h3>
           <Button
