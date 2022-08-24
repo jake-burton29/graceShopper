@@ -8,11 +8,14 @@ import {
   editProductOrder,
   createProductOrder,
 } from "../axios-services/product_orders";
+import { CartPlus, CartCheck } from "react-bootstrap-icons";
+
 export default function SingleProduct() {
   const [product, setProduct] = useState({});
   const { id } = useParams();
   const { cart, setCart } = useCart();
   const { user } = useAuth();
+  const [addedToCart, setAddedToCart] = useState(false);
 
   async function addToCart() {
     let productOrderIndex = -1;
@@ -43,7 +46,7 @@ export default function SingleProduct() {
         if (cart.product_orders) {
           setCart({
             ...cart,
-            product_orders: [...product_orders, newProductOrder],
+            product_orders: [...cart.product_orders, newProductOrder],
           });
         } else {
           setCart({ ...cart, product_orders: [newProductOrder] });
@@ -58,7 +61,7 @@ export default function SingleProduct() {
         if (cart.product_orders) {
           setCart({
             ...cart,
-            product_orders: [...product_orders, newProductOrder],
+            product_orders: [...cart.product_orders, newProductOrder],
           });
         } else {
           setCart({ ...cart, product_orders: [newProductOrder] });
@@ -77,20 +80,39 @@ export default function SingleProduct() {
   }, []);
 
   return (
-    <div>
-      <Card className="singleCard">
+    <div className="C-div">
+      <Card className="singleCard" style={{ width: "70%", marginLeft: "auto" }}>
         <Card.Title className="singleCard">Product: {product.name}</Card.Title>
         <Card.Img src={product.image_url} className="w-25 p-3" />
-        <Card.Body>Price: {product.price}</Card.Body>
-        <Card.Text>In Stock: {product.inventory}</Card.Text>
-        <Card.Text>Description: {product.description}</Card.Text>
-        <Button
-          onClick={() => {
-            addToCart();
-          }}
-        >
-          Add to Cart!
-        </Button>
+        <Card.Text className="seperator">Price: ${product.price}.00</Card.Text>
+        <Card.Text className="seperator">
+          In Stock: {product.inventory}
+        </Card.Text>
+        <Card.Text className="seperator">
+          Description: {product.description}
+        </Card.Text>
+        {!addedToCart ? (
+          <Button
+            style={{
+              backgroundColor: "#434343",
+              border: "#434343",
+              marginTop: "20px",
+            }}
+            onClick={async () => {
+              addToCart();
+              setAddedToCart(true);
+              setTimeout(() => {
+                setAddedToCart(false);
+              }, 2000);
+            }}
+          >
+            Add to Cart! <CartPlus size={25} />
+          </Button>
+        ) : (
+          <Button variant="success">
+            Added to Cart! <CartCheck size={25} />
+          </Button>
+        )}
       </Card>
     </div>
   );

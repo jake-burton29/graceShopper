@@ -26,7 +26,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 80px;
+  margin-top: 25px;
 }
 
 .card {
@@ -48,7 +48,8 @@ body {
   text-decoration: underline;
 }
 
-.productImage:hover {
+.productImage:hover,
+#logo:hover {
   cursor: pointer;
 }
 
@@ -62,16 +63,45 @@ body {
   margin-bottom: 20px;
 }
 
-.card-bod {
-  margin: 30px;
+.card-body {
+  margin: 5px;
 }
 
-.singleCard {
-  align-items: center;
+.card {
+  flex-wrap: wrap;
 }
-.singleCart {
+
+.flexContainer {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 80px;
+}
+
+.checkoutHeader {
+  margin: 3rem;
+  margin-left: 7rem;
+}
+.singleCard {
+  align-items: center;
+  margin-top: 60px;
+}
+
+.C-div {
+  width: 80%;
+}
+
+.seperator {
+  margin-top: 20px;
+}
+#accountInfo {
+  border: solid 2px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+  margin-bottom: 40px;
+}
+#myOrders {
+  border: solid 2px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
 }

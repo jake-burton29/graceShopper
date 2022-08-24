@@ -65,14 +65,3 @@ export async function completeOrder(orderId) {
     console.error(error);
   }
 }
-
-export async function completeGuestOrder(orderId) {
-  try {
-    const { data: order } = await axios.patch(`/api/orders/guest/${orderId}`, {
-      complete: true,
-    });
-    return order;
-  } catch (error) {
-    console.error(error);
-  }
-}

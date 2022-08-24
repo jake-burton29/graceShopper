@@ -100,6 +100,8 @@ usersRouter.post("/login", async (req, res, next) => {
       });
       delete user.password;
       res.send(user);
+    } else {
+      throw "Incorrect password provided.";
     }
   } catch (error) {
     next(error);

@@ -3,6 +3,8 @@ import useAuth from "../hooks/useAuth";
 import useCart from "../hooks/useCart";
 import { useNavigate } from "react-router-dom";
 import { Button, Card } from "react-bootstrap";
+import { PlusCircle, DashCircle } from "react-bootstrap-icons";
+import Stack from "react-bootstrap/Stack";
 import {
   editProductOrder,
   deleteProductOrder,
@@ -88,79 +90,30 @@ export default function ShoppingCart() {
   return (
     <div>
       {cart.product_orders?.length > 0 ? (
-        <div>
-          <Button
-            className="btn-danger"
-            onClick={async () => {
-              emptyCart();
-            }}
-          >
-            Empty Cart
-          </Button>
-          {cart.product_orders?.map((product_order) => {
-            return (
-              <div className="singleCart">
-                <div key={product_order.productId}>
-                  <Card
-                    className="flex-row"
-                    style={{ width: "20rem", height: "20rem" }}
-                  >
-                    <Card.Body>
-                      <Card.Title>
-                        Item: {product_order.products?.name}
-                      </Card.Title>
-                      <Card.Text>
-                        Price: ${product_order.products?.price}
-                      </Card.Text>
-                      <Card.Text>Quantity: {product_order.quantity}</Card.Text>
-                      <Button
-                        className="btn-success"
-                        onClick={async () => {
-                          if (
-                            product_order.quantity <
-                            product_order.products.inventory
-                          ) {
-                            incrementQuantity(product_order.products.id);
-                          }
-                        }}
-                      >
-                        +
-                      </Button>
-                      <Button
-                        className="btn-danger"
-                        onClick={async () => {
-                          if (product_order.quantity > 1) {
-                            decrementQuantity(product_order.products.id);
-                          }
-                        }}
-                      >
-                        -
-                      </Button>
-                      <Button
-                        onClick={async () => {
-                          removeFromCart(product_order.id);
-                        }}
-                      >
-                        Remove Item
-                      </Button>
-                    </Card.Body>
-                  </Card>
-                </div>
-              </div>
-            );
-          })}
+        <div className="checkoutHeader">
           <h3>Your Total: ${total}</h3>
-          <Button
-            className="btn-warning"
-            onClick={async () => {
-              navigate("/checkout");
-            }}
-          >
-            Check Out!
-          </Button>
+          <Stack direction="horizontal" gap={3}>
+            <Button
+              style={{ backgroundColor: "#434343", border: "#434343" }}
+              onClick={async () => {
+                navigate("/checkout");
+              }}
+            >
+              Check Out!
+            </Button>
+            <Button
+              // variant="outline-dark"
+              style={{ backgroundColor: "#ffc663", border: "#434343" }}
+              onClick={async () => {
+                emptyCart();
+              }}
+            >
+              Empty Cart
+            </Button>
+          </Stack>
         </div>
       ) : (
-        <div>
+        <div className="checkoutHeader">
           <p>There is nothing in your cart!</p>
           <Button
             className="btn-warning"
@@ -172,11 +125,83 @@ export default function ShoppingCart() {
           </Button>
         </div>
       )}
+      {cart.product_orders?.length > 0 ? (
+        <div className="flexContainer">
+          {cart.product_orders?.map((product_order) => {
+            return (
+              <Card
+                className="flexItem"
+                style={{ width: "20rem", height: "32rem" }}
+                key={product_order.productId}
+              >
+                <Card.Body>
+                  <Card.Title
+                    className="cardTitle"
+                    style={{
+                      display: "flex",
+                      textAlign: "center",
+                      justifyContent: "center",
+                      marginBottom: "20px",
+                      height: "40px",
+                    }}
+                    onClick={() => {
+                      navigate(`/products/${product_order.productId}`);
+                    }}
+                  >
+                    {product_order.products?.name}
+                  </Card.Title>
+                  <Card.Img
+                    className="productImage"
+                    style={{ marginBottom: "15px", maxWidth: "18rem" }}
+                    src={product_order.products?.image_url}
+                    alt="productImg"
+                    onClick={() => {
+                      navigate(`/products/${product_order.productId}`);
+                    }}
+                  />
+                  <Card.Text>Price: ${product_order.products?.price}</Card.Text>
+                  <Card.Text>Quantity: {product_order.quantity}</Card.Text>
+                  <Stack direction="horizontal" gap={1}>
+                    <Button
+                      // variant="success"
+                      style={{ backgroundColor: "#434343", border: "#434343" }}
+                      onClick={async () => {
+                        if (
+                          product_order.quantity <
+                          product_order.products.inventory
+                        ) {
+                          incrementQuantity(product_order.products.id);
+                        }
+                      }}
+                    >
+                      <PlusCircle />
+                    </Button>
+                    <Button
+                      style={{ backgroundColor: "#ffc663", border: "#434343" }}
+                      onClick={async () => {
+                        if (product_order.quantity > 1) {
+                          decrementQuantity(product_order.products.id);
+                        }
+                      }}
+                    >
+                      <DashCircle />
+                    </Button>
+                    <Button
+                      className="ms-auto"
+                      style={{ backgroundColor: "#434343", border: "#434343" }}
+                      onClick={async () => {
+                        removeFromCart(product_order.id);
+                      }}
+                    >
+                      Remove Item
+                    </Button>
+                  </Stack>
+                </Card.Body>
+              </Card>
+            );
+          })}
+        </div>
+      ) : null}
     </div>
   );
 }
-
-// to add to a cart, add a row to the through table
-// you may need to add the item on the frontend as well
-// { 1: 2, 4: 8 }
-// guest cart persistence => map set to local storage
