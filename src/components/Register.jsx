@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { createUser } from "../axios-services/users";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Stack } from "react-bootstrap";
 import useAuth from "../hooks/useAuth";
 
 export default function Register() {
@@ -67,7 +67,7 @@ export default function Register() {
           <Form.Label>Email address</Form.Label>
           <Form.Control
             value={userEmail}
-            placeholder="Enter email"
+            placeholder="Enter email address"
             onChange={(e) => setUserEmail(e.target.value)}
           />
         </Form.Group>
@@ -75,7 +75,7 @@ export default function Register() {
           <Form.Label>New Password</Form.Label>
           <Form.Control
             value={password}
-            placeholder="Password"
+            placeholder="Enter password"
             type="password"
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -99,14 +99,28 @@ export default function Register() {
             {errorMessage}
           </Form.Text>
         ) : null}
-        <Button
-          style={{ marginTop: 20, marginBottom: 10 }}
-          variant="dark"
-          type="submit"
-        >
-          Create New Account
-        </Button>
-        <Link to="/login">Already have an account? Click here to log in.</Link>
+        <Stack>
+          <Button
+            style={{
+              marginTop: 20,
+              marginBottom: 10,
+              backgroundColor: "#434343",
+              border: "#434343",
+            }}
+            type="submit"
+          >
+            Create New Account
+          </Button>
+          <Button
+            style={{
+              backgroundColor: "#ffc663",
+              border: "#434343",
+            }}
+            onClick={() => navigate("/login")}
+          >
+            Already have an account? Click here to log in.
+          </Button>
+        </Stack>
       </Form>
     </div>
   );
