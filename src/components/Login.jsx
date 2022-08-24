@@ -33,7 +33,7 @@ export default function Login() {
             setUser(user);
             navigate("/");
           } else {
-            setErrorMessage("Incorrect login!");
+            setErrorMessage("Incorrect username or password.");
           }
         }}
       >
@@ -57,25 +57,6 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <Form.Check type="checkbox" label="Feeling lucky?" />
-        <Form.Text className="text-muted">or not..</Form.Text>
-        <Button
-          style={{ marginTop: 20, marginBottom: 5 }}
-          variant="dark"
-          type="submit"
-        >
-          Login!
-        </Button>
-        <Button
-          style={{ marginBottom: 10 }}
-          variant="secondary"
-          type="submit"
-          size="sm"
-          disabled
-        >
-          Forgot Password?
-        </Button>
-        <Link to="/register">Not registered? Click here</Link>
         {errorMessage ? (
           <Form.Text
             style={{
@@ -86,6 +67,16 @@ export default function Login() {
             {errorMessage}
           </Form.Text>
         ) : null}
+        <Button
+          style={{ marginTop: 20, marginBottom: 5 }}
+          variant="dark"
+          type="submit"
+        >
+          Log In
+        </Button>
+        <Link to="/register">
+          Don't have an account? Click here to register.
+        </Link>
       </Form>
     </div>
   );

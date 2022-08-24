@@ -33,11 +33,21 @@ export default function Register() {
             setErrorMessage("Your passwords do not match.");
           } else if (password.length < 8) {
             setErrorMessage("Your password must be at least 8 characters.");
+          } else if (
+            !password.length ||
+            !username.length ||
+            !userEmail.length
+          ) {
+            setErrorMessage("One or more required fields were left blank.");
           } else {
             const user = await createUser(username, password, userEmail);
             if (user) {
               setUser(user);
               navigate("/");
+            } else {
+              setErrorMessage(
+                "A user with that username or email address already exists."
+              );
             }
           }
         }}
@@ -79,19 +89,6 @@ export default function Register() {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </Form.Group>
-        <Form.Check type="checkbox" label="Create lucky account?" />
-        <Form.Text className="text-muted">
-          You can change this setting later
-        </Form.Text>
-        <Button
-          style={{ marginTop: 20, marginBottom: 10 }}
-          variant="dark"
-          type="submit"
-        >
-          Create New Account
-        </Button>
-        <Link to="/login">Already have an account? Click here</Link>
-
         {errorMessage ? (
           <Form.Text
             style={{
@@ -102,6 +99,14 @@ export default function Register() {
             {errorMessage}
           </Form.Text>
         ) : null}
+        <Button
+          style={{ marginTop: 20, marginBottom: 10 }}
+          variant="dark"
+          type="submit"
+        >
+          Create New Account
+        </Button>
+        <Link to="/login">Already have an account? Click here to log in.</Link>
       </Form>
     </div>
   );
