@@ -74,9 +74,7 @@ export default function Checkout() {
             marginTop: 50,
           }}
         >
-          <h3 style={{ textDecoration: "underline", marginBottom: "2vh" }}>
-            Checkout:
-          </h3>
+          <h3 style={{ marginBottom: "1vh" }}>Checkout:</h3>
           {cart.product_orders?.map((product_order) => {
             return (
               <div
@@ -106,30 +104,44 @@ export default function Checkout() {
           <h5>Sales Tax:</h5>
           <h5 style={{ fontWeight: "bold" }}>${salesTax}</h5>
           <h5>Shipping Charge:</h5>
-
-          {shippingCharge > 0 ? (
-            <h5 style={{ fontWeight: "bold" }}>${shippingCharge}.00</h5>
-          ) : (
-            <h5 style={{ fontWeight: "bold" }}>$0.00</h5>
-          )}
+          <h5 style={{ fontWeight: "bold" }}>${shippingCharge}.00</h5>
           <p className="text-muted">
             Orders of at least $150 or more ship for free!
           </p>
-          <h3>Your Total: ${total}.00</h3>
-          <Button
-            style={{
-              width: "8vw",
-              borderColor: "#434343",
-              backgroundColor: "#FFC663",
-              color: "black",
-              marginTop: "1vh",
-            }}
-            onClick={async () => {
-              submitOrder();
-            }}
-          >
-            Submit Order
-          </Button>
+          <h3 style={{ textDecoration: "overline #FFC663" }}>
+            Your Total: ${total}.00
+          </h3>
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <Button
+              style={{
+                width: "8vw",
+                borderColor: "#434343",
+                backgroundColor: "#FFC663",
+                color: "black",
+                marginTop: "1vh",
+                marginRight: "1vw",
+              }}
+              onClick={async () => {
+                submitOrder();
+              }}
+            >
+              Submit Order
+            </Button>
+            <Button
+              style={{
+                width: "8vw",
+                borderColor: "#434343",
+                backgroundColor: "#FFC663",
+                color: "black",
+                marginTop: "1vh",
+              }}
+              onClick={async () => {
+                navigate("/cart");
+              }}
+            >
+              Back To Cart
+            </Button>
+          </div>
         </div>
       ) : (
         <div>ERROR: There is nothing in your cart!</div>
