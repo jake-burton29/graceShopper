@@ -46,7 +46,7 @@ export default function SingleProduct() {
         if (cart.product_orders) {
           setCart({
             ...cart,
-            product_orders: [...product_orders, newProductOrder],
+            product_orders: [...cart.product_orders, newProductOrder],
           });
         } else {
           setCart({ ...cart, product_orders: [newProductOrder] });
@@ -61,7 +61,7 @@ export default function SingleProduct() {
         if (cart.product_orders) {
           setCart({
             ...cart,
-            product_orders: [...product_orders, newProductOrder],
+            product_orders: [...cart.product_orders, newProductOrder],
           });
         } else {
           setCart({ ...cart, product_orders: [newProductOrder] });
