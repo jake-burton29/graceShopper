@@ -63,8 +63,8 @@ body {
   margin-bottom: 20px;
 }
 
-.card-bod {
-  margin: 30px;
+.card-body {
+  margin: 5px;
 }
 
 .card {
@@ -81,4 +81,16 @@ body {
 .checkoutHeader {
   margin: 3rem;
   margin-left: 7rem;
+}
+.singleCard {
+  align-items: center;
+  margin-top: 60px;
+}
+
+.C-div {
+  width: 80%;
+}
+
+.seperator {
+  margin-top: 20px;
 }
