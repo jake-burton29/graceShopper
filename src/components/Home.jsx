@@ -53,8 +53,7 @@ export default function Home() {
         style={{
           width: "85vw",
           boxShadow: "0 0 3px 2px #cec7c759",
-          padding: 20,
-          paddingTop: 20,
+          padding: 15,
           borderRadius: 20,
           marginBottom: 20,
           backgroundColor: "#434343",

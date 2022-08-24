@@ -8,11 +8,14 @@ import {
   editProductOrder,
   createProductOrder,
 } from "../axios-services/product_orders";
+import { CartPlus, CartCheck } from "react-bootstrap-icons";
+
 export default function SingleProduct() {
   const [product, setProduct] = useState({});
   const { id } = useParams();
   const { cart, setCart } = useCart();
   const { user } = useAuth();
+  const [addedToCart, setAddedToCart] = useState(false);
 
   async function addToCart() {
     let productOrderIndex = -1;
@@ -84,13 +87,24 @@ export default function SingleProduct() {
         <Card.Body>Price: {product.price}</Card.Body>
         <Card.Text>In Stock: {product.inventory}</Card.Text>
         <Card.Text>Description: {product.description}</Card.Text>
-        <Button
-          onClick={() => {
-            addToCart();
-          }}
-        >
-          Add to Cart!
-        </Button>
+        {!addedToCart ? (
+          <Button
+            variant="dark"
+            onClick={async () => {
+              addToCart();
+              setAddedToCart(true);
+              setTimeout(() => {
+                setAddedToCart(false);
+              }, 2000);
+            }}
+          >
+            Add to Cart! <CartPlus size={25} />
+          </Button>
+        ) : (
+          <Button variant="success">
+            Added to Cart! <CartCheck size={25} />
+          </Button>
+        )}
       </Card>
     </div>
   );

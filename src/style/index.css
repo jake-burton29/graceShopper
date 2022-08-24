@@ -26,7 +26,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 80px;
+  margin-top: 25px;
 }
 
 .card {
@@ -48,7 +48,8 @@ body {
   text-decoration: underline;
 }
 
-.productImage:hover {
+.productImage:hover,
+#logo:hover {
   cursor: pointer;
 }
 
@@ -66,12 +67,18 @@ body {
   margin: 30px;
 }
 
-.singleCard {
-  align-items: center;
+.card {
+  flex-wrap: wrap;
 }
-.singleCart {
+
+.flexContainer {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 80px;
+}
+
+.checkoutHeader {
+  margin: 3rem;
+  margin-left: 7rem;
 }
