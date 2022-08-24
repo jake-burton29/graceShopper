@@ -38,7 +38,7 @@ const App = () => {
 
   return (
     <div id="appContainer">
-      <Favicon url="favicon.ico"></Favicon>;
+      <Favicon url="https://i.ibb.co/87t5mNr/favicon.png"></Favicon>
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
