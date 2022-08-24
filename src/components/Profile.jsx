@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getMyOrders } from "../axios-services/orders";
 import useAuth from "../hooks/useAuth";
+import { Card } from "react-bootstrap";
 
 export default function Profile() {
   const { user } = useAuth();
@@ -15,16 +16,39 @@ export default function Profile() {
   }, [user]);
 
   return (
-    <div id="profile">
+    <div
+      id="profile"
+      style={{
+        textAlign: "center",
+        width: "65%",
+        marginLeft: "auto",
+      }}
+    >
       {user ? (
-        <div id="accountInfo">
-          <h3>Account Info:</h3>
-          <p>Username: {user.username}</p>
-          <p>Email: {user.email}</p>
-        </div>
+        <Card
+          id="accountInfo"
+          style={{
+            width: "400px",
+            height: "250px",
+            paddingTop: "60px",
+            marginTop: "20px",
+            marginLeft: "90px",
+          }}
+        >
+          <Card.Title style={{ fontSize: "30px" }}>Account Info:</Card.Title>
+          <Card.Text>Username: {user.username}</Card.Text>
+          <Card.Text>Email: {user.email}</Card.Text>
+        </Card>
       ) : null}
 
-      <div id="myOrders">
+      <div
+        id="myOrders"
+        style={{
+          width: "600px",
+          paddingTop: "50px",
+          marginTop: "20px",
+        }}
+      >
         <h3>My Orders:</h3>
         {myOrders?.map((order) => {
           if (order.complete)
@@ -44,7 +68,13 @@ export default function Profile() {
                       );
                     })}
                 </div>
-                <p>Total: ${order.total}</p>
+                <p
+                  style={{
+                    fontWeight: "bold",
+                  }}
+                >
+                  Total: ${order.total}
+                </p>
               </div>
             );
         })}

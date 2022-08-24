@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import useCart from "../hooks/useCart";
@@ -7,11 +7,13 @@ import {
   createProductOrder,
   editProductOrder,
 } from "../axios-services/product_orders";
+import { CartPlus, CartCheck } from "react-bootstrap-icons";
 
 export default function ProductsCard({ product }) {
   const navigate = useNavigate();
   const { cart, setCart } = useCart();
   const { user } = useAuth();
+  const [addedToCart, setAddedToCart] = useState(false);
   async function addToCart() {
     let productOrderIndex = -1;
     productOrderIndex = cart.product_orders?.findIndex(
@@ -68,7 +70,10 @@ export default function ProductsCard({ product }) {
 
   return (
     <div>
-      <Card className="flex-row" style={{ width: "20rem" }}>
+      <Card
+        className="flex-row border border-color-#434343 border-3"
+        style={{ width: "20rem" }}
+      >
         <Card.Body>
           <Card.Title
             className="cardTitle"
@@ -104,14 +109,24 @@ export default function ProductsCard({ product }) {
               justifyContent: "center",
             }}
           >
-            <Button
-              variant="dark"
-              onClick={async () => {
-                addToCart();
-              }}
-            >
-              Add to Cart!
-            </Button>
+            {!addedToCart ? (
+              <Button
+                style={{ backgroundColor: "#434343", border: "#434343" }}
+                onClick={async () => {
+                  addToCart();
+                  setAddedToCart(true);
+                  setTimeout(() => {
+                    setAddedToCart(false);
+                  }, 2000);
+                }}
+              >
+                Add to Cart! <CartPlus size={25} />
+              </Button>
+            ) : (
+              <Button variant="success">
+                Added to Cart! <CartCheck size={25} />
+              </Button>
+            )}
           </div>
         </Card.Body>
       </Card>
