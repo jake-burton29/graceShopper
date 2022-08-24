@@ -1,16 +1,33 @@
 import React from "react";
 import useAuth from "../hooks/useAuth";
 import { logout } from "../axios-services/users";
-import { Navbar, Nav, Container, Button } from "react-bootstrap";
+import { Navbar, Nav, Container, Button, Badge } from "react-bootstrap";
 import Stack from "react-bootstrap/Stack";
 import { useNavigate } from "react-router-dom";
 import logo from "../netTech.png";
-import { Cart4 } from "react-bootstrap-icons";
+import { Cart4, Person } from "react-bootstrap-icons";
+import { useState, useEffect } from "react";
+import useCart from "../hooks/useCart";
 // use Link or NavLink from react-router-dom
 
 export default function NavBar() {
   const { user, setUser } = useAuth();
+  const { cart } = useCart();
+  const [cartSize, setCartSize] = useState();
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const getCartSize = () => {
+      let count = 0;
+      cart.product_orders?.forEach((product_order) => {
+        count += product_order.quantity;
+      });
+      setCartSize(count);
+    };
+    getCartSize();
+  }, [cart]);
+
   return (
     <div>
       <Navbar
@@ -28,12 +45,19 @@ export default function NavBar() {
           style={{
             maxHeight: "10vh",
             maxWidth: "10vw",
+            marginLeft: "2vw",
             backgroundColor: "#434343",
             border: "#434343",
           }}
         />
         <Nav>
-          <Stack direction="horizontal" gap={4}>
+          <Stack
+            direction="horizontal"
+            gap={4}
+            style={{
+              marginRight: "2vw",
+            }}
+          >
             <Button
               onClick={() => navigate("/cart")}
               className=""
@@ -45,6 +69,7 @@ export default function NavBar() {
             >
               <Cart4 />
               Cart
+              <Badge bg="secondary">{cartSize}</Badge>
             </Button>
             {user ? (
               <Button
@@ -56,7 +81,8 @@ export default function NavBar() {
                   border: "#434343",
                 }}
               >
-                👤{user.username}
+                <Person />
+                {user.username}
               </Button>
             ) : (
               <Button
