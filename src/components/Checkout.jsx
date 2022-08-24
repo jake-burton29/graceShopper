@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import useAuth from "../hooks/useAuth";
 import useCart from "../hooks/useCart";
-import { Button } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import { completeOrder, createOrder } from "../axios-services/orders";
 import { useNavigate } from "react-router-dom";
 import { createProductOrder } from "../axios-services/product_orders";
@@ -24,7 +24,7 @@ export default function Checkout() {
     });
     tax = sum * taxRate;
     setSalesTax(tax);
-    if (sum > 50) {
+    if (sum > 150) {
       ship = 0;
       setShippingCharge(ship);
     } else {
@@ -42,8 +42,7 @@ export default function Checkout() {
       } else {
         setUser({ ...user, orders: [completedOrder] });
       }
-      navigate("/");
-      console.log("user order submitted: #", completedOrder.id);
+      navigate(`/orders/${completedOrder.id}`);
     } else {
       const newOrder = await createOrder();
       for (const product_order of cart.product_orders) {
@@ -53,49 +52,78 @@ export default function Checkout() {
           product_order.quantity
         );
       }
-      // cart.product_orders.forEach((product_order) => {
-      //   createProductOrder(
-      //     product_order.productId,
-      //     newOrder.id,
-      //     product_order.quantity
-      //   );
-      // });
       completeOrder(newOrder.id);
       localStorage.setItem("guestCart", JSON.stringify({ product_orders: [] }));
       setCart({ product_orders: [] });
-      navigate("/");
-      console.log("guest order submitted: #", newOrder.id);
+      navigate(`/orders/${newOrder.id}`);
     }
   }
 
   return (
-    <div>
+    <div style={{ display: "flex", justifyContent: "center" }}>
       {cart.product_orders?.length > 0 ? (
-        <div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "75vw",
+            boxShadow: "0 0 3px 2px #cec7c759",
+            padding: 20,
+            paddingTop: 20,
+            borderRadius: 20,
+            marginTop: 50,
+          }}
+        >
+          <h3 style={{ textDecoration: "underline", marginBottom: "2vh" }}>
+            Checkout:
+          </h3>
           {cart.product_orders?.map((product_order) => {
             return (
-              <div key={product_order.productId}>
-                <h4>
-                  {product_order.products?.name} x{product_order.quantity}
-                </h4>
-                <h5>${product_order.products?.price}</h5>
+              <div
+                key={product_order.productId}
+                style={{ display: "flex", flexDirection: "row" }}
+              >
+                <img
+                  style={{
+                    marginBottom: "2vh",
+                    maxWidth: "6vw",
+                    marginRight: "1vw",
+                  }}
+                  src={product_order.products?.image_url}
+                  alt="checkoutProductImage"
+                />
+                <div>
+                  <h5>{product_order.products?.name}</h5>
+                  <div>──────────────────────────</div>
+                  <div>x{product_order.quantity}</div>
+                  <div style={{ fontWeight: "bold" }}>
+                    ${product_order.products?.price}.00
+                  </div>
+                </div>
               </div>
             );
           })}
-          <h4>Sales Tax</h4>
-          <h5>${salesTax}</h5>
-          <h4>Shipping Charge</h4>
+          <h5>Sales Tax:</h5>
+          <h5 style={{ fontWeight: "bold" }}>${salesTax}</h5>
+          <h5>Shipping Charge:</h5>
+
           {shippingCharge > 0 ? (
-            <>
-              <h5>${shippingCharge}</h5>
-              <p>Orders of at least $50 will ship for free!</p>
-            </>
+            <h5 style={{ fontWeight: "bold" }}>${shippingCharge}.00</h5>
           ) : (
-            <h5>Your shipping charge today is FREE because it is over 50$</h5>
+            <h5 style={{ fontWeight: "bold" }}>$0.00</h5>
           )}
-          <h3>Your Total: ${total}</h3>
+          <p className="text-muted">
+            Orders of at least $150 or more ship for free!
+          </p>
+          <h3>Your Total: ${total}.00</h3>
           <Button
-            className="btn-warning"
+            style={{
+              width: "8vw",
+              borderColor: "#434343",
+              backgroundColor: "#FFC663",
+              color: "black",
+              marginTop: "1vh",
+            }}
             onClick={async () => {
               submitOrder();
             }}

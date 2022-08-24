@@ -96,6 +96,9 @@ ordersRouter.patch(
         order.product_orders?.forEach((product_order) => {
           total += product_order.products.price * product_order.quantity * 1.1;
         });
+        if (total < 150) {
+          total += 12;
+        }
         total = Math.trunc(total);
         const updatedOrder = await prisma.orders.update({
           where: { id },
