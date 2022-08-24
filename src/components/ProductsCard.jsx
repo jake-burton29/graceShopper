@@ -7,6 +7,7 @@ import {
   createProductOrder,
   editProductOrder,
 } from "../axios-services/product_orders";
+import { CartPlus, CartCheck } from "react-bootstrap-icons";
 
 export default function ProductsCard({ product }) {
   const navigate = useNavigate();
@@ -116,10 +117,12 @@ export default function ProductsCard({ product }) {
                   }, 2000);
                 }}
               >
-                Add to Cart!
+                Add to Cart! <CartPlus size={25} />
               </Button>
             ) : (
-              <Button variant="success">Added to Cart!</Button>
+              <Button variant="success">
+                Added to Cart! <CartCheck size={25} />
+              </Button>
             )}
           </div>
         </Card.Body>
