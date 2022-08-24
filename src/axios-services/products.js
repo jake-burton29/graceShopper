@@ -47,3 +47,8 @@ export async function createProduct(
   });
   return product;
 }
+
+export async function deleteProduct(productId) {
+  const { data: product } = await axios.delete(`/api/products/${productId}`);
+  return product;
+}
