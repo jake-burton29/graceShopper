@@ -17,6 +17,7 @@ import {
   Profile,
   Checkout,
 } from "./components";
+import Favicon from "react-favicon";
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
@@ -37,6 +38,7 @@ const App = () => {
 
   return (
     <div id="appContainer">
+      <Favicon url="favicon.ico"></Favicon>;
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
