@@ -30,61 +30,69 @@ product_orderRouter.post("/", requireUserOrGuest, async (req, res, next) => {
 });
 
 //PATCH PRODUCT_ORDER by ID
-product_orderRouter.patch("/:productOrderId", async (req, res, next) => {
-  try {
-    const productOrderId = +req.params.productOrderId;
-    const { quantity } = req.body;
-    const product_order = await prisma.orders.findUnique({
-      where: { id: productOrderId },
-      include: { orders: true },
-    });
-    if (
-      product_order.orders.shopperId !== req.user.id ||
-      product_order.orders.complete
-    ) {
-      res.status(401).send({
-        loggedIn: false,
-        message: "You don't have access to this order.",
+product_orderRouter.patch(
+  "/:productOrderId",
+  requireUserOrGuest,
+  async (req, res, next) => {
+    try {
+      const productOrderId = +req.params.productOrderId;
+      const { quantity } = req.body;
+      const product_order = await prisma.product_orders.findUnique({
+        where: { id: productOrderId },
+        include: { orders: true },
       });
-    }
+      if (
+        product_order.orders.shopperId !== req.user.id ||
+        product_order.orders.complete
+      ) {
+        res.status(401).send({
+          loggedIn: false,
+          message: "You don't have access to this order.",
+        });
+      }
 
-    const updatedProductOrder = await prisma.product_orders.update({
-      data: {
-        quantity,
-      },
-      where: { id: productOrderId },
-      include: { products: true },
-    });
-    res.send(updatedProductOrder);
-  } catch (error) {
-    next(error);
+      const updatedProductOrder = await prisma.product_orders.update({
+        data: {
+          quantity,
+        },
+        where: { id: productOrderId },
+        include: { products: true },
+      });
+      res.send(updatedProductOrder);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 // DELETE PRODUCT_ORDER by ID
-product_orderRouter.delete("/:productOrderId", async (req, res, next) => {
-  try {
-    const productOrderId = +req.params.productOrderId;
-    const product_order = await prisma.orders.findUnique({
-      where: { id: productOrderId },
-      include: { orders: true },
-    });
-    if (
-      product_order.orders.shopperId !== req.user.id ||
-      product_order.orders.complete
-    ) {
-      res.status(401).send({
-        loggedIn: false,
-        message: "You don't have access to this order.",
+product_orderRouter.delete(
+  "/:productOrderId",
+  requireUserOrGuest,
+  async (req, res, next) => {
+    try {
+      const productOrderId = +req.params.productOrderId;
+      const product_order = await prisma.product_orders.findUnique({
+        where: { id: productOrderId },
+        include: { orders: true },
       });
+      if (
+        product_order.orders.shopperId !== req.user.id ||
+        product_order.orders.complete
+      ) {
+        res.status(401).send({
+          loggedIn: false,
+          message: "You don't have access to this order.",
+        });
+      }
+      const updatedProductOrder = await prisma.product_orders.delete({
+        where: { id: productOrderId },
+      });
+      res.send(updatedProductOrder);
+    } catch (error) {
+      next(error);
     }
-    const updatedProductOrder = await prisma.product_orders.delete({
-      where: { id: productOrderId },
-    });
-    res.send(updatedProductOrder);
-  } catch (error) {
-    next(error);
   }
-});
+);
 
 module.exports = product_orderRouter;

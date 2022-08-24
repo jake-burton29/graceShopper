@@ -67,9 +67,15 @@ export default function NavBar() {
                 border: "#434343",
               }}
             >
-              <Cart4 />
-              Cart
-              <Badge bg="secondary">{cartSize}</Badge>
+              <Cart4 size={25} />{" "}
+              <Badge
+                bg="light"
+                style={{
+                  color: "#434343",
+                }}
+              >
+                {cartSize}
+              </Badge>
             </Button>
             {user ? (
               <Button
