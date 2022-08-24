@@ -77,14 +77,23 @@ export default function SingleProduct() {
   }, []);
 
   return (
-    <div>
-      <Card className="singleCard">
+    <div className="C-div">
+      <Card className="singleCard" style={{ width: "70%", marginLeft: "auto" }}>
         <Card.Title className="singleCard">Product: {product.name}</Card.Title>
         <Card.Img src={product.image_url} className="w-25 p-3" />
-        <Card.Body>Price: {product.price}</Card.Body>
-        <Card.Text>In Stock: {product.inventory}</Card.Text>
-        <Card.Text>Description: {product.description}</Card.Text>
+        <Card.Text className="seperator">Price: {product.price}</Card.Text>
+        <Card.Text className="seperator">
+          In Stock: {product.inventory}
+        </Card.Text>
+        <Card.Text className="seperator">
+          Description: {product.description}
+        </Card.Text>
         <Button
+          style={{
+            backgroundColor: "#434343",
+            border: "#434343",
+            marginTop: "30px",
+          }}
           onClick={() => {
             addToCart();
           }}
