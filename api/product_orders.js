@@ -34,7 +34,7 @@ product_orderRouter.patch("/:productOrderId", async (req, res, next) => {
   try {
     const productOrderId = +req.params.productOrderId;
     const { quantity } = req.body;
-    const product_order = await prisma.orders.findUnique({
+    const product_order = await prisma.product_orders.findUnique({
       where: { id: productOrderId },
       include: { orders: true },
     });
@@ -65,7 +65,7 @@ product_orderRouter.patch("/:productOrderId", async (req, res, next) => {
 product_orderRouter.delete("/:productOrderId", async (req, res, next) => {
   try {
     const productOrderId = +req.params.productOrderId;
-    const product_order = await prisma.orders.findUnique({
+    const product_order = await prisma.product_orders.findUnique({
       where: { id: productOrderId },
       include: { orders: true },
     });
