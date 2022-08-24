@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Stack } from "react-bootstrap";
 import { loginUser } from "../axios-services/users";
 import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
@@ -18,7 +18,6 @@ export default function Login() {
         style={{
           display: "flex",
           flexDirection: "column",
-          height: 445,
           width: 500,
           boxShadow: "0 0 3px 2px #cec7c759",
           padding: 20,
@@ -52,7 +51,7 @@ export default function Login() {
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Control
             value={password}
-            placeholder="Password"
+            placeholder="Enter password"
             type="password"
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -67,16 +66,25 @@ export default function Login() {
             {errorMessage}
           </Form.Text>
         ) : null}
-        <Button
-          style={{ marginTop: 20, marginBottom: 5 }}
-          variant="dark"
-          type="submit"
-        >
-          Log In
-        </Button>
-        <Link to="/register">
-          Don't have an account? Click here to register.
-        </Link>
+        <Stack>
+          <Button
+            style={{
+              marginTop: 20,
+              marginBottom: 5,
+              backgroundColor: "#434343",
+              border: "#434343",
+            }}
+            type="submit"
+          >
+            Log In
+          </Button>
+          <Button
+            style={{ backgroundColor: "#ffc663", border: "#434343" }}
+            onClick={() => navigate("/register")}
+          >
+            Don't have an account? Click here to register.
+          </Button>
+        </Stack>
       </Form>
     </div>
   );
