@@ -96,7 +96,7 @@ export default function SingleProduct() {
             style={{
               backgroundColor: "#434343",
               border: "#434343",
-              marginTop: "30px",
+              marginTop: "20px",
             }}
             onClick={async () => {
               addToCart();
