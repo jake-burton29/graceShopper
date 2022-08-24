@@ -73,9 +73,12 @@ export default function Home() {
         }}
       >
         <Button
-          style={{ width: "15rem" }}
+          style={{
+            width: "15rem",
+            backgroundColor: "#434343",
+            border: "#434343",
+          }}
           size="lg"
-          variant="dark"
           onClick={() => {
             setCategoryId(null);
           }}
@@ -86,9 +89,12 @@ export default function Home() {
         {categories.map((category) => {
           return (
             <Button
-              style={{ width: "15rem" }}
+              style={{
+                width: "15rem",
+                backgroundColor: "#434343",
+                border: "#434343",
+              }}
               size="lg"
-              variant="dark"
               key={category.id}
               onClick={() => {
                 setCategoryId(category.id);

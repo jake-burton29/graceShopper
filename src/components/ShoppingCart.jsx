@@ -4,6 +4,7 @@ import useCart from "../hooks/useCart";
 import { useNavigate } from "react-router-dom";
 import { Button, Card } from "react-bootstrap";
 import { PlusCircle, DashCircle } from "react-bootstrap-icons";
+import Stack from "react-bootstrap/Stack";
 import {
   editProductOrder,
   deleteProductOrder,
@@ -91,22 +92,25 @@ export default function ShoppingCart() {
       {cart.product_orders?.length > 0 ? (
         <div className="checkoutHeader">
           <h3>Your Total: ${total}</h3>
-          <Button
-            variant="dark"
-            onClick={async () => {
-              navigate("/checkout");
-            }}
-          >
-            Check Out!
-          </Button>
-          <Button
-            variant="outline-dark"
-            onClick={async () => {
-              emptyCart();
-            }}
-          >
-            Empty Cart
-          </Button>
+          <Stack direction="horizontal" gap={3}>
+            <Button
+              style={{ backgroundColor: "#434343", border: "#434343" }}
+              onClick={async () => {
+                navigate("/checkout");
+              }}
+            >
+              Check Out!
+            </Button>
+            <Button
+              // variant="outline-dark"
+              style={{ backgroundColor: "#ffc663", border: "#434343" }}
+              onClick={async () => {
+                emptyCart();
+              }}
+            >
+              Empty Cart
+            </Button>
+          </Stack>
         </div>
       ) : (
         <div className="checkoutHeader">
@@ -157,37 +161,41 @@ export default function ShoppingCart() {
                   />
                   <Card.Text>Price: ${product_order.products?.price}</Card.Text>
                   <Card.Text>Quantity: {product_order.quantity}</Card.Text>
-                  <Button
-                    variant="success"
-                    onClick={async () => {
-                      if (
-                        product_order.quantity <
-                        product_order.products.inventory
-                      ) {
-                        incrementQuantity(product_order.products.id);
-                      }
-                    }}
-                  >
-                    <PlusCircle />
-                  </Button>
-                  <Button
-                    variant="danger"
-                    onClick={async () => {
-                      if (product_order.quantity > 1) {
-                        decrementQuantity(product_order.products.id);
-                      }
-                    }}
-                  >
-                    <DashCircle />
-                  </Button>
-                  <Button
-                    variant="dark"
-                    onClick={async () => {
-                      removeFromCart(product_order.id);
-                    }}
-                  >
-                    Remove Item
-                  </Button>
+                  <Stack direction="horizontal" gap={1}>
+                    <Button
+                      // variant="success"
+                      style={{ backgroundColor: "#434343", border: "#434343" }}
+                      onClick={async () => {
+                        if (
+                          product_order.quantity <
+                          product_order.products.inventory
+                        ) {
+                          incrementQuantity(product_order.products.id);
+                        }
+                      }}
+                    >
+                      <PlusCircle />
+                    </Button>
+                    <Button
+                      style={{ backgroundColor: "#ffc663", border: "#434343" }}
+                      onClick={async () => {
+                        if (product_order.quantity > 1) {
+                          decrementQuantity(product_order.products.id);
+                        }
+                      }}
+                    >
+                      <DashCircle />
+                    </Button>
+                    <Button
+                      className="ms-auto"
+                      style={{ backgroundColor: "#434343", border: "#434343" }}
+                      onClick={async () => {
+                        removeFromCart(product_order.id);
+                      }}
+                    >
+                      Remove Item
+                    </Button>
+                  </Stack>
                 </Card.Body>
               </Card>
             );

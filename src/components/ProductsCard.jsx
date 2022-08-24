@@ -70,7 +70,10 @@ export default function ProductsCard({ product }) {
 
   return (
     <div>
-      <Card className="flex-row" style={{ width: "20rem" }}>
+      <Card
+        className="flex-row border border-color-#434343 border-3"
+        style={{ width: "20rem" }}
+      >
         <Card.Body>
           <Card.Title
             className="cardTitle"
@@ -108,7 +111,7 @@ export default function ProductsCard({ product }) {
           >
             {!addedToCart ? (
               <Button
-                variant="dark"
+                style={{ backgroundColor: "#434343", border: "#434343" }}
                 onClick={async () => {
                   addToCart();
                   setAddedToCart(true);
