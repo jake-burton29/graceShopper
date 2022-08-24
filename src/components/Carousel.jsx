@@ -4,7 +4,12 @@ import { Carousel } from "react-bootstrap";
 function carouselComponent() {
   return (
     <div>
-      <Carousel variant="dark">
+      <Carousel
+        variant="dark"
+        style={{
+          marginTop: "1vh",
+        }}
+      >
         <Carousel.Item>
           <img
             className="d-block mx-auto "
