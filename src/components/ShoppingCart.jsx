@@ -158,7 +158,7 @@ export default function ShoppingCart() {
                   <Card.Text>Price: ${product_order.products?.price}</Card.Text>
                   <Card.Text>Quantity: {product_order.quantity}</Card.Text>
                   <Button
-                    variant="dark"
+                    variant="success"
                     onClick={async () => {
                       if (
                         product_order.quantity <
@@ -171,7 +171,7 @@ export default function ShoppingCart() {
                     <PlusCircle />
                   </Button>
                   <Button
-                    variant="dark"
+                    variant="danger"
                     onClick={async () => {
                       if (product_order.quantity > 1) {
                         decrementQuantity(product_order.products.id);
