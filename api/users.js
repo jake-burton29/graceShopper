@@ -3,7 +3,6 @@ const prisma = require("../db/prisma");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { requireUser, requireAdmin } = require("./utils");
-const { product_orders } = require("../db/prisma");
 const { JWT_SECRET } = process.env;
 const SALT_ROUNDS = 10;
 

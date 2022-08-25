@@ -11,6 +11,7 @@ categoriesRouter.get("/", async (req, res, next) => {
     next(error);
   }
 });
+
 // GET from api/categories/:id
 categoriesRouter.get("/:id", async (req, res, next) => {
   try {
@@ -50,10 +51,10 @@ categoriesRouter.patch(
   async (req, res, next) => {
     try {
       const categoryId = +req.params.id;
-      const { name, description, id } = req.body; // id could be wrong will fix DONT FORGFET
+      const { name, description } = req.body;
       const editCategory = await prisma.categories.update({
         where: { id: categoryId },
-        data: { name, description, id },
+        data: { name, description },
       });
       res.send(editCategory);
     } catch (error) {
