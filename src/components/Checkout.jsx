@@ -52,7 +52,7 @@ export default function Checkout() {
           product_order.quantity
         );
       }
-      completeOrder(newOrder.id);
+      await completeOrder(newOrder.id);
       localStorage.setItem("guestCart", JSON.stringify({ product_orders: [] }));
       setCart({ product_orders: [] });
       navigate(`/orders/${newOrder.id}`);
