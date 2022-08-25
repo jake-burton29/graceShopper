@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { createUser } from "../axios-services/users";
 import { Button, Form, Stack } from "react-bootstrap";
 import useAuth from "../hooks/useAuth";

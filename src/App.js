@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { getAPIHealth } from "./axios-services";
 import "./style/App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
@@ -17,16 +16,6 @@ import {
 import Favicon from "react-favicon";
 
 const App = () => {
-  const [APIHealth, setAPIHealth] = useState("");
-
-  useEffect(() => {
-    const getAPIStatus = async () => {
-      const { healthy } = await getAPIHealth();
-      setAPIHealth(healthy ? "api is up! :D" : "api is down :/");
-    };
-    getAPIStatus();
-  }, []);
-
   return (
     <div id="appContainer">
       <Favicon url="https://i.ibb.co/87t5mNr/favicon.png"></Favicon>

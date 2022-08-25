@@ -1,7 +1,5 @@
 const ordersRouter = require("express").Router();
 const prisma = require("../db/prisma");
-const jwt = require("jsonwebtoken");
-const { JWT_SECRET } = process.env;
 const { requireAdmin, requireUser, requireUserOrGuest } = require("./utils");
 
 //GET /api/orders/myorders

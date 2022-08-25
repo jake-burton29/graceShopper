@@ -1,14 +1,13 @@
 import React from "react";
 import useAuth from "../hooks/useAuth";
 import { logout } from "../axios-services/users";
-import { Navbar, Nav, Container, Button, Badge } from "react-bootstrap";
+import { Navbar, Nav, Button, Badge } from "react-bootstrap";
 import Stack from "react-bootstrap/Stack";
 import { useNavigate } from "react-router-dom";
 import logo from "../netTech.png";
 import { Cart4, Person } from "react-bootstrap-icons";
 import { useState, useEffect } from "react";
 import useCart from "../hooks/useCart";
-// use Link or NavLink from react-router-dom
 
 export default function NavBar() {
   const { user, setUser } = useAuth();

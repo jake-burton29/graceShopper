@@ -67,13 +67,10 @@ async function buildTables() {
 
 async function populateInitialData() {
   try {
-    // create useful starting data by leveraging your
-    // Model.method() adapters to seed your db, for example:
-    // const user1 = await User.createUser({ ...user info goes here... })
     // cat 1 = computers
     // cat 2 = mice
-    // cat 3 = keybaords
-    // cat 4 = webacam
+    // cat 3 = keyboards
+    // cat 4 = webcams
 
     const adminPassword = await bcrypt.hash("12341234", SALT_ROUNDS);
     const testPassword = await bcrypt.hash("12345678", SALT_ROUNDS);
@@ -123,6 +120,8 @@ async function populateInitialData() {
         description: "Streaming webacams",
       },
     });
+
+    //Computers
 
     await prisma.products.create({
       data: {
@@ -309,6 +308,8 @@ async function populateInitialData() {
         categoryId: 2,
       },
     });
+
+    // Webcams
 
     await prisma.products.create({
       data: {

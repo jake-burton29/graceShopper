@@ -6,8 +6,6 @@ import { Button, Form } from "react-bootstrap";
 import { getProductsByCategoryId } from "../axios-services/products";
 import Carousel from "./Carousel";
 
-// importing from react-bootstrap-icons is possible!
-
 export default function Home() {
   const { products } = useProducts();
   const { categories } = useCategories();
