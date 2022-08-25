@@ -23,7 +23,6 @@ export default function SingleProduct() {
       (product_order) => product_order.productId === product.id
     );
     if (productOrderIndex !== -1) {
-      console.log("Adding another to cart!");
       const cartCopy = { ...cart };
       cartCopy.product_orders[productOrderIndex].quantity += 1;
       setCart(cartCopy);
@@ -36,7 +35,6 @@ export default function SingleProduct() {
         localStorage.setItem("guestCart", JSON.stringify(cart));
       }
     } else {
-      console.log("Creating a new product_order!");
       if (user) {
         const newProductOrder = await createProductOrder(
           product.id,

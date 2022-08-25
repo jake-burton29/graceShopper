@@ -1,11 +1,8 @@
-/* import fonts here */
-
 * {
   box-sizing: border-box;
 }
 
 :root {
-  /* define variables here */
   --green: green;
   --red: red;
   --blue: blue;

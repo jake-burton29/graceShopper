@@ -36,7 +36,6 @@ export default function Home() {
         const filteredProducts = products.filter((product) =>
           productMatches(product, searchTerm.toLowerCase())
         );
-        console.log("filtered", filteredProducts);
         setDisplayProducts(
           searchTerm.length ? filteredProducts : displayProducts
         );
