@@ -54,14 +54,19 @@ export default function ProductsCard({ product }) {
           quantity: 1,
         };
         if (cart.product_orders) {
-          setCart({
+          let cartCopy = cart;
+          cartCopy = {
             ...cart,
             product_orders: [...cart.product_orders, newProductOrder],
-          });
+          };
+          setCart(cartCopy);
+          localStorage.setItem("guestCart", JSON.stringify(cartCopy));
         } else {
-          setCart({ ...cart, product_orders: [newProductOrder] });
+          let cartCopy = cart;
+          cartCopy = { ...cart, product_orders: [newProductOrder] };
+          setCart(cartCopy);
+          localStorage.setItem("guestCart", JSON.stringify(cartCopy));
         }
-        localStorage.setItem("guestCart", JSON.stringify(cart));
       }
     }
   }

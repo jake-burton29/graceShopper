@@ -116,7 +116,7 @@ export default function ShoppingCart() {
         <div className="checkoutHeader">
           <p>There is nothing in your cart!</p>
           <Button
-            className="btn-warning"
+            style={{ backgroundColor: "#ffc663", border: "#434343" }}
             onClick={async () => {
               navigate("/");
             }}

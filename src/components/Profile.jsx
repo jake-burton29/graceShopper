@@ -5,6 +5,7 @@ import { Button } from "react-bootstrap";
 import useProducts from "../hooks/useProducts";
 import { createProduct } from "../axios-services/products";
 import { Card } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
   const { user } = useAuth();
@@ -16,6 +17,7 @@ export default function Profile() {
   const [inventory, setInventory] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [myOrders, setMyOrders] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getUsersOrders = async () => {
@@ -74,7 +76,13 @@ export default function Profile() {
             if (order.complete)
               return (
                 <div key={order.id}>
-                  <h4>Order #{order.id}</h4>
+                  <h4
+                    onClick={() => {
+                      navigate(`/orders/${order.id}`);
+                    }}
+                  >
+                    Order #{order.id}
+                  </h4>
                   <div>
                     {order?.product_orders &&
                       order.product_orders.map((productOrder) => {
