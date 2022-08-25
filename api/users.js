@@ -51,7 +51,6 @@ usersRouter.get("/:username", requireUser, async (req, res, next) => {
 //POST to /api/users/register
 usersRouter.post("/register", async (req, res, next) => {
   try {
-    // removed admin with creating a user
     const { username, password, email } = req.body;
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
     const newUser = await prisma.users.create({

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Card, Button } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getProductById } from "../axios-services/products";
 import useCart from "../hooks/useCart";
 import useAuth from "../hooks/useAuth";
@@ -8,14 +8,18 @@ import {
   editProductOrder,
   createProductOrder,
 } from "../axios-services/product_orders";
+import { deleteProduct } from "../axios-services/products";
 import { CartPlus, CartCheck } from "react-bootstrap-icons";
+import useProducts from "../hooks/useProducts";
 
 export default function SingleProduct() {
   const [product, setProduct] = useState({});
+  const { products, setProducts } = useProducts();
   const { id } = useParams();
   const { cart, setCart } = useCart();
   const { user } = useAuth();
   const [addedToCart, setAddedToCart] = useState(false);
+  const navigate = useNavigate();
 
   async function addToCart() {
     let productOrderIndex = -1;
@@ -111,6 +115,22 @@ export default function SingleProduct() {
             Added to Cart! <CartCheck size={25} />
           </Button>
         )}
+        {user?.isAdmin ? (
+          <Button
+            variant="danger"
+            onClick={async () => {
+              await deleteProduct(product.id);
+              const productsCopy = products;
+              const updatedProducts = productsCopy.filter(
+                (singleProduct) => singleProduct.id !== product.id
+              );
+              setProducts(updatedProducts);
+              navigate("/");
+            }}
+          >
+            Delete Product
+          </Button>
+        ) : null}
       </Card>
     </div>
   );
