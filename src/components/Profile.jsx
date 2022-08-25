@@ -99,93 +99,95 @@ export default function Profile() {
               );
           })}
         </div>
-        <div
-          id="adminPanel"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            maxWidth: "50vw",
-            marginTop: "30px",
-            padding: "10px",
-          }}
-        >
-          <h3>ADMIN CONTROL PANEL</h3>
-          <form
-            style={{ display: "flex", flexDirection: "column" }}
-            onSubmit={async (e) => {
-              e.preventDefault();
-              const newProduct = await createProduct(
-                name,
-                price,
-                description,
-                image_url,
-                inventory,
-                categoryId
-              );
-              setProducts([...products, newProduct]);
-              console.log("PRODUCTS:", [...products, newProduct]);
+        {user.isAdmin ? (
+          <div
+            id="adminPanel"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              maxWidth: "50vw",
+              marginTop: "30px",
+              padding: "10px",
             }}
           >
-            <div>
-              <label htmlFor="name">Product Name:</label>
-              <input
-                value={name}
-                placeholder="Product Name"
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="price">Product Price:</label>
-              <input
-                value={price}
-                placeholder="Product Price"
-                type="number"
-                onChange={(e) => setPrice(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="description">Product Description:</label>
-              <input
-                value={description}
-                placeholder="Product Description"
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="inventory">Product Inventory:</label>
-              <input
-                value={inventory}
-                placeholder="Product Inventory"
-                type="number"
-                onChange={(e) => setInventory(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="category">Product Category ID:</label>
-              <input
-                value={categoryId}
-                placeholder="Product Category #"
-                type="number"
-                onChange={(e) => setCategoryId(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="image_url">Image URL:</label>
-              <input
-                value={image_url}
-                placeholder="Image URL"
-                onChange={(e) => setImage_url(e.target.value)}
-              />
-            </div>
-            <Button
-              variant="success"
-              type="submit"
-              style={{ marginTop: "10px" }}
+            <h3>ADMIN CONTROL PANEL</h3>
+            <form
+              style={{ display: "flex", flexDirection: "column" }}
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const newProduct = await createProduct(
+                  name,
+                  price,
+                  description,
+                  image_url,
+                  inventory,
+                  categoryId
+                );
+                setProducts([...products, newProduct]);
+                console.log("PRODUCTS:", [...products, newProduct]);
+              }}
             >
-              Create New Product
-            </Button>
-          </form>
-        </div>
+              <div>
+                <label htmlFor="name">Product Name:</label>
+                <input
+                  value={name}
+                  placeholder="Product Name"
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="price">Product Price:</label>
+                <input
+                  value={price}
+                  placeholder="Product Price"
+                  type="number"
+                  onChange={(e) => setPrice(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="description">Product Description:</label>
+                <input
+                  value={description}
+                  placeholder="Product Description"
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="inventory">Product Inventory:</label>
+                <input
+                  value={inventory}
+                  placeholder="Product Inventory"
+                  type="number"
+                  onChange={(e) => setInventory(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="category">Product Category ID:</label>
+                <input
+                  value={categoryId}
+                  placeholder="Product Category #"
+                  type="number"
+                  onChange={(e) => setCategoryId(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="image_url">Image URL:</label>
+                <input
+                  value={image_url}
+                  placeholder="Image URL"
+                  onChange={(e) => setImage_url(e.target.value)}
+                />
+              </div>
+              <Button
+                variant="success"
+                type="submit"
+                style={{ marginTop: "10px" }}
+              >
+                Create New Product
+              </Button>
+            </form>
+          </div>
+        ) : null}
       </div>
     </div>
   );
