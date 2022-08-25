@@ -19,8 +19,6 @@ export default function SingleOrder() {
         return;
       }
       if (user) {
-        console.log("order", order);
-
         if (order.shopperId === user.id) {
           setOrder(order);
         } else {
@@ -29,8 +27,6 @@ export default function SingleOrder() {
           );
         }
       } else {
-        console.log("order", order);
-
         setOrder(order);
       }
     };

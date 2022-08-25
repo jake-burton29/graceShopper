@@ -20,7 +20,6 @@ export default function ProductsCard({ product }) {
       (product_order) => product_order.productId === product.id
     );
     if (productOrderIndex !== undefined && productOrderIndex !== -1) {
-      console.log("Adding another to cart!");
       const cartCopy = { ...cart };
       cartCopy.product_orders[productOrderIndex].quantity += 1;
       setCart(cartCopy);
@@ -33,7 +32,6 @@ export default function ProductsCard({ product }) {
         localStorage.setItem("guestCart", JSON.stringify(cart));
       }
     } else {
-      console.log("Creating a new product_order!");
       if (user) {
         const newProductOrder = await createProductOrder(
           product.id,
