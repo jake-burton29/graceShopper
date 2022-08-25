@@ -71,6 +71,8 @@ ordersRouter.post("/", async (req, res, next) => {
   }
 });
 
+//ADMIN ***********
+
 //PATCH to /api/orders/status/:orderId (for setting order to complete, updating total)
 ordersRouter.patch(
   "/status/:orderId",
