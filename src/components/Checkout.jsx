@@ -102,7 +102,7 @@ export default function Checkout() {
             );
           })}
           <h5>Sales Tax:</h5>
-          <h5 style={{ fontWeight: "bold" }}>${salesTax}</h5>
+          <h5 style={{ fontWeight: "bold" }}>${salesTax}.00</h5>
           <h5>Shipping Charge:</h5>
           <h5 style={{ fontWeight: "bold" }}>${shippingCharge}.00</h5>
           <p className="text-muted">

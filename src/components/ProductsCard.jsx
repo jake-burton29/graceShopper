@@ -60,13 +60,11 @@ export default function ProductsCard({ product }) {
             product_orders: [...cart.product_orders, newProductOrder],
           };
           setCart(cartCopy);
-          console.log("new/if", cartCopy);
           localStorage.setItem("guestCart", JSON.stringify(cartCopy));
         } else {
           let cartCopy = cart;
           cartCopy = { ...cart, product_orders: [newProductOrder] };
           setCart(cartCopy);
-          console.log("new/else", cartCopy);
           localStorage.setItem("guestCart", JSON.stringify(cartCopy));
         }
       }

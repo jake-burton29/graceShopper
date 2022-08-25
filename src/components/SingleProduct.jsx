@@ -26,7 +26,7 @@ export default function SingleProduct() {
     productOrderIndex = cart.product_orders?.findIndex(
       (product_order) => product_order.productId === product.id
     );
-    if (productOrderIndex !== -1) {
+    if (productOrderIndex !== undefined && productOrderIndex !== -1) {
       const cartCopy = { ...cart };
       cartCopy.product_orders[productOrderIndex].quantity += 1;
       setCart(cartCopy);
@@ -61,14 +61,19 @@ export default function SingleProduct() {
           quantity: 1,
         };
         if (cart.product_orders) {
-          setCart({
+          let cartCopy = cart;
+          cartCopy = {
             ...cart,
             product_orders: [...cart.product_orders, newProductOrder],
-          });
+          };
+          setCart(cartCopy);
+          localStorage.setItem("guestCart", JSON.stringify(cartCopy));
         } else {
-          setCart({ ...cart, product_orders: [newProductOrder] });
+          let cartCopy = cart;
+          cartCopy = { ...cart, product_orders: [newProductOrder] };
+          setCart(cartCopy);
+          localStorage.setItem("guestCart", JSON.stringify(cartCopy));
         }
-        localStorage.setItem("guestCart", JSON.stringify(cart));
       }
     }
   }
@@ -84,7 +89,7 @@ export default function SingleProduct() {
   return (
     <div className="C-div">
       <Card className="singleCard" style={{ width: "70%", marginLeft: "auto" }}>
-        <Card.Title className="singleCard">Product: {product.name}</Card.Title>
+        <Card.Title className="singleCard">{product.name}</Card.Title>
         <Card.Img src={product.image_url} className="w-25 p-3" />
         <Card.Text className="seperator">Price: ${product.price}.00</Card.Text>
         <Card.Text className="seperator">
